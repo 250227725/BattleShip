@@ -55,11 +55,27 @@ public class Game {
     }
 
     public void printBattleField(BattleField battleField) {
+        System.out.println("      А     Б     В     Г     Д     Е     Ж     З     И     К");
+        System.out.println("   ┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
         for (int y = 0; y < battleField.field.length; y ++) {
+            System.out.print((y+1 < 10 ? " ": "") + (y+1) +  " │");
             for (int x = 0; x < battleField.field[y].length; x++) {
-                System.out.print(battleField.field[y][x] + "  ");
+                String sign = " ";
+                if (battleField.field[y][x] == 9) {
+                    sign = "X";
+                }
+                if (battleField.field[y][x] == 6) {
+                    sign = ".";
+                }
+                System.out.print("  " + sign + "  │");
             }
             System.out.println();
+            if (y == battleField.field.length-1) {
+                System.out.println("   ┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘");
+            }
+            else{
+                System.out.println("   ┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤");
+            }
         }
     }
 }

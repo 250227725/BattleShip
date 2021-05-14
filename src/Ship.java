@@ -41,10 +41,4 @@ public class Ship {
     public void setAlive(boolean alive) {
         isAlive = alive;
     }
-
-    public void setSections(List<ShipSection> sections) {
-        this.sections = sections;
-    }
-
-
 }

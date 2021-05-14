@@ -7,4 +7,6 @@ public class BattleField {
             }
         }
     }
+
+    String[] marker = new String[]{" ", ".", "*", "X"};
 }

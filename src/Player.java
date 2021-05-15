@@ -6,6 +6,11 @@ public class Player {
     private boolean isHuman;
     private List<Ship> ships;
     private BattleField battleField;
+    private BattleField enemyBattleField;
+
+    public BattleField getEnemyBattleField() {
+        return enemyBattleField;
+    }
 
     public List<Ship> getShips() {
         return ships;
@@ -23,6 +28,7 @@ public class Player {
         this.isHuman = isHuman;
         this.ships = new ArrayList<>();
         this.battleField = new BattleField();
+        this.enemyBattleField = new BattleField();
     }
 
     public void generateShips() {

@@ -95,9 +95,7 @@ public class Game {
             Создать объект ячейка и проверить у другого игрока что в этой ячейке
              */
 
-            int shootStatus = nextTurn.getBattleField().field[sY][sX];
-
-            if (shootStatus == 1) {
+            if (nextTurn.checkShoot(new Shoot(sX, sY))) {
                 System.out.println("Попал!");
                 curentTurn.getEnemyBattleField().field[sY][sX] = 9;
             }

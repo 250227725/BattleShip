@@ -91,4 +91,15 @@ public class Player {
         }
         ships.add(ship);
     }
+
+    public boolean checkShoot(BattleFieldCell shoot) {
+       if (getBattleField().field[shoot.getY()][shoot.getX()] == 1) {
+           getBattleField().field[shoot.getY()][shoot.getX()] = 9;
+           for (Ship ship : ships) {
+               // Нужно пометить секцию корабля как уничтоженную и проверить сам корабль
+           }
+           return true;
+       }
+       else return false;
+    }
 }

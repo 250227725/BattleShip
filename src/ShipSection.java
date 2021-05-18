@@ -1,4 +1,4 @@
-public class ShipSection {
+public class ShipSection implements BattleFieldCell {
     private int x;
     private int y;
     private boolean isAlive;
@@ -22,5 +22,20 @@ public class ShipSection {
 
     public void setAlive(boolean alive) {
         isAlive = alive;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getY() * this.getY() * 31;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj instanceof BattleFieldCell) {
+            BattleFieldCell cell = (BattleFieldCell) obj;
+            if (this.getX() == cell.getX() && this.getY() == cell.getY()) return true;
+        }
+        return false;
     }
 }

@@ -70,6 +70,7 @@ public class Game {
             }
             catch (IOException e){
 
+
                 e.printStackTrace();
             }
 
@@ -156,10 +157,10 @@ public class Game {
             for (int x = 0; x < player.getBattleField().field[y].length; x++) {
                 String sign = " ";
                 if (player.getBattleField().field[y][x] == 9) {
-                    sign = "X";
+                    sign = "╬";
                 }
                 if (player.getBattleField().field[y][x] == 1) {
-                    sign = "0";
+                    sign = "▒";
                 }
                 System.out.print("  " + sign + "  │");
             }
@@ -170,10 +171,10 @@ public class Game {
             for (int x = 0; x < player.getEnemyBattleField().field[y].length; x++) {
                 String enemySign = " ";
                 if (player.getEnemyBattleField().field[y][x] == 9) {
-                    enemySign = "X";
+                    enemySign = "╬";
                 }
                 if (player.getEnemyBattleField().field[y][x] == 6) {
-                    enemySign = ".";
+                    enemySign = "┅";
                 }
                 System.out.print("  " + enemySign + "  │");
             }

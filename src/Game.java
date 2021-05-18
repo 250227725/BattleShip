@@ -57,7 +57,9 @@ public class Game {
         while (gameStatus) {
             //--1. Определить кто ходит
             //--2. отрисовать игровое поле
-            game.printBattleField(curentTurn);
+            if (curentTurn.isHuman()) {
+                game.printBattleField(curentTurn);
+            }
             Player nextTurn = game.players.get((game.players.indexOf(curentTurn) + 1) % game.players.size());
 
 
@@ -86,8 +88,10 @@ public class Game {
 
 
             //получаем координаты ячейки
-            int sX = (int) (Math.random() * (WIDTH - 1));
-            int sY = (int) (Math.random() * (HEIGHT - 1));
+            int sX = (int) (Math.random() * (WIDTH));
+            int sY = (int) (Math.random() * (HEIGHT));
+            if (sX == WIDTH) {sX = WIDTH - 1;}
+            if (sY == HEIGHT) {sY = HEIGHT - 1;}
 
             //4. проверить ход
             /*
@@ -95,7 +99,9 @@ public class Game {
             Создать объект ячейка и проверить у другого игрока что в этой ячейке
              */
 
-            if (nextTurn.checkShoot(new Shoot(sX, sY))) {
+            BattleFieldCell shoot = new Shoot(sX, sY);
+
+            if (nextTurn.checkShoot(shoot)) {
                 System.out.println("Попал!");
                 curentTurn.getEnemyBattleField().field[sY][sX] = 9;
             }
@@ -103,6 +109,7 @@ public class Game {
                 System.out.println("Мимо!");
                 curentTurn.getEnemyBattleField().field[sY][sX] = 6;
             }
+            nextTurn.checkShootNew(shoot);
 
 
 
@@ -114,7 +121,7 @@ public class Game {
 
 
             count++;
-            if (count > 100) gameStatus = false;
+            if (count > 500) gameStatus = false;
             System.out.println("Ход: " + count);
 
             curentTurn = nextTurn;

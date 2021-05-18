@@ -66,22 +66,22 @@ public class Player {
                     battleField.field[section.getY() - 1][section.getX() - 1] = 8;
                 }
                 battleField.field[section.getY() - 1][section.getX()] = 8;
-                if (section.getX() < Game.getWIDTH() - 1) {
+                if (section.getX() < Game.getWIDTH() - 2) {
                     battleField.field[section.getY() - 1][section.getX() + 1] = 8;
                 }
             }
             if (section.getX() > 0) {
                 battleField.field[section.getY()][section.getX() - 1] = 8;
             }
-            if (section.getX() < Game.getWIDTH() - 1) {
+            if (section.getX() < Game.getWIDTH() - 2) {
                 battleField.field[section.getY()][section.getX() + 1] = 8;
             }
-            if (section.getY() < Game.getHEIGHT()) {
+            if (section.getY() < Game.getHEIGHT() - 2) {
                 if (section.getX() > 0) {
                     battleField.field[section.getY() + 1][section.getX() - 1] = 8;
                 }
                 battleField.field[section.getY() + 1][section.getX()] = 8;
-                if (section.getX() < Game.getWIDTH() - 1) {
+                if (section.getX() < Game.getWIDTH() - 2) {
                     battleField.field[section.getY() + 1][section.getX() + 1] = 8;
                 }
             }
@@ -101,5 +101,22 @@ public class Player {
            return true;
        }
        else return false;
+    }
+
+    public int checkShootNew(BattleFieldCell shoot) {
+        int result = 0;
+        for (Ship ship : ships) {
+            result = ship.checkShoot(shoot);
+            if (result !=0) {
+                switch (result) {
+                    case -1 : {System.out.println("Already shooted"); break;}
+                    case 1 : { System.out.println("Hitted"); break; }
+                    case 2 : { System.out.println("Destroyed"); break; }
+                }
+                return result;
+            }
+        }
+        System.out.println("Missed");
+        return result;
     }
 }

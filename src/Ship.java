@@ -21,13 +21,26 @@ public class Ship {
         }
 
         double dX = Math.random();
+
+
         double dY = Math.random();
 
-        int x = (int) (dX * (Game.getWIDTH() - 1 - dx * sectionNumber));
-        int y = (int) (dY * (Game.getHEIGHT() - 1 - dy * sectionNumber));
+        //int x = (int) (dX * (Game.getWIDTH() - 1 - dx * sectionNumber));
+        int maxX = Game.getWIDTH() - dx * sectionNumber;
+        int x = (int) (dX * maxX);
+        if (x == maxX) {
+            x = maxX - 1;
+        }
+//        int y = (int) (dY * (Game.getHEIGHT() - 1 - dy * sectionNumber));
+        int maxY = Game.getHEIGHT() - dy * sectionNumber;
+        int y = (int) (dY * maxY);
+        if (y == maxY) {
+            y = maxY - 1;
+        }
         for (int i = 0; i < sectionNumber; i++) {
             sections.add(new ShipSection(x + dx * i, y + dy * i));
         }
+        this.isAlive = true;
     }
 
     public boolean isAlive() {
@@ -40,5 +53,33 @@ public class Ship {
 
     public void setAlive(boolean alive) {
         isAlive = alive;
+    }
+
+    public int checkShoot(BattleFieldCell shoot) {
+        int result = 0;
+        if (sections.contains(shoot)) {
+            ShipSection aim = sections.get(sections.indexOf(shoot));
+            if (aim.isAlive()) {
+                aim.setAlive(false);
+                boolean shipIsAlive = false;
+                for (ShipSection section : sections) {
+                    if (section.isAlive()) {
+                        shipIsAlive = true;
+                    }
+                }
+                if (shipIsAlive) {
+                    result = 1;
+                }
+                else {
+                    result = 2;
+                    isAlive = false;
+                }
+            }
+            else {
+                result = -1;
+            }
+
+        }
+        return result;
     }
 }

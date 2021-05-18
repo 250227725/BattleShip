@@ -6,6 +6,7 @@ public class ShipSection implements BattleFieldCell {
     public ShipSection(int x, int y) {
         this.x = x;
         this.y = y;
+        this.isAlive = true;
     }
 
     public int getX() {

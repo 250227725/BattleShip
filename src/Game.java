@@ -63,26 +63,26 @@ public class Game {
 
             //--3. спросить следующий ход
             String nextShoot = "";
-            try { //try with resources
-                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-                nextShoot = reader.readLine();
-
-            }
-            catch (IOException e){
-
-
-                e.printStackTrace();
-            }
-
-            if (nextShoot.equals("q")) {
-                gameStatus = false;
-                System.out.println("Exit the Gale");
-                return;
-            }
-            else if (nextShoot.equals("w")) {
-                System.out.println("Error. Choose correct cell");
-                return;
-            }
+//            try { //try with resources
+//                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+//                nextShoot = reader.readLine();
+//
+//            }
+//            catch (IOException e){
+//
+//
+//                e.printStackTrace();
+//            }
+//
+//            if (nextShoot.equals("q")) {
+//                gameStatus = false;
+//                System.out.println("Exit the Gale");
+//                return;
+//            }
+//            else if (nextShoot.equals("w")) {
+//                System.out.println("Error. Choose correct cell");
+//                return;
+//            }
 
 
             //получаем координаты ячейки

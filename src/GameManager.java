@@ -4,6 +4,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class GameManager {
+    public void setPlayers(Deque<Player> players) {
+        this.players = players;
+    }
+
     private Deque<Player> players = new LinkedList<>();
 
     public Deque<Player> getPlayers() {
@@ -15,11 +19,20 @@ public class GameManager {
             players.add(player);
     }
 
-    public void orderPlayers() {
+    public void createPlayerSequence() {
+        List<Player> allPlayers = new ArrayList<>(players);
+        Deque<Player> playerSequence = new LinkedList<>();
+        while(allPlayers.size()>0) {
+            int index = (int) (Math.random() * allPlayers.size());
+            playerSequence.add(allPlayers.get(index));
+            allPlayers.remove(index);
+        }
+        setPlayers(playerSequence);
     }
 
     public Player getNextPlayer() {
         Player player = players.pop();
+        players.add(player);
         return player;
     }
 }

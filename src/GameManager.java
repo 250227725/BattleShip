@@ -4,6 +4,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class GameManager {
+    public GameManager() {
+    }
+
+    public GameManager(Deque<Player> players) {
+        this.players = players;
+    }
+
     public void setPlayers(Deque<Player> players) {
         this.players = players;
     }

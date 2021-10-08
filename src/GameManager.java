@@ -4,42 +4,41 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class GameManager {
-    public GameManager() {
-    }
-
-    public GameManager(Deque<Player> players) {
-        this.players = players;
-    }
-
-    public void setPlayers(Deque<Player> players) {
-        this.players = players;
-    }
-
     private Deque<Player> players = new LinkedList<>();
+
+    public GameManager(List<Player> gamePlayers) {
+        generatePlayerSequence(gamePlayers);
+    }
+
+    @Deprecated
+    public GameManager() {
+
+    }
 
     public Deque<Player> getPlayers() {
         return players;
     }
 
-    public void addPlayer(Player player) {
-        if (!players.contains(player))
-            players.add(player);
-    }
-
-    public void createPlayerSequence() {
-        List<Player> allPlayers = new ArrayList<>(players);
-        Deque<Player> playerSequence = new LinkedList<>();
-        while(allPlayers.size()>0) {
-            int index = (int) (Math.random() * allPlayers.size());
-            playerSequence.add(allPlayers.get(index));
-            allPlayers.remove(index);
+    public void generatePlayerSequence(List<Player> gamePlayers) {
+        List<Player> playerList = new ArrayList<>(gamePlayers);
+        while(playerList.size() > 0) {
+            int index = (int) (Math.random() * playerList.size());
+            players.add(playerList.get(index));
+            playerList.remove(index);
         }
-        setPlayers(playerSequence);
     }
 
     public Player getNextPlayer() {
         Player player = players.pop();
         players.add(player);
         return player;
+    }
+
+    @Deprecated
+    public void addPlayer(Player player) {
+    }
+
+    @Deprecated
+    public void createPlayerSequence() {
     }
 }

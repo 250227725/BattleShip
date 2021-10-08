@@ -12,47 +12,14 @@ import static org.hamcrest.Matchers.*;
 public class GameManagerTest {
 
     @Test
-    public void new_manager_empty_player_list() {
-        assertThat(new GameManager().getPlayers().size(), is(0));
-    }
-
-    @Test
-    public void adding_new_player() {
-        GameManager manager = new GameManager();
-        manager.addPlayer(new Player());
-        assertThat(manager.getPlayers().size(), is(1));
-    }
-
-    @Test
-    public void adding_same_player() {
-        GameManager manager = new GameManager();
-        Player player = new Player();
-        manager.addPlayer(player);
-        manager.addPlayer(player);
-        assertThat(manager.getPlayers().size(), is(1));
-    }
-
-    @Test
-    public void adding_another_player() {
-        GameManager manager = new GameManager();
-        manager.addPlayer(new Player());
-        manager.addPlayer(new Player());
-        assertThat(manager.getPlayers().size(), is(2));
-    }
-
-    @Test
     public void ordered_players_list_matched_to_init_list() {
-        GameManager manager = new GameManager();
-        Set<Player> initPlayers = new HashSet<>(manager.getPlayers());
-        initPlayers.add(new Player());
-        initPlayers.add(new Player());
-        initPlayers.add(new Player());
-        for (Player player : initPlayers) {
-            manager.addPlayer(player);
+        List<Player> initPlayers = new ArrayList<>();
+        int playerQuantity = (int) (Math.random() * 10 + 3);
+        for (int i = 0; i < playerQuantity; i++) {
+            initPlayers.add(new Player());
         }
-        manager.createPlayerSequence();
-        Set<Player> orderedPlayers = new HashSet<>(manager.getPlayers());
-        assertThat(initPlayers, equalTo(orderedPlayers));
+        GameManager manager = new GameManager(initPlayers);
+        assertThat(new HashSet<Player>(initPlayers), equalTo(new HashSet<Player>(manager.getPlayers())));
     }
 
     @Test
@@ -102,7 +69,7 @@ public class GameManagerTest {
 
 
     @Test
-    @Disabled
+    //@Disabled
     /*Ordered sequence can be the same as init, so failing of this test case
     doesn't mean what method is incorrect. You can run it several times to check result
      */

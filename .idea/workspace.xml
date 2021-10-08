@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="aaa3ed4c-3439-4692-91c8-08736e99acbf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/BattleShip/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BattleShip/Game.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/BattleShip/GameManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BattleShip/GameManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/BattleShip/GameManagerTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/BattleShip/GameManagerTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/GameManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/GameManagerTest.java" afterDir="false" />
     </list>
@@ -126,7 +122,8 @@
       <workItem from="1633614028091" duration="119000" />
       <workItem from="1633614178784" duration="799000" />
       <workItem from="1633615248307" duration="17000" />
-      <workItem from="1633615534351" duration="6123000" />
+      <workItem from="1633615534351" duration="6515000" />
+      <workItem from="1633717520779" duration="3136000" />
     </task>
     <servers />
   </component>

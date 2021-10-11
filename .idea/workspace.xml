@@ -6,7 +6,6 @@
       <change beforePath="$PROJECT_DIR$/src/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/GameManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/GameManagerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +16,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -54,7 +54,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
   </component>
-  <component name="RunManager" selected="JUnit.GameManagerTest">
+  <component name="RunManager" selected="JUnit.PlayerTest">
     <configuration name="Game" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Game" />
       <module name="BattleShip" />
@@ -77,6 +77,15 @@
       <option name="MAIN_CLASS_NAME" value="GameManagerTest" />
       <option name="METHOD_NAME" value="adding_new_player" />
       <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlayerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BattleShip" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="PlayerTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -104,6 +113,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.PlayerTest" />
         <item itemvalue="JUnit.GameManagerTest" />
         <item itemvalue="JUnit.GameManagerTest.adding_new_player" />
         <item itemvalue="JUnit.PrimaryTest.mainTest" />
@@ -125,7 +135,7 @@
       <workItem from="1633614178784" duration="799000" />
       <workItem from="1633615248307" duration="17000" />
       <workItem from="1633615534351" duration="6515000" />
-      <workItem from="1633717520779" duration="5022000" />
+      <workItem from="1633717520779" duration="8397000" />
     </task>
     <servers />
   </component>

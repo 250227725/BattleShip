@@ -15,6 +15,12 @@ public class GameManager {
     }
 
     /**
+     * Starting the game
+     */
+    public void startGame() {
+    }
+
+    /**
      * Return players list
      */
     public Deque<Player> getPlayers() {

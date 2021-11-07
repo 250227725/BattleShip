@@ -1,13 +1,14 @@
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.hamcrest.*;
-
+import java.util.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-public class PrimaryTest {
+public class ShipGeneratorServiceTest {
 
     @Test
     public void mainTest() {
-        assertThat(true, not(false));
+        assertThat(true, equalTo(false));
     }
+
 }

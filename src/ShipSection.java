@@ -5,6 +5,10 @@ public class ShipSection extends Cell{
         super(x, y);
     }
 
+    public ShipSection(Cell cell) {
+        super(cell.getX(), cell.getY());
+    }
+
     public boolean isAlive() {
         return isAlive;
     }

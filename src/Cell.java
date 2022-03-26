@@ -1,4 +1,7 @@
-public abstract class Cell {
+public abstract class Cell implements Comparable<Cell> {
+    // todo:
+    // 1. implements Comparable<Cell>
+    // 2. hashCode()
     private final int x;
     private final int y;
 
@@ -20,6 +23,20 @@ public abstract class Cell {
         if (obj == null) return false;
         if (this == obj) return true;
         if (!(obj instanceof Cell c)) return false;
-        return this.getX()==c.getX()&&this.getY()==c.getY();
+        return x == c.x && y == c.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return x * 1024 + y;
+    }
+
+    public int compareTo(Cell c) {
+        if (c == null) throw new NullPointerException();
+        if (x == c.x) {
+            return Integer.compare(y, c.y);
+        }
+        return Integer.compare(x, c.x);
+
     }
 }

@@ -3,7 +3,8 @@ import java.util.stream.Collectors;
 
 public class Ship {
     private final int lenght;
-    private final ShipSection[] sections;
+    //todo: made sections as private
+    public final ShipSection[] sections;
     private boolean isAlive = true;
     private int aliveSectionCount;
 

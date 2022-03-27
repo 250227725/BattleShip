@@ -10,6 +10,10 @@ public abstract class Cell implements Comparable<Cell> {
         this.y = y;
     }
 
+    public Cell(HorizontalCellNames x, int y) {
+        this(x.ordinal(), y);
+    }
+
     public int getX() {
         return x;
     }
@@ -38,5 +42,15 @@ public abstract class Cell implements Comparable<Cell> {
         }
         return Integer.compare(x, c.x);
 
+    }
+
+    @Override
+    public String toString() {
+
+        return "x:" + getX() + "|y:" + getY();
+    }
+
+    enum HorizontalCellNames {
+        A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z
     }
 }

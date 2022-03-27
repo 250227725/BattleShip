@@ -1,5 +1,14 @@
+import java.util.HashSet;
+import java.util.Set;
+
 public class Player {
-    private String name;
+    private final String name;
+    private Set<Ship> ships;
+
+    public Set<Ship> getShips() {
+        return ships;
+    }
+
     private boolean isAlive = true;
     private CellStatus[][] battleField = new CellStatus[Game.FIELD_HEIGHT][Game.FIELD_WIDTH];
     {
@@ -9,7 +18,6 @@ public class Player {
             }
         }
     }
-
 
     public boolean isAlive() {
         return isAlive;
@@ -25,9 +33,18 @@ public class Player {
 
     public Player(String name) {
         this.name = name;
+        this.ships = new HashSet<>();
     }
 
     public String getName() {
         return name;
+    }
+
+    public void addShip(int[][] newShipCoordinates) throws IllegalArgumentException{
+        ShipGeneratorService service = ShipGeneratorService.getInstance();
+        service.checkBattleField(battleField, newShipCoordinates);
+        Set<Cell> busyCell = service.getBusyCell(newShipCoordinates);
+        busyCell.forEach(cell -> battleField[cell.getX()][cell.getY()] = CellStatus.BUSY);
+        ships.add(Ship.getInstance(newShipCoordinates));
     }
 }

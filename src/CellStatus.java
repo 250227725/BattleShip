@@ -3,5 +3,6 @@ public enum CellStatus {
     MISSED,
     BUSY,
     HITTED,
+    NEIGHBOUR,
     UNKNOWN
 }

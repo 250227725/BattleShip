@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Optional;
 
 public class ConsoleInputManager implements InputManager{
@@ -64,6 +65,44 @@ public class ConsoleInputManager implements InputManager{
             catch (IOException| IllegalArgumentException  e) {
             }
             out.showMessage("Некорректный ввод. Введите координаты поля для выстрела");
+        }
+    }
+
+    public Optional<Integer[][]> getShipCoordinate() {
+        OutputManager out = ConsoleOutputManager.getInstance();
+        out.showMessage("Введите координаты начальной и конечной точки корабля, разделенные знаком минус:");
+        while(true) {
+            try {
+                String str = reader.readLine();
+                if (str != null && !str.equals("")) {
+                    if (str.equalsIgnoreCase("exit")) {
+                        return Optional.empty();
+                    }
+                    //todo create CellFactory with checking range
+                    String[] data = str.trim().split("-");
+                    if (data.length == 2) {
+                        int x0 = Cell.HorizontalCellNames.valueOf(data[0].trim().substring(0, 1).toUpperCase()).ordinal();
+                        int x1 = Cell.HorizontalCellNames.valueOf(data[1].trim().substring(0, 1).toUpperCase()).ordinal();
+
+                        int y0 = Integer.parseInt(data[0].trim().substring(1).trim()) - 1;
+                        int y1 = Integer.parseInt(data[1].trim().substring(1).trim()) - 1;
+
+                        if (
+                                   x0 < Game.FIELD_WIDTH
+                                && x1 < Game.FIELD_WIDTH
+                                && y0 < Game.FIELD_HEIGHT && y0 >= 0
+                                && y1 < Game.FIELD_HEIGHT && y1 >= 0
+                        ) {
+                            Integer[][] coordinates = new Integer[x1-x0][y1-y0];
+                            //todo: fill Array
+                            return Optional.of(coordinates);
+                        }
+                    }
+                }
+            }
+            catch (IOException| IllegalArgumentException  e) {
+            }
+            out.showMessage("Некорректный ввод. Введите координаты корабля");
         }
     }
 }

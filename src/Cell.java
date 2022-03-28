@@ -11,7 +11,7 @@ public abstract class Cell implements Comparable<Cell> {
     }
 
     public Cell(HorizontalCellNames x, int y) {
-        this(x.ordinal(), y);
+        this(x.ordinal(), y-1);
     }
 
     public int getX() {

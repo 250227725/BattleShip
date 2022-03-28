@@ -43,5 +43,12 @@ public class CellTest {
         assertThat(c1, not(equalTo(new AltClass())));
     }
 
+    @Test
+    public void createCellFromNaturalCoordinates() {
+        Cell natural = new Cell(Cell.HorizontalCellNames.valueOf("B"),2) {};
+        Cell test = new Cell(1, 1) {};
+        assertThat(natural, equalTo(test));
+    }
+
 }
 

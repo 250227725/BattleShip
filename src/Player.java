@@ -41,7 +41,7 @@ public class Player {
     }
 
     public void addShip(int[][] newShipCoordinates) throws IllegalArgumentException{
-        ShipGeneratorService service = ShipGeneratorService.getInstance();
+        GameService service = GameService.getInstance();
         service.checkBattleField(battleField, newShipCoordinates);
         Set<Cell> busyCell = service.getBusyCell(newShipCoordinates);
         busyCell.forEach(cell -> battleField[cell.getX()][cell.getY()] = CellStatus.BUSY);

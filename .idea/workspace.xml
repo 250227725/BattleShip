@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="aaa3ed4c-3439-4692-91c8-08736e99acbf" name="Changes" comment="">
+    <list default="true" id="aaa3ed4c-3439-4692-91c8-08736e99acbf" name="Changes" comment="Add creating ship method for Player class">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/mockito_junit_jupiter.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/mockito_junit_jupiter.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ShipGeneratorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/ShipGeneratorServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/GameServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +16,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -30,6 +32,14 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="21c499ef-2728-4f40-82a8-2b239d30f659" />
+        <option name="url" value="https://github.com/250227725/BattleShip.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="ProjectId" id="1zB9uErghKVEfwxxbHDTWQ0zg2m" />
   <component name="ProjectLevelVcsManager">
@@ -51,32 +61,25 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/BattleShip.iml" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="project.structure.side.proportion" value="0.22138837" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
   </component>
   <component name="RunManager" selected="JUnit.PlayerTest">
-    <configuration name="Game" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Game" />
-      <module name="BattleShip" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GameManagerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CellTest.notEqualsObjectTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BattleShip" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="GameManagerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GameManagerTest.adding_new_player" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="BattleShip" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="GameManagerTest" />
-      <option name="METHOD_NAME" value="adding_new_player" />
+      <option name="MAIN_CLASS_NAME" value="CellTest" />
+      <option name="METHOD_NAME" value="notEqualsObjectTest" />
       <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BattleShip" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="GameServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -90,11 +93,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PrimaryTest.mainTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ShipTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BattleShip" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="PrimaryTest" />
-      <option name="METHOD_NAME" value="mainTest" />
+      <option name="MAIN_CLASS_NAME" value="ShipTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ShipTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BattleShip" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="ShipTest" />
+      <option name="METHOD_NAME" value="test" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -114,10 +126,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.PlayerTest" />
-        <item itemvalue="JUnit.GameManagerTest" />
-        <item itemvalue="JUnit.GameManagerTest.adding_new_player" />
-        <item itemvalue="JUnit.PrimaryTest.mainTest" />
-        <item itemvalue="Application.Game" />
+        <item itemvalue="JUnit.GameServiceTest" />
+        <item itemvalue="JUnit.ShipTest" />
+        <item itemvalue="JUnit.ShipTest.test" />
+        <item itemvalue="JUnit.CellTest.notEqualsObjectTest" />
       </list>
     </recent_temporary>
   </component>
@@ -135,12 +147,74 @@
       <workItem from="1633614178784" duration="799000" />
       <workItem from="1633615248307" duration="17000" />
       <workItem from="1633615534351" duration="6515000" />
-      <workItem from="1633717520779" duration="8397000" />
+      <workItem from="1633717520779" duration="9233000" />
+      <workItem from="1636286362488" duration="15000" />
+      <workItem from="1636286405164" duration="607000" />
+      <workItem from="1642500803634" duration="14000" />
+      <workItem from="1642500847828" duration="26000" />
+      <workItem from="1642930985463" duration="580000" />
+      <workItem from="1647324340861" duration="60000" />
+      <workItem from="1647324432021" duration="72000" />
+      <workItem from="1647949009146" duration="19000" />
+      <workItem from="1647949060195" duration="426000" />
+      <workItem from="1648204782624" duration="6476000" />
+      <workItem from="1648294443066" duration="1248000" />
+      <workItem from="1648297091724" duration="11498000" />
+      <workItem from="1648369785667" duration="3648000" />
+      <workItem from="1648373920597" duration="6906000" />
+      <workItem from="1648451921798" duration="540000" />
     </task>
+    <task id="LOCAL-00001" summary="Added absctract class Cell and test for it">
+      <created>1648207345524</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1648207345524</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added classes ShipSection and Ship and test for its">
+      <created>1648210073554</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1648210073554</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added .gitIgnore file">
+      <created>1648210153534</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1648210153534</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added ShipFactory method, set Ship constructor to Private">
+      <created>1648303936326</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1648303936326</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Add creating ship method for Player class">
+      <created>1648382672715</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1648382672715</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -153,5 +227,13 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added absctract class Cell and test for it" />
+    <MESSAGE value="Added classes ShipSection and Ship and test for its" />
+    <MESSAGE value="Added .gitIgnore file" />
+    <MESSAGE value="Added ShipFactory method, set Ship constructor to Private" />
+    <MESSAGE value="Add creating ship method for Player class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add creating ship method for Player class" />
   </component>
 </project>

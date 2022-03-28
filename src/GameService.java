@@ -2,10 +2,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ShipGeneratorService {
-    private static ShipGeneratorService instance = new ShipGeneratorService();
-    private ShipGeneratorService() {}
-    public static ShipGeneratorService getInstance() {
+public class GameService {
+    private static GameService instance = new GameService();
+    private GameService() {}
+    public static GameService getInstance() {
         return instance;
     }
 

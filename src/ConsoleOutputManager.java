@@ -7,7 +7,7 @@ public class ConsoleOutputManager implements OutputManager {
     private ConsoleOutputManager() {
     }
 
-    public OutputManager getInstance() {
+    public static OutputManager getInstance() {
         return instance;
     }
 

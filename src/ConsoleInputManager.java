@@ -41,6 +41,29 @@ public class ConsoleInputManager implements InputManager{
 
     @Override
     public Optional<Cell> getPlayerGuess() {
-        return Optional.empty();
+        OutputManager out = ConsoleOutputManager.getInstance();
+        out.showMessage("Введите координаты поля для выстрела:");
+        while(true) {
+            try {
+                String str = reader.readLine();
+                if (str != null && !str.equals("")) {
+                    if (str.equalsIgnoreCase("exit")) {
+                        return Optional.empty();
+                    }
+                    //todo create CellFactory with checking range
+                    String strX = str.trim().substring(0, 1).toUpperCase();
+                    String strY = str.trim().substring(1).trim();
+                    int y = Integer.parseInt(strY);
+                    Cell.HorizontalCellNames x = Cell.HorizontalCellNames.valueOf(strX);
+                    if (y <= Game.FIELD_HEIGHT && y > 0 && x.ordinal() < Game.FIELD_WIDTH) {
+                        Cell guess = new Cell(x, y) {};
+                        return Optional.of(guess);
+                    }
+                }
+            }
+            catch (IOException| IllegalArgumentException  e) {
+            }
+            out.showMessage("Некорректный ввод. Введите координаты поля для выстрела");
+        }
     }
 }

@@ -1,9 +1,9 @@
-public class Game {
+public class Project1st {
 
     public static final int FIELD_WIDTH = 10;
     public static final int FIELD_HEIGHT = 10;
 
-    public static void main(String[] args) {
+    public static void main(String... args) {
         //todo:
         /*
         IV   0. Запрашиваем размеры игрового поля. По умолчанию 10х10, максимум 20х20

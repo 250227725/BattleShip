@@ -1,6 +1,6 @@
 public class Project1st {
 
-    public static final int MAX_FIELD_WIDTH = CellStatus.values().length;
+    public static final int MAX_FIELD_WIDTH = Cell.HorizontalCellNames.values().length;
     public static final int MAX_FIELD_HEIGHT = 100;
 
     //todo: Delete next two poarametrs and modify method for using Game class instance fields

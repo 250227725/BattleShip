@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Set;
 
 public class GameService {
-    private static GameService instance = new GameService();
-    private GameService() {}
-    public static GameService getInstance() {
-        return instance;
+    private GameService(IOManager manager) {
+        this.manager = manager;
     }
+    public static GameService getInstance(IOManager manager) {
+        return new GameService(manager);
+    }
+    private final IOManager manager;
 
     public void addShip(Player player, int[][] newShipCoordinates) {
         Ship newShip = Ship.getInstance(newShipCoordinates);

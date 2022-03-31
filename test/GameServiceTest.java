@@ -10,10 +10,11 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class GameServiceTest {
+    IOManager manager = new IOManager(ConsoleInputManager.getInstance(), ConsoleOutputManager.getInstance());
 
     @Test
     public void addBusyCell1Test() {
-        Set<Cell> busyCell = GameService.getInstance().addBusyCell(new ShipSection(0,0));
+        Set<Cell> busyCell = GameService.getInstance(manager).addBusyCell(new ShipSection(0,0));
         Set<Cell> sample = new HashSet<>();
         sample.add(new Cell(0,0) {});
         sample.add(new Cell(0,1) {});
@@ -24,7 +25,7 @@ public class GameServiceTest {
 
     @Test
     public void addBusyCell2Test() {
-        Set<Cell> busyCell = GameService.getInstance().addBusyCell(new ShipSection(Project1st.FIELD_WIDTH - 1,0));
+        Set<Cell> busyCell = GameService.getInstance(manager).addBusyCell(new ShipSection(Project1st.FIELD_WIDTH - 1,0));
         Set<Cell> sample = new HashSet<>();
         sample.add(new Cell(Project1st.FIELD_WIDTH - 1,0) {});
         sample.add(new Cell(Project1st.FIELD_WIDTH - 1,1) {});
@@ -35,7 +36,7 @@ public class GameServiceTest {
 
     @Test
     public void addBusyCell3Test() {
-        Set<Cell> busyCell = GameService.getInstance().addBusyCell(new ShipSection(0,Project1st.FIELD_HEIGHT - 1));
+        Set<Cell> busyCell = GameService.getInstance(manager).addBusyCell(new ShipSection(0,Project1st.FIELD_HEIGHT - 1));
         Set<Cell> sample = new HashSet<>();
         sample.add(new Cell(0,Project1st.FIELD_HEIGHT - 1) {});
         sample.add(new Cell(1,Project1st.FIELD_HEIGHT - 1) {});
@@ -46,7 +47,7 @@ public class GameServiceTest {
 
     @Test
     public void addBusyCell4Test() {
-        Set<Cell> busyCell = GameService.getInstance().addBusyCell(new ShipSection(Project1st.FIELD_WIDTH - 1,Project1st.FIELD_HEIGHT - 1));
+        Set<Cell> busyCell = GameService.getInstance(manager).addBusyCell(new ShipSection(Project1st.FIELD_WIDTH - 1,Project1st.FIELD_HEIGHT - 1));
         Set<Cell> sample = new HashSet<>();
         sample.add(new Cell(Project1st.FIELD_WIDTH - 1,Project1st.FIELD_HEIGHT - 1) {});
         sample.add(new Cell(Project1st.FIELD_WIDTH - 1,Project1st.FIELD_HEIGHT - 2) {});
@@ -57,7 +58,7 @@ public class GameServiceTest {
 
     @Test
     public void addBusyCell5Test() {
-        Set<Cell> busyCell = GameService.getInstance().addBusyCell(new ShipSection(3,3));
+        Set<Cell> busyCell = GameService.getInstance(manager).addBusyCell(new ShipSection(3,3));
         Set<Cell> sample = new HashSet<>();
         sample.add(new Cell(2,2) {});
         sample.add(new Cell(3,2) {});
@@ -74,14 +75,14 @@ public class GameServiceTest {
     @Test
     public void simpleAddTest() {
         Player player = new Player("Test");
-        GameService.getInstance().addShip(player, new int[][]{{0,0}, {0,1}});
+        GameService.getInstance(manager).addShip(player, new int[][]{{0,0}, {0,1}});
         assertThat(player.getShips().size(), equalTo(1));
     }
 
     @Test
     public void multiAddTest() {
         Player player = new Player("Test");
-        GameService service = GameService.getInstance();
+        GameService service = GameService.getInstance(manager);
         int lenght = ((int) (Math.random() * 5 + 1));
         for (int i = 0; i < lenght; i++) {
             service.addShip(player, new int[][]{{i * 2, i * 2}});
@@ -92,7 +93,7 @@ public class GameServiceTest {
     @Test
     public void dublicateAddTest() throws IllegalArgumentException{
         Player player = new Player("Test");
-        GameService service = GameService.getInstance();
+        GameService service = GameService.getInstance(manager);
         service.addShip(player, new int[][]{{0,0}, {0,1}});
         assertThrows(IllegalArgumentException.class, () -> service.addShip(player, new int[][]{{0,0}, {0,1}}));
     }
@@ -100,7 +101,7 @@ public class GameServiceTest {
     @Test
     public void neighbourAddHorizontalTest() throws IllegalArgumentException{
         Player player = new Player("Test");
-        GameService service = GameService.getInstance();
+        GameService service = GameService.getInstance(manager);
         service.addShip(player, new int[][]{{0,0}, {0,1}});
         assertThrows(IllegalArgumentException.class, () -> service.addShip(player, new int[][]{{0,2}, {0,3}}));
     }
@@ -108,14 +109,14 @@ public class GameServiceTest {
     @Test
     public void neighbourAddVerticalTest() throws IllegalArgumentException{
         Player player = new Player("Test");
-        GameService service = GameService.getInstance();
+        GameService service = GameService.getInstance(manager);
         service.addShip(player, new int[][]{{0,0}, {0,1}});
         assertThrows(IllegalArgumentException.class, () -> service.addShip(player, new int[][]{{1,1}, {2,1}}));
     }
 
     @Test
     public void createPlayersTest() {
-        GameService service = GameService.getInstance();
+        GameService service = GameService.getInstance(manager);
         List<Player> players = service.createPlayers();
         List<Player> test = new ArrayList<Player>();
         assertThat(players, equalTo(test));

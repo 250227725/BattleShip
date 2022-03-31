@@ -24,34 +24,34 @@ public class GameServiceTest {
 
     @Test
     public void addBusyCell2Test() {
-        Set<Cell> busyCell = GameService.getInstance().addBusyCell(new ShipSection(Game.FIELD_WIDTH - 1,0));
+        Set<Cell> busyCell = GameService.getInstance().addBusyCell(new ShipSection(Project1st.FIELD_WIDTH - 1,0));
         Set<Cell> sample = new HashSet<>();
-        sample.add(new Cell(Game.FIELD_WIDTH - 1,0) {});
-        sample.add(new Cell(Game.FIELD_WIDTH - 1,1) {});
-        sample.add(new Cell(Game.FIELD_WIDTH - 2,0) {});
-        sample.add(new Cell(Game.FIELD_WIDTH - 2,1) {});
+        sample.add(new Cell(Project1st.FIELD_WIDTH - 1,0) {});
+        sample.add(new Cell(Project1st.FIELD_WIDTH - 1,1) {});
+        sample.add(new Cell(Project1st.FIELD_WIDTH - 2,0) {});
+        sample.add(new Cell(Project1st.FIELD_WIDTH - 2,1) {});
         assertThat(busyCell, equalTo(sample));
     }
 
     @Test
     public void addBusyCell3Test() {
-        Set<Cell> busyCell = GameService.getInstance().addBusyCell(new ShipSection(0,Game.FIELD_HEIGHT - 1));
+        Set<Cell> busyCell = GameService.getInstance().addBusyCell(new ShipSection(0,Project1st.FIELD_HEIGHT - 1));
         Set<Cell> sample = new HashSet<>();
-        sample.add(new Cell(0,Game.FIELD_HEIGHT - 1) {});
-        sample.add(new Cell(1,Game.FIELD_HEIGHT - 1) {});
-        sample.add(new Cell(0,Game.FIELD_HEIGHT - 2) {});
-        sample.add(new Cell(1,Game.FIELD_HEIGHT - 2) {});
+        sample.add(new Cell(0,Project1st.FIELD_HEIGHT - 1) {});
+        sample.add(new Cell(1,Project1st.FIELD_HEIGHT - 1) {});
+        sample.add(new Cell(0,Project1st.FIELD_HEIGHT - 2) {});
+        sample.add(new Cell(1,Project1st.FIELD_HEIGHT - 2) {});
         assertThat(busyCell, equalTo(sample));
     }
 
     @Test
     public void addBusyCell4Test() {
-        Set<Cell> busyCell = GameService.getInstance().addBusyCell(new ShipSection(Game.FIELD_WIDTH - 1,Game.FIELD_HEIGHT - 1));
+        Set<Cell> busyCell = GameService.getInstance().addBusyCell(new ShipSection(Project1st.FIELD_WIDTH - 1,Project1st.FIELD_HEIGHT - 1));
         Set<Cell> sample = new HashSet<>();
-        sample.add(new Cell(Game.FIELD_WIDTH - 1,Game.FIELD_HEIGHT - 1) {});
-        sample.add(new Cell(Game.FIELD_WIDTH - 1,Game.FIELD_HEIGHT - 2) {});
-        sample.add(new Cell(Game.FIELD_WIDTH - 2,Game.FIELD_HEIGHT - 1) {});
-        sample.add(new Cell(Game.FIELD_WIDTH - 2,Game.FIELD_HEIGHT - 2) {});
+        sample.add(new Cell(Project1st.FIELD_WIDTH - 1,Project1st.FIELD_HEIGHT - 1) {});
+        sample.add(new Cell(Project1st.FIELD_WIDTH - 1,Project1st.FIELD_HEIGHT - 2) {});
+        sample.add(new Cell(Project1st.FIELD_WIDTH - 2,Project1st.FIELD_HEIGHT - 1) {});
+        sample.add(new Cell(Project1st.FIELD_WIDTH - 2,Project1st.FIELD_HEIGHT - 2) {});
         assertThat(busyCell, equalTo(sample));
     }
 

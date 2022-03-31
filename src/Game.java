@@ -1,16 +1,15 @@
 import java.util.Deque;
-import java.util.stream.Collectors;
 
 public class Game implements Runnable{
     private final Deque<Player> players;
     private GameStatus status = GameStatus.NEW;
     private Game(Deque<Player> players, int width, int height) {
         this.players = players;
-        this.FIELD_WIDTH = width;
-        this.FIELD_HEIGHT = height;
+        this.fieldWidth = width;
+        this.fieldHeight = height;
     }
-    private final int FIELD_WIDTH;
-    private final int FIELD_HEIGHT;
+    private final int fieldWidth;
+    private final int fieldHeight;
 
     public static Game createGame(Deque<Player> players, int width, int height) throws IllegalArgumentException {
         if (width < 1 || width > Project1st.MAX_FIELD_WIDTH || height < 1 || height > Project1st.MAX_FIELD_HEIGHT) {
@@ -38,7 +37,22 @@ public class Game implements Runnable{
     }
 
     public void run() {
+        // 1. Get battleShips from Players
+        // 2. Generate battleShips for AI
+        // 3. Create GameManager
         status = GameStatus.ACTIVE;
+        // 4. Run Game Manager
+        status = GameStatus.ENDED;
+        // 5. Show game statistic
+        // 6. Quit
+    }
+
+    public int getFieldWidth() {
+        return fieldWidth;
+    }
+
+    public int getFieldHeight() {
+        return fieldHeight;
     }
 
     enum GameStatus {

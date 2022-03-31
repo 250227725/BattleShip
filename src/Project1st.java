@@ -10,6 +10,7 @@ public class Project1st {
     public static void main(String... args) {
         GameService service = GameService.getInstance(new IOManager(ConsoleInputManager.getInstance(), ConsoleOutputManager.getInstance()));
 
+
         //todo:
         /*
         IV   0. Запрашиваем размеры игрового поля. По умолчанию 10х10, максимум 20х20

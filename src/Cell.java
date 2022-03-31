@@ -26,7 +26,8 @@ public abstract class Cell implements Comparable<Cell> {
     public boolean equals(Object obj) {
         if (obj == null) return false;
         if (this == obj) return true;
-        if (!(obj instanceof Cell c)) return false;
+        if (!(obj instanceof Cell)) return false;
+        Cell c = (Cell) obj;
         return x == c.x && y == c.y;
     }
 

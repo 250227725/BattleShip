@@ -10,7 +10,7 @@ public class Player {
     }
 
     private boolean isAlive = true;
-    private CellStatus[][] battleField = new CellStatus[Game.FIELD_HEIGHT][Game.FIELD_WIDTH];
+    private CellStatus[][] battleField = new CellStatus[Project1st.FIELD_HEIGHT][Project1st.FIELD_WIDTH];
     {
         for (int y = 0; y < battleField.length; y++ ) {
             for (int x = 0; x < battleField[0].length; x++) {

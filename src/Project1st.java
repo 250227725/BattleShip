@@ -1,7 +1,7 @@
 public class Project1st {
 
-    public static final int FIELD_WIDTH = 10;
-    public static final int FIELD_HEIGHT = 10;
+    public static final int MAX_FIELD_WIDTH = CellStatus.values().length;
+    public static final int MAX_FIELD_HEIGHT = 100;
 
     public static void main(String... args) {
         //todo:

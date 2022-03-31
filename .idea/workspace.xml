@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="aaa3ed4c-3439-4692-91c8-08736e99acbf" name="Changes" comment="create OutputManager class">
-      <change beforePath="$PROJECT_DIR$/src/ConsoleOutputManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ConsoleOutputManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/OutputManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/OutputManager.java" afterDir="false" />
+    <list default="true" id="aaa3ed4c-3439-4692-91c8-08736e99acbf" name="Changes" comment="add getShipCoordinateTest method for ConsoleInputManager">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ConsoleInputManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ConsoleInputManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/InputManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InputManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/ConsoleInputManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/ConsoleInputManagerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/GameManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/GameManagerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/GameServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/GameServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,49 +68,50 @@
     <property name="project.structure.side.proportion" value="0.22138837" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
   </component>
-  <component name="RunManager" selected="JUnit.PlayerTest">
-    <configuration name="CellTest.notEqualsObjectTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.GameManagerTest">
+    <configuration name="ConsoleInputManagerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BattleShip" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="CellTest" />
-      <option name="METHOD_NAME" value="notEqualsObjectTest" />
+      <option name="MAIN_CLASS_NAME" value="ConsoleInputManagerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameManagerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BattleShip" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="GameManagerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameManagerTest.getShipCoordinateTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BattleShip" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="GameManagerTest" />
+      <option name="METHOD_NAME" value="getShipCoordinateTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GameManagerTest.one_cycle_of_nextPlayer_is_fully_ordered_players_list" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BattleShip" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="GameManagerTest" />
+      <option name="METHOD_NAME" value="one_cycle_of_nextPlayer_is_fully_ordered_players_list" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameServiceTest.createPlayersTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BattleShip" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="GameServiceTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PlayerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="BattleShip" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="PlayerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ShipTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="BattleShip" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ShipTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ShipTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="BattleShip" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ShipTest" />
-      <option name="METHOD_NAME" value="test" />
+      <option name="METHOD_NAME" value="createPlayersTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -122,11 +130,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.PlayerTest" />
-        <item itemvalue="JUnit.GameServiceTest" />
-        <item itemvalue="JUnit.ShipTest" />
-        <item itemvalue="JUnit.ShipTest.test" />
-        <item itemvalue="JUnit.CellTest.notEqualsObjectTest" />
+        <item itemvalue="JUnit.GameManagerTest" />
+        <item itemvalue="JUnit.GameManagerTest.one_cycle_of_nextPlayer_is_fully_ordered_players_list" />
+        <item itemvalue="JUnit.GameManagerTest.getShipCoordinateTest" />
+        <item itemvalue="JUnit.ConsoleInputManagerTest" />
+        <item itemvalue="JUnit.GameServiceTest.createPlayersTest" />
       </list>
     </recent_temporary>
   </component>
@@ -159,7 +167,12 @@
       <workItem from="1648297091724" duration="11498000" />
       <workItem from="1648369785667" duration="3648000" />
       <workItem from="1648373920597" duration="6906000" />
-      <workItem from="1648451921798" duration="2864000" />
+      <workItem from="1648451921798" duration="5191000" />
+      <workItem from="1648472039810" duration="5331000" />
+      <workItem from="1648482509573" duration="2627000" />
+      <workItem from="1648548569276" duration="56000" />
+      <workItem from="1648630466800" duration="214000" />
+      <workItem from="1648633792904" duration="5301000" />
     </task>
     <task id="LOCAL-00001" summary="Added absctract class Cell and test for it">
       <created>1648207345524</created>
@@ -217,7 +230,49 @@
       <option name="project" value="LOCAL" />
       <updated>1648454552678</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="set OutputManager for Intreface and create ConsoleOutputManager">
+      <created>1648455539358</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1648455539358</updated>
+    </task>
+    <task id="LOCAL-00010" summary="set OutputManager for Intreface and create ConsoleOutputManager">
+      <created>1648455584299</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1648455584299</updated>
+    </task>
+    <task id="LOCAL-00011" summary="rename InputManager class to ConsolrInputManager. Add InputManager interface">
+      <created>1648473876578</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1648473876578</updated>
+    </task>
+    <task id="LOCAL-00012" summary="modify Cell constructor for natural coordinates and test of ot">
+      <created>1648476195434</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1648476195434</updated>
+    </task>
+    <task id="LOCAL-00013" summary="add getting player guess logic and test">
+      <created>1648476234334</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1648476234334</updated>
+    </task>
+    <task id="LOCAL-00014" summary="add getShipCoordinateTest method for ConsoleInputManager">
+      <created>1648477439333</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1648477439333</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -255,6 +310,12 @@
     <MESSAGE value="rename ShipGeneratorService to GameService" />
     <MESSAGE value="create InputManager class" />
     <MESSAGE value="create OutputManager class" />
-    <option name="LAST_COMMIT_MESSAGE" value="create OutputManager class" />
+    <MESSAGE value="set OutputManager for Intreface and create ConsoleOutputManager" />
+    <MESSAGE value="add ConsoleInputManagerTest" />
+    <MESSAGE value="rename InputManager class to ConsolrInputManager. Add InputManager interface" />
+    <MESSAGE value="modify Cell constructor for natural coordinates and test of ot" />
+    <MESSAGE value="add getting player guess logic and test" />
+    <MESSAGE value="add getShipCoordinateTest method for ConsoleInputManager" />
+    <option name="LAST_COMMIT_MESSAGE" value="add getShipCoordinateTest method for ConsoleInputManager" />
   </component>
 </project>

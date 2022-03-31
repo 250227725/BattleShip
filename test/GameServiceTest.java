@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -109,6 +111,14 @@ public class GameServiceTest {
         GameService service = GameService.getInstance();
         service.addShip(player, new int[][]{{0,0}, {0,1}});
         assertThrows(IllegalArgumentException.class, () -> service.addShip(player, new int[][]{{1,1}, {2,1}}));
+    }
+
+    @Test
+    public void createPlayersTest() {
+        GameService service = GameService.getInstance();
+        List<Player> players = service.createPlayers();
+        List<Player> test = new ArrayList<Player>();
+        assertThat(players, equalTo(test));
     }
 
 }

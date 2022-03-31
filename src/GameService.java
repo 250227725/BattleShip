@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class GameService {
@@ -75,5 +76,9 @@ public class GameService {
                     busyField.addAll(addBusyCell(s));
                 });
         return busyField;
+    }
+
+    public List<Player> createPlayers() {
+        return null;
     }
 }

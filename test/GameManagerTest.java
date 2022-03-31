@@ -1,12 +1,71 @@
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class GameManagerTest {
+
+    // todo: incorrect test beacuse it's depend on test starting sequence.
+
+    //    String SYSTEM_IN = "lightning\r\nexit\r\n\r\nlightning";
+//    String SYSTEM_IN = "яя\r\nb     2";
+
+
+//    @Test
+//    public void getNameTest() {
+//        String playerName = "lightning";
+//        assertThat(manager.getPlayerName(), equalTo(Optional.of(playerName)));
+//    }
+//
+//    @Test
+//    public void getNameExitTest() {
+//        String playerName = "exit";
+//        assertThat(manager.getPlayerName(), equalTo(Optional.empty()));
+//    }
+//
+//    @Test
+//    public void getNameRetryTest() {
+//        String playerName = "lightning";
+//        assertThat(manager.getPlayerName(), equalTo(Optional.of(playerName)));
+//    }
+
+//    @Test
+//    public void getGuessTest() {
+//        Cell guess = new Cell(1, 1) {};
+//        assertThat(manager.getPlayerGuess().get(), equalTo(guess));
+//    }
+
+//    @Test
+//    public void getShipCoordinateTest() {
+//        String SYSTEM_IN = "a2-z2";
+//        InputManager in = new InputManager() {
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(SYSTEM_IN.getBytes())));
+//            @Override
+//            public String read() {
+//                try {
+//                    return reader.readLine();
+//                }
+//                catch (IOException e) {
+//                    e.printStackTrace();
+//                    throw new RuntimeException();
+//                }
+//            }
+//        };
+//        OutputManager out = ConsoleOutputManager.getInstance();
+//
+//        Integer[][] test = new Integer[][] {{0,1},{1,1}};
+//        Integer[][] guess = GameManager.getShipCoordinate(out, in).get(); //todo: create GameManager Instance
+//        assertThat(guess, equalTo(test));
+//    }
+
+
 
     private static String generateString(Random rng, String characters, int length) {
         char[] text = new char[length];

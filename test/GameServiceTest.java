@@ -10,6 +10,9 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class GameServiceTest {
+
+
+    // old versions of test
     IOManager manager = new IOManager(ConsoleInputManager.getInstance(), ConsoleOutputManager.getInstance());
 
     @Test

@@ -37,17 +37,17 @@ public class GameService {
             if ((section.getY() != 0)) {
                 busyCell.add(new Cell(section.getX() - 1, section.getY() - 1) {});
             }
-            if ((section.getY() != Game.FIELD_HEIGHT - 1)) {
+            if ((section.getY() != Project1st.FIELD_HEIGHT - 1)) {
                 busyCell.add(new Cell(section.getX() - 1, section.getY() + 1) {});
             }
         }
 
-        if (section.getX() != Game.FIELD_WIDTH - 1) {//right of
+        if (section.getX() != Project1st.FIELD_WIDTH - 1) {//right of
             busyCell.add(new Cell(section.getX() + 1, section.getY()) {});
             if ((section.getY() != 0)) {
                 busyCell.add(new Cell(section.getX() + 1, section.getY() - 1) {});
             }
-            if ((section.getY() != Game.FIELD_HEIGHT - 1)) {
+            if ((section.getY() != Project1st.FIELD_HEIGHT - 1)) {
                 busyCell.add(new Cell(section.getX() + 1, section.getY() + 1) {});
             }
         }
@@ -55,7 +55,7 @@ public class GameService {
         if ((section.getY() != 0)) {
             busyCell.add(new Cell(section.getX(), section.getY() - 1) {});
         }
-        if ((section.getY() != Game.FIELD_HEIGHT - 1)) {
+        if ((section.getY() != Project1st.FIELD_HEIGHT - 1)) {
             busyCell.add(new Cell(section.getX(), section.getY() + 1) {});
         }
 

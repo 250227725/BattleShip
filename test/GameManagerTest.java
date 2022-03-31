@@ -117,7 +117,7 @@ public class GameManagerTest {
             orderedPlayers.add(manager.getNextPlayer());
         }
 
-        for (int turn = 0; turn < (Game.FIELD_WIDTH * Game.FIELD_HEIGHT); turn++) {
+        for (int turn = 0; turn < (Project1st.FIELD_WIDTH * Project1st.FIELD_HEIGHT); turn++) {
             for (int i = 0; i < orderedPlayers.size(); i++) {
                 assertThat(orderedPlayers.get(i), equalTo(manager.getNextPlayer()));
             }

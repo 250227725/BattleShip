@@ -1,4 +1,4 @@
-public class IOManager {
+public class IOManager implements InputManager, OutputManager{
     private final InputManager in;
     private final OutputManager out;
 
@@ -7,11 +7,21 @@ public class IOManager {
         this.out = out;
     }
 
-    public InputManager in() {
-        return in;
+    public String read() throws GameCancelledException {
+        String data = in.read();
+        if (data.equalsIgnoreCase("exit")) {
+            throw new GameCancelledException();
+        }
+        return data;
     }
 
-    public OutputManager out() {
-        return out;
+    @Override
+    public void showMessage(String message) {
+        out.showMessage(message);
+    }
+
+    @Override
+    public void printBattlefield(CellStatus[][] battleField) {
+        out.printBattlefield(battleField);
     }
 }

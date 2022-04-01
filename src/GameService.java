@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class GameService {
+
     private final IOManager manager;
 
     private GameService(IOManager manager) {
@@ -9,14 +10,6 @@ public class GameService {
 
     public static GameService getInstance(IOManager manager) {
         return new GameService(manager);
-    }
-
-    public InputManager in() {
-        return manager.in();
-    }
-
-    public OutputManager out() {
-        return manager.out();
     }
 
     public void addShip(Player player, int[][] newShipCoordinates) {
@@ -95,7 +88,7 @@ public class GameService {
         return 0;
     }
 
-    public Game initGame() {
+    public Game initGame() throws GameCancelledException{
         int playersQuantity = getPlayersQuantity();
         int width = getFieldWidth();
         int height = getFieldHeight();
@@ -113,6 +106,8 @@ public class GameService {
     }
 
     private Set<Player> getHumanPlayers() {
+
+
         return null;
     }
 
@@ -129,7 +124,15 @@ public class GameService {
         return getParametrTest();
     }
 
-    private int getPlayersQuantity() {
-        return getParametrTest();
+    int getPlayersQuantity() throws GameCancelledException{
+        manager.showMessage("Введите количество игроков или exit для завершения игры");
+        while (true) {
+            try {
+                return Integer.parseInt(manager.read());
+            }
+            catch (NumberFormatException e) {
+                manager.showMessage("Введено некорректное значение. Введите количество игроков или exit для завершения игры");
+            }
+        }
     }
 }

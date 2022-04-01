@@ -30,6 +30,9 @@ public class Game implements Callable<String> {
         return null;
     }
 
+    public static void cancelled() {
+    }
+
     public boolean isActive() {
         return status == GameStatus.ACTIVE;
     }

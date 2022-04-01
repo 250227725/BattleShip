@@ -9,7 +9,12 @@ public class Project1st {
 
     public static void main(String... args) {
         GameService service = GameService.getInstance(new IOManager(ConsoleInputManager.getInstance(), ConsoleOutputManager.getInstance()));
-        Game game = service.initGame();
-        game.call();
+        try {
+            Game game = service.initGame();
+            game.call();
+        }
+        catch (GameCancelledException e) {
+            Game.cancelled();
+        }
     }
 }

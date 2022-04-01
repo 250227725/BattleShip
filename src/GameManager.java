@@ -48,7 +48,7 @@ public class GameManager {
         }
     }
 
-    public Optional<String> getPlayerName() {
+    public Optional<String> getPlayerName() throws GameCancelledException {
         OutputManager out = ConsoleOutputManager.getInstance();
         InputManager in = ConsoleInputManager.getInstance();
         Optional <String> name;
@@ -69,13 +69,13 @@ public class GameManager {
         return name;
     }
 
-    public static Optional<Cell> getPlayerGuess() {  //todo: delete static
+    public static Optional<Cell> getPlayerGuess() throws GameCancelledException {  //todo: delete static
         OutputManager out = ConsoleOutputManager.getInstance();
         InputManager in = ConsoleInputManager.getInstance();
         return getPlayerGuess(out, in);
     }
 
-    public static Optional<Cell> getPlayerGuess(OutputManager out, InputManager in) { //todo: delete static
+    public static Optional<Cell> getPlayerGuess(OutputManager out, InputManager in) throws GameCancelledException { //todo: delete static
         out.showMessage("Введите координаты поля для выстрела:");
         while(true) {
             try {
@@ -102,13 +102,13 @@ public class GameManager {
     }
 
 
-    public static Optional<Integer[][]> getShipCoordinate() {  //todo: delete static
+    public static Optional<Integer[][]> getShipCoordinate() throws GameCancelledException {  //todo: delete static
         OutputManager out = ConsoleOutputManager.getInstance();
         InputManager in = ConsoleInputManager.getInstance();
         return getShipCoordinate(out, in);
     }
 
-    public static Optional<Integer[][]> getShipCoordinate(OutputManager out, InputManager in) {  //todo: delete static
+    public static Optional<Integer[][]> getShipCoordinate(OutputManager out, InputManager in) throws GameCancelledException {  //todo: delete static
 
         out.showMessage("Введите координаты начальной и конечной точки корабля, разделенные знаком минус:");
         while(true) {

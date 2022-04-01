@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class GameService {
     private final IOManager manager;
@@ -92,5 +89,47 @@ public class GameService {
 
     public List<Player> createPlayers() {
         return null;
+    }
+
+    private int getParametrTest() {
+        return 0;
+    }
+
+    public Game initGame() {
+        int playersQuantity = getPlayersQuantity();
+        int width = getFieldWidth();
+        int height = getFieldHeight();
+        int difficulty = getDifficulty();
+        Set<Player> players = getHumanPlayers();
+        int aiPlayersQuantity = playersQuantity - (players == null ? 0 : players.size());
+        if (aiPlayersQuantity > 0) {
+            players.addAll(getAIPlayers(aiPlayersQuantity));
+        }
+        return Game.createGame(players, width, height, difficulty);
+    }
+
+    private Set<Player> getAIPlayers(int count) {
+        return null;
+    }
+
+    private Set<Player> getHumanPlayers() {
+        return null;
+    }
+
+    private int getDifficulty() {
+        return getParametrTest();
+    }
+
+    private int getFieldHeight() {
+        return getParametrTest();
+    }
+
+
+    private int getFieldWidth() {
+        return getParametrTest();
+    }
+
+    private int getPlayersQuantity() {
+        return getParametrTest();
     }
 }

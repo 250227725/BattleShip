@@ -1,6 +1,8 @@
 import java.util.Deque;
+import java.util.Set;
+import java.util.concurrent.Callable;
 
-public class Game implements Runnable{
+public class Game implements Callable<String> {
     private final Deque<Player> players;
     private GameStatus status = GameStatus.NEW;
     private Game(Deque<Player> players, int width, int height) {
@@ -24,6 +26,10 @@ public class Game implements Runnable{
         return new Game(players, width, height);
     }
 
+    public static Game createGame(Set<Player> players, int width, int height, int difficulty) {
+        return null;
+    }
+
     public boolean isActive() {
         return status == GameStatus.ACTIVE;
     }
@@ -36,7 +42,7 @@ public class Game implements Runnable{
         return players.size();
     }
 
-    public void run() {
+    public String call() {
         // 1. Get battleShips from Players
         // 2. Generate battleShips for AI
         // 3. Create GameManager
@@ -45,6 +51,7 @@ public class Game implements Runnable{
         status = GameStatus.ENDED;
         // 5. Show game statistic
         // 6. Quit
+        return null;
     }
 
     public int getFieldWidth() {

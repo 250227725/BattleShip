@@ -50,10 +50,15 @@ public class GameServiceTest {
 
     @Test
     public void getPlayersContentTest() throws GameCancelledException, GameInterruptException{
-        int count = 3;
-        GameService service = GameService.getInstance(new IOManager(new TestInputManager("p1\r\r\r"), ConsoleOutputManager.getInstance()));
-        assertThat(service.getPlayers(count).size(), equalTo(count));
+        int count = 5;
+        GameService service = GameService.getInstance(new IOManager(new TestInputManager("p1\rp2\r\r\r"), ConsoleOutputManager.getInstance()));
+        Set<Player> players = service.getPlayers(count);
+        int human = (int) players.stream().filter((x) -> x.isHuman()).count();
+        int ai = (int) players.stream().filter((x) -> !x.isHuman()).count();
+        assertThat(new int[] {human, ai}, equalTo(new int[]{2, 3}));
     }
+
+
 
     // old versions of test
 //

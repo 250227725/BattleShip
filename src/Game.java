@@ -12,6 +12,7 @@ public class Game implements Callable<String> {
     private final GameManager manager;
 
 
+
     private Game(Set<Player> players, int width, int height, int difficulty) {
         this.fieldWidth = width;
         this.fieldHeight = height;
@@ -19,6 +20,10 @@ public class Game implements Callable<String> {
         this.status = GameStatus.NEW;
         this.players = players;
         this.manager = new GameManager(players);
+    }
+
+    public static Game createGame(Set<Player> players) {
+        return createGame(players, 10, 10, 0);
     }
 
     public static Game createGame(Set<Player> players, int width, int height, int difficulty) {

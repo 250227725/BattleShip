@@ -90,11 +90,12 @@ public class GameService {
 
     public Game initGame() throws GameCancelledException, GameInterruptException{
         int playersQuantity = getPlayersQuantity(); //todo: add check for quantity range
-        int width = getFieldWidth(); //todo: add check for quantity range
-        int height = getFieldHeight(); //todo: add check for quantity range
-        int difficulty = getDifficulty(); //todo: add realisation
+        //int width = getFieldWidth(); //todo: add check for quantity range
+        //int height = getFieldHeight(); //todo: add check for quantity range
+        //int difficulty = getDifficulty(); //todo: add realisation
         Set<Player> players = getPlayers(playersQuantity);
-        return Game.createGame(players, width, height, difficulty);
+        //return Game.createGame(players, width, height, difficulty);
+        return Game.createGame(players);
     }
 
     Set<Player> getPlayers(int playersQuantity) throws GameCancelledException, GameInterruptException {

@@ -12,31 +12,31 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class GameTest {
     @Test
     public void createGameNoPlayerTest() {
-        assertThrows(IllegalArgumentException.class, () -> Game.createGame(new LinkedList<>(), 10, 10));
+        assertThrows(IllegalArgumentException.class, () -> Game.createGame(new HashSet<>(), 10, 10, 1));
     }
 
     @Test
     public void createGameOnePlayerTest() {
-        Deque<Player> players = new LinkedList<>();
+        Set<Player> players = new HashSet<>();
         players.add(new Player("test", false));
-        assertThrows(IllegalArgumentException.class, () -> Game.createGame(players, 10, 10));
+        assertThrows(IllegalArgumentException.class, () -> Game.createGame(players, 10, 10, 1));
     }
 
     @Test
     public void createGameTwoSamePlayerTest() {
-        Deque<Player> players = new LinkedList<>();
+        Set<Player> players = new HashSet<>();
         Player player = new Player("test", false);
         players.add(player);
         players.add(player);
-        assertThrows(IllegalArgumentException.class, () -> Game.createGame(players, 10, 10));
+        assertThrows(IllegalArgumentException.class, () -> Game.createGame(players, 10, 10, 1));
     }
 
     @Test
     public void createGameTest() {
-        Deque<Player> players = new LinkedList<>();
+        Set<Player> players = new HashSet<>();
         players.add(new Player("Player One", false));
         players.add(new Player("Player Two", false));
-        Game game = Game.createGame(players, 10, 10);
+        Game game = Game.createGame(players, 10, 10, 1);
         assertThat(game.playersCount(), equalTo(2));
     }
 }

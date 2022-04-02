@@ -3,13 +3,9 @@ import java.util.Set;
 
 public class Player {
     private final String name;
-    private Set<Ship> ships;
-
-    public Set<Ship> getShips() {
-        return ships;
-    }
-
+    private final boolean isHuman;
     private boolean isAlive = true;
+    private Set<Ship> ships;
     private CellStatus[][] battleField = new CellStatus[Project1st.FIELD_HEIGHT][Project1st.FIELD_WIDTH];
     {
         for (int y = 0; y < battleField.length; y++ ) {
@@ -19,27 +15,28 @@ public class Player {
         }
     }
 
+    public Player(String name, boolean isHuman) {
+        this.name = name;
+        this.isHuman = isHuman;
+        this.ships = new HashSet<>();
+    }
+
+    public Set<Ship> getShips() {
+        return ships;
+    }
     public boolean isAlive() {
         return isAlive;
     }
-
     public void setAlive(boolean alive) {
         isAlive = alive;
     }
-
     public CellStatus[][] getBattleField() {
         return battleField;
-    }
-
-    public Player(String name) {
-        this.name = name;
-        this.ships = new HashSet<>();
     }
 
     public String getName() {
         return name;
     }
-
     public void addShip(int[][] newShipCoordinates) throws IllegalArgumentException{
         GameService service = GameService.getInstance(new IOManager(ConsoleInputManager.getInstance(), ConsoleOutputManager.getInstance())); //todo get GameService as argument
         service.checkBattleField(battleField, newShipCoordinates);

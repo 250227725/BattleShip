@@ -1,7 +1,7 @@
 import java.util.HashSet;
 import java.util.Set;
 
-public class Player {
+public abstract class Player {
     private final String name;
     private final boolean isHuman;
     private boolean isAlive;
@@ -15,15 +15,13 @@ public class Player {
         }
     }
 
-    public Player(String name, boolean isHuman) {
+    protected Player(String name, boolean isHuman) {
         this.name = name;
         this.isHuman = isHuman;
         this.ships = new HashSet<>();
     }
 
-    public boolean isHuman() {
-        return isHuman;
-    }
+    public abstract boolean isHuman();
     public Set<Ship> getShips() {
         return ships;
     }

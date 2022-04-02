@@ -80,7 +80,7 @@ public class GameManagerTest {
         Set<Player> initPlayers = new HashSet<>();
         int playerQuantity = (int) (Math.random() * 10 + 3);
         for (int i = 0; i < playerQuantity; i++) {
-            initPlayers.add(new Player(generateString(new Random(), "qwertyuiopasdfghjklzxcvbnm", 6), true));
+            initPlayers.add(new HumanPlayer(generateString(new Random(), "qwertyuiopasdfghjklzxcvbnm", 6)));
         }
         return initPlayers;
     }

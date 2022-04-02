@@ -13,8 +13,8 @@ public class GameTest {
     @Test
     public void createGameTest() {
         Set<Player> players = new HashSet<>();
-        players.add(new Player("Player One", true));
-        players.add(new Player("Player Two", false));
+        players.add(new HumanPlayer("Player One"));
+        players.add(new AIPlayer("Player Two"));
         Game game = Game.createGame(players, 10, 10, 0);
         assertThat(game.playersCount(), equalTo(2));
     }
@@ -27,39 +27,39 @@ public class GameTest {
     @Test
     public void createGameOnePlayerTest() {
         Set<Player> players = new HashSet<>();
-        players.add(new Player("test", false));
+        players.add(new HumanPlayer("test"));
         assertThrows(IllegalArgumentException.class, () -> Game.createGame(players, 10, 10, 1));
     }
 
     @Test
     public void createGameMinWidthTest() {
         Set<Player> players = new HashSet<>();
-        players.add(new Player("Player One", true));
-        players.add(new Player("Player Two", false));
+        players.add(new HumanPlayer("Player One"));
+        players.add(new AIPlayer("Player Two"));
         assertThrows(IllegalArgumentException.class, () -> Game.createGame(players, Project1st.MIN_FIELD_WIDTH - 1, 10, 0));
     }
 
     @Test
     public void createGameMaxWidthTest() {
         Set<Player> players = new HashSet<>();
-        players.add(new Player("Player One", true));
-        players.add(new Player("Player Two", false));
+        players.add(new HumanPlayer("Player One"));
+        players.add(new AIPlayer("Player Two"));
         assertThrows(IllegalArgumentException.class, () -> Game.createGame(players, Project1st.MAX_FIELD_WIDTH + 1, 10, 0));
     }
 
     @Test
     public void createGameMinHeightTest() {
         Set<Player> players = new HashSet<>();
-        players.add(new Player("Player One", true));
-        players.add(new Player("Player Two", false));
+        players.add(new HumanPlayer("Player One"));
+        players.add(new AIPlayer("Player Two"));
         assertThrows(IllegalArgumentException.class, () -> Game.createGame(players, 10, Project1st.MIN_FIELD_HEIGHT - 1, 0));
     }
 
     @Test
     public void createGameMaxHeightTest() {
         Set<Player> players = new HashSet<>();
-        players.add(new Player("Player One", true));
-        players.add(new Player("Player Two", false));
+        players.add(new HumanPlayer("Player One"));
+        players.add(new AIPlayer("Player Two"));
         assertThrows(IllegalArgumentException.class, () -> Game.createGame(players, 10, Project1st.MAX_FIELD_HEIGHT + 1, 0));
     }
 

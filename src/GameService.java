@@ -119,7 +119,7 @@ public class GameService {
     Set<Player> getAIPlayers(int playersQuantity) {
         Set<Player> aiPlayers = new HashSet<>();
         while (playersQuantity > 0) {
-            aiPlayers.add(new Player("AI_" + playersQuantity, false));
+            aiPlayers.add(new AIPlayer("AI_" + playersQuantity));
             playersQuantity--;
         }
         return aiPlayers;
@@ -133,7 +133,7 @@ public class GameService {
         if (name==null || name.equals("")) {
             return null;
         }
-        return new Player(name, true);
+        return new HumanPlayer(name);
     }
 
     int getDifficulty() {

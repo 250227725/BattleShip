@@ -125,17 +125,29 @@ public class GameService {
     }
 
     int getPlayersQuantity() throws GameCancelledException, GameInterruptException{
-        manager.showMessage("Введите количество игроков или exit для завершения игры");
+        String message = "Введите количество игроков или exit для завершения игры";
+        manager.showMessage(message);
+        return getIntegerValue(message);
+    }
+
+    private int getIntegerValue(String repeatMessage) throws GameCancelledException, GameInterruptException {
         int errorCount = 0;
-        while (errorCount < 3) {
+        int maxAttempt = 5;
+        while (true) {
             try {
                 return Integer.parseInt(manager.read());
             }
             catch (NumberFormatException | NullPointerException e) {
-                manager.showMessage("Введено некорректное значение. Введите количество игроков или exit для завершения игры");
+                errorCount++;
+                if (maxAttempt <= errorCount) {
+                    manager.showMessage("Превышено количество попыток ввода. Игра прервана");
+                    throw new GameInterruptException();
+                }
+                else {
+                    manager.showMessage("Введено некорректное значение. " + repeatMessage);
+                }
+
             }
-            errorCount++;
         }
-        throw new GameInterruptException();
     }
 }

@@ -17,15 +17,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class GameServiceTest {
 
     @Test
-    public void getPlayersQuantityNormal1Test() throws GameCancelledException, GameInterruptException{
-        GameService service = GameService.getInstance(new IOManager(new TestInputManager("d\r"), ConsoleOutputManager.getInstance()));
-        assertThat(service.getPlayersQuantity(), equalTo(-1));
+    public void getPlayersQuantityInterrupt1Test() throws GameCancelledException, GameInterruptException{
+        GameService service = GameService.getInstance(new IOManager(new TestInputManager(""), ConsoleOutputManager.getInstance()));
+        assertThrows(GameInterruptException.class, () -> service.getPlayersQuantity());
     }
 
     @Test
-    public void getPlayersQuantityNormal2Test() throws GameCancelledException, GameInterruptException{
-        GameService service = GameService.getInstance(new IOManager(new TestInputManager("d\ra"), ConsoleOutputManager.getInstance()));
-        assertThat(service.getPlayersQuantity(), equalTo(-1));
+    public void getPlayersQuantityInterrupt2Test() throws GameCancelledException, GameInterruptException{
+        GameService service = GameService.getInstance(new IOManager(new TestInputManager("d\ra\rs\ra\ra\ra\ra\ra\ra\ra\ra"), ConsoleOutputManager.getInstance()));
+        assertThrows(GameInterruptException.class, () -> service.getPlayersQuantity());
     }
 
     @Test

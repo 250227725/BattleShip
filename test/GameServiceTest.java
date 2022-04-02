@@ -17,15 +17,28 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class GameServiceTest {
 
     @Test
-    public void getPlayersQuantityNormalTest() throws GameCancelledException{
-        GameService service = GameService.getInstance(new IOManager(new TestInputManager("d\r2"), ConsoleOutputManager.getInstance()));
-        System.out.println(service.getPlayersQuantity());
+    public void getPlayersQuantityNormal1Test() throws GameCancelledException, GameInterruptException{
+        GameService service = GameService.getInstance(new IOManager(new TestInputManager("d\r"), ConsoleOutputManager.getInstance()));
+        assertThat(service.getPlayersQuantity(), equalTo(-1));
     }
 
     @Test
-    public void getPlayersQuantityCanceledTest() throws GameCancelledException{
+    public void getPlayersQuantityNormal2Test() throws GameCancelledException, GameInterruptException{
+        GameService service = GameService.getInstance(new IOManager(new TestInputManager("d\ra"), ConsoleOutputManager.getInstance()));
+        assertThat(service.getPlayersQuantity(), equalTo(-1));
+    }
+
+    @Test
+    public void getPlayersQuantityNormalTest() throws GameCancelledException, GameInterruptException{
+        int playersQuantity = 2;
+        GameService service = GameService.getInstance(new IOManager(new TestInputManager("d\r" + String.valueOf(playersQuantity)), ConsoleOutputManager.getInstance()));
+        assertThat(service.getPlayersQuantity(), equalTo(playersQuantity));
+    }
+
+    @Test
+    public void getPlayersQuantityCanceledTest() throws GameCancelledException, GameInterruptException{
         GameService service = GameService.getInstance(new IOManager(new TestInputManager("exit"), ConsoleOutputManager.getInstance()));
-        System.out.println(service.getPlayersQuantity());
+        assertThrows(GameCancelledException.class, () -> service.getPlayersQuantity());
     }
 
     // old versions of test

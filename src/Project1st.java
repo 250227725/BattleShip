@@ -13,7 +13,7 @@ public class Project1st {
             Game game = service.initGame();
             game.call();
         }
-        catch (GameCancelledException e) {
+        catch (GameCancelledException | GameInterruptException e) {
             Game.cancelled();
         }
     }

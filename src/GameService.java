@@ -88,7 +88,7 @@ public class GameService {
         return 0;
     }
 
-    public Game initGame() throws GameCancelledException{
+    public Game initGame() throws GameCancelledException, GameInterruptException{
         int playersQuantity = getPlayersQuantity();
         int width = getFieldWidth();
         int height = getFieldHeight();
@@ -124,15 +124,18 @@ public class GameService {
         return getParametrTest();
     }
 
-    int getPlayersQuantity() throws GameCancelledException{
+    int getPlayersQuantity() throws GameCancelledException, GameInterruptException{
         manager.showMessage("Введите количество игроков или exit для завершения игры");
-        while (true) {
+        int errorCount = 0;
+        while (errorCount < 3) {
             try {
                 return Integer.parseInt(manager.read());
             }
-            catch (NumberFormatException e) {
+            catch (NumberFormatException | NullPointerException e) {
                 manager.showMessage("Введено некорректное значение. Введите количество игроков или exit для завершения игры");
             }
+            errorCount++;
         }
+        throw new GameInterruptException();
     }
 }

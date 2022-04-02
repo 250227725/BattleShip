@@ -10,7 +10,7 @@ public class IOManager implements InputManager, OutputManager{
     public String read() throws GameCancelledException {
         String data = in.read();
         if (data.equalsIgnoreCase("exit")) {
-            throw new GameCancelledException();
+           throw new GameCancelledException();
         }
         return data;
     }

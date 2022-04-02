@@ -93,35 +93,67 @@ public class GameService {
         int width = getFieldWidth();
         int height = getFieldHeight();
         int difficulty = getDifficulty();
-        Set<Player> players = getHumanPlayers();
-        int aiPlayersQuantity = playersQuantity - (players == null ? 0 : players.size());
-        if (aiPlayersQuantity > 0) {
-            players.addAll(getAIPlayers(aiPlayersQuantity));
-        }
+        Set<Player> players = getPlayers(playersQuantity);
         return Game.createGame(players, width, height, difficulty);
     }
 
-    private Set<Player> getAIPlayers(int count) {
-        return null;
+    Set<Player> getPlayers(int playersQuantity) throws GameCancelledException, GameInterruptException {
+        int playersCount = 1;
+        Set<Player> players = new HashSet<>();
+        while (playersQuantity > 0) {
+            Player player = getHumanPlayer(playersCount);
+            if (player == null) break;
+            if (players.contains(player)) {
+                manager.showMessage("Игрок уже был добавлен ранее");
+            }
+            else {
+                players.add(player);
+                playersQuantity--;
+                playersCount++;
+            }
+        }
+        players.addAll(getAIPlayers(playersQuantity));
+        return players;
     }
 
-    private Set<Player> getHumanPlayers() {
+    private Set<Player> getAIPlayers(int playersQuantity) {
+        Set<Player> aiPlayers = new HashSet<>();
+        while (playersQuantity > 0) {
+            aiPlayers.add(new Player("AI_" + playersQuantity, false));
+            playersQuantity--;
+        }
+        return aiPlayers;
+    }
 
-
-        return null;
+    private Player getHumanPlayer(int playersCount) throws GameCancelledException, GameInterruptException {
+        String message = "Введите имя игрока №" + playersCount + " или exit для завершения игры" +
+                " или оставьте имя пустым для создания AI игроков";
+        manager.showMessage(message);
+        String name = getStringValue(message);
+        if (name==null || name.equals("")) {
+            return null;
+        }
+        return new Player(name, true);
     }
 
     private int getDifficulty() {
         return getParametrTest();
     }
 
-    private int getFieldHeight() {
-        return getParametrTest();
+    private int getFieldHeight() throws GameCancelledException, GameInterruptException {
+        String message = "Введите высоту игрового поля или exit для завершения игры. " +
+                "Высота поля должна быть в диапазоне от " +
+                Project1st.MIN_FIELD_HEIGHT + " до " + Project1st.MAX_FIELD_HEIGHT;
+        manager.showMessage(message);
+        return getIntegerValue(message);
     }
 
-
-    private int getFieldWidth() {
-        return getParametrTest();
+    private int getFieldWidth() throws GameCancelledException, GameInterruptException {
+        String message = "Введите ширину игрового поля или exit для завершения игры. " +
+                "Ширина поля должна быть в диапазоне от " +
+                Project1st.MIN_FIELD_WIDTH + " до " + Project1st.MAX_FIELD_WIDTH;
+        manager.showMessage(message);
+        return getIntegerValue(message);
     }
 
     int getPlayersQuantity() throws GameCancelledException, GameInterruptException{
@@ -130,7 +162,7 @@ public class GameService {
         return getIntegerValue(message);
     }
 
-    private int getIntegerValue(String repeatMessage) throws GameCancelledException, GameInterruptException {
+    int getIntegerValue(String repeatMessage) throws GameCancelledException, GameInterruptException {
         int errorCount = 0;
         int maxAttempt = 5;
         while (true) {
@@ -147,6 +179,26 @@ public class GameService {
                     manager.showMessage("Введено некорректное значение. " + repeatMessage);
                 }
 
+            }
+        }
+    }
+
+    String getStringValue(String repeatMessage) throws GameCancelledException, GameInterruptException {
+        int errorCount = 0;
+        int maxAttempt = 5;
+        while (true) {
+            try {
+                return manager.read();
+            }
+            catch (NullPointerException e) {
+                errorCount++;
+                if (maxAttempt <= errorCount) {
+                    manager.showMessage("Превышено количество попыток ввода. Игра прервана");
+                    throw new GameInterruptException();
+                }
+                else {
+                    manager.showMessage("Введено некорректное значение. " + repeatMessage);
+                }
             }
         }
     }

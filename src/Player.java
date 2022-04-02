@@ -52,6 +52,5 @@ public abstract class Player {
         isAlive = true;
     }
 
-    private void generateShips() {
-    }
+    abstract void generateShips();
 }

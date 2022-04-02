@@ -7,4 +7,9 @@ public class AIPlayer extends Player{
     public boolean isHuman() {
         return false;
     }
+
+    @Override
+    void generateShips() {
+
+    }
 }

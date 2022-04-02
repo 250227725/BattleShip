@@ -21,21 +21,6 @@ public class Game implements Callable<String> {
         this.manager = new GameManager(players);
     }
 
-
-
-//    public static Game createGame(Deque<Player> players, int width, int height) throws IllegalArgumentException {
-//        if (width < 1 || width > Project1st.MAX_FIELD_WIDTH || height < 1 || height > Project1st.MAX_FIELD_HEIGHT) {
-//            throw new IllegalArgumentException();
-//        }
-//        long count = players.stream()
-//                .distinct()
-//                .count();
-//        if (count < 2 || count != players.size()) {
-//            throw new IllegalArgumentException();
-//        }
-//        return new Game(players, width, height);
-//    }
-
     public static Game createGame(Set<Player> players, int width, int height, int difficulty) {
         if (players==null ||players.size() < 2) throw new IllegalArgumentException("Некорректное количество игроков");
         if (width < Project1st.MIN_FIELD_WIDTH || width > Project1st.MAX_FIELD_WIDTH) throw new IllegalArgumentException("Некорректное значение ширины поля");
@@ -59,18 +44,13 @@ public class Game implements Callable<String> {
     }
 
     public String call() {
-        // 1. Get battleShips from Players
-        // 2. Generate battleShips for AI
-        // 3. Create GameManager
-        status = GameStatus.ACTIVE;
+        manager.initPlayers();
+        manager.startGame();
         while (isActive())
         {
-            System.out.println("The Game");
+            //manager.nextTurn();
             status = GameStatus.ENDED;
         }
-        // 4. Run Game Manager
-        // 5. Show game statistic
-        // 6. Quit
         return null;
     }
 

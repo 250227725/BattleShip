@@ -48,26 +48,15 @@ public class GameManager {
         }
     }
 
-    public Optional<String> getPlayerName() throws GameCancelledException {
-        OutputManager out = ConsoleOutputManager.getInstance();
-        InputManager in = ConsoleInputManager.getInstance();
-        Optional <String> name;
-        out.showMessage("Введите имя игрока или EXIT для выхода");
-        while(true) {
-                String str = in.read();
-                if (str != null && !str.equals("")) {
-                    name = Optional.of(str);
-                    break;
-                }
-            out.showMessage("Некорректный ввод. Введите имя игрока или EXIT для выхода");
-        }
-        out.showMessage(name.get());
-        if (name.get().trim().equalsIgnoreCase("exit")) {
-            name = Optional.empty();
-        }
-
-        return name;
+    public void initPlayers() {
+        players.stream().forEach(Player::init);
     }
+
+
+
+
+
+
 
     public static Optional<Cell> getPlayerGuess() throws GameCancelledException {  //todo: delete static
         OutputManager out = ConsoleOutputManager.getInstance();
@@ -100,7 +89,6 @@ public class GameManager {
             out.showMessage("Некорректный ввод. Введите координаты поля для выстрела");
         }
     }
-
 
     public static Optional<Integer[][]> getShipCoordinate() throws GameCancelledException {  //todo: delete static
         OutputManager out = ConsoleOutputManager.getInstance();
@@ -180,5 +168,6 @@ public class GameManager {
             out.showMessage("Некорректный ввод. Введите координаты корабля");
         }
     }
+
 
 }

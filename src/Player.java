@@ -4,7 +4,7 @@ import java.util.Set;
 public class Player {
     private final String name;
     private final boolean isHuman;
-    private boolean isAlive = true;
+    private boolean isAlive;
     private Set<Ship> ships;
     private CellStatus[][] battleField = new CellStatus[Project1st.FIELD_HEIGHT][Project1st.FIELD_WIDTH];
     {
@@ -46,5 +46,14 @@ public class Player {
         Set<Cell> busyCell = service.getBusyCell(newShipCoordinates);
         busyCell.forEach(cell -> battleField[cell.getX()][cell.getY()] = CellStatus.BUSY);
         ships.add(Ship.getInstance(newShipCoordinates));
+    }
+
+    public void init() {
+        if (isAlive()) return;
+        generateShips();
+        isAlive = true;
+    }
+
+    private void generateShips() {
     }
 }

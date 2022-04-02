@@ -1,33 +1,43 @@
+import java.util.Collections;
 import java.util.Deque;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
 public class Game implements Callable<String> {
-    private final Deque<Player> players;
-    private GameStatus status = GameStatus.NEW;
-    private Game(Deque<Player> players, int width, int height) {
-        this.players = players;
-        this.fieldWidth = width;
-        this.fieldHeight = height;
-    }
     private final int fieldWidth;
     private final int fieldHeight;
+    private final int difficulty;
+    private GameStatus status;
+    private final Set<Player> players;
+    private final GameManager manager;
 
-    public static Game createGame(Deque<Player> players, int width, int height) throws IllegalArgumentException {
-        if (width < 1 || width > Project1st.MAX_FIELD_WIDTH || height < 1 || height > Project1st.MAX_FIELD_HEIGHT) {
-            throw new IllegalArgumentException();
-        }
-        long count = players.stream()
-                .distinct()
-                .count();
-        if (count < 2 || count != players.size()) {
-            throw new IllegalArgumentException();
-        }
-        return new Game(players, width, height);
+
+    private Game(Set<Player> players, int width, int height, int difficulty) {
+        this.fieldWidth = width;
+        this.fieldHeight = height;
+        this.difficulty = difficulty;
+        this.status = GameStatus.NEW;
+        this.players = players;
+        this.manager = new GameManager(players);
     }
 
+
+
+//    public static Game createGame(Deque<Player> players, int width, int height) throws IllegalArgumentException {
+//        if (width < 1 || width > Project1st.MAX_FIELD_WIDTH || height < 1 || height > Project1st.MAX_FIELD_HEIGHT) {
+//            throw new IllegalArgumentException();
+//        }
+//        long count = players.stream()
+//                .distinct()
+//                .count();
+//        if (count < 2 || count != players.size()) {
+//            throw new IllegalArgumentException();
+//        }
+//        return new Game(players, width, height);
+//    }
+
     public static Game createGame(Set<Player> players, int width, int height, int difficulty) {
-        return null;
+        return new Game(players, width, height, difficulty);
     }
 
     public static void cancelled() {

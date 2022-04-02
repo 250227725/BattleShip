@@ -54,27 +54,27 @@ public class ShipTest {
     @Test
     public void hitTest() {
         Ship theFirstOne = Ship.getInstance(new int[][]{{0, 0}, {0, 1}, {0, 2}});
-        assertThat(true, equalTo(theFirstOne.shootCheck(new Cell(0,1){})));
+        assertThat(true, equalTo(theFirstOne.shootCheck(new Cell(1, 0){})));
     }
 
     @Test
     public void missTest() {
         Ship theFirstOne = Ship.getInstance(new int[][]{{0, 0}, {0, 1}, {0, 2}});
-        assertThat(false, equalTo(theFirstOne.shootCheck(new Cell(1,0){})));
+        assertThat(false, equalTo(theFirstOne.shootCheck(new Cell(0, 1){})));
     }
 
     @Test
     public void aliveAfterHitTest() {
         Ship theFirstOne = Ship.getInstance(new int[][]{{0, 0}, {0, 1}});
-        theFirstOne.shootCheck(new Cell(0,0){});
+        theFirstOne.shootCheck(new Cell(0, 0){});
         assertThat(true, equalTo(theFirstOne.isAlive()));
     }
 
     @Test
     public void destroyTest() {
         Ship theFirstOne = Ship.getInstance(new int[][]{{0, 0}, {0, 1}});
-        theFirstOne.shootCheck(new Cell(0,0){});
-        theFirstOne.shootCheck(new Cell(0,1){});
+        theFirstOne.shootCheck(new Cell(0, 0){});
+        theFirstOne.shootCheck(new Cell(1, 0){});
         assertThat(false, equalTo(theFirstOne.isAlive()));
     }
 

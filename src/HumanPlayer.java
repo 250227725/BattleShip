@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Optional;
 
 public class HumanPlayer extends Player{
     public HumanPlayer(String name) {
@@ -11,10 +12,11 @@ public class HumanPlayer extends Player{
     }
 
     @Override
-    void generateShips(CellStatus[][] emptyPlayerField) {
+    void generateShips(CellStatus[][] emptyPlayerField) throws GameCancelledException {
         int[] setup = Project1st.shipsSetup;
         for (int i = 1; i < setup.length; i++) {
             for (int j = setup[i]; j > 0; j--) {
+                Cell attempt = Project1st.service.getShipCoordinate();
                 ships.put(GameService.getHumanShip(), i + "-палубный корабль, №" + String.valueOf(j-i));
             }
         }

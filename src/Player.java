@@ -48,5 +48,5 @@ public abstract class Player {
         isAlive = true;
     }
 
-    abstract void generateShips(CellStatus[][] playerField);
+    abstract void generateShips(CellStatus[][] playerField) throws GameCancelledException;
 }

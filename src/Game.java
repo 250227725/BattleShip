@@ -50,8 +50,12 @@ public class Game implements Callable<String> {
         // 2. Generate battleShips for AI
         // 3. Create GameManager
         status = GameStatus.ACTIVE;
+        while (isActive())
+        {
+            System.out.println("The Game");
+            status = GameStatus.ENDED;
+        }
         // 4. Run Game Manager
-        status = GameStatus.ENDED;
         // 5. Show game statistic
         // 6. Quit
         return null;

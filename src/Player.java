@@ -1,11 +1,13 @@
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public abstract class Player {
     private final String name;
     private final boolean isHuman;
     private boolean isAlive;
-    private Set<Ship> ships;
+    Map<Ship, String> ships;
     private CellStatus[][] battleField = new CellStatus[Project1st.FIELD_HEIGHT][Project1st.FIELD_WIDTH];
     {
         for (int y = 0; y < battleField.length; y++ ) {
@@ -18,11 +20,11 @@ public abstract class Player {
     protected Player(String name, boolean isHuman) {
         this.name = name;
         this.isHuman = isHuman;
-        this.ships = new HashSet<>();
+        this.ships = new HashMap<>();
     }
 
     public abstract boolean isHuman();
-    public Set<Ship> getShips() {
+    public Map<Ship, String> getShips() {
         return ships;
     }
     public boolean isAlive() {
@@ -43,7 +45,7 @@ public abstract class Player {
         service.checkBattleField(battleField, newShipCoordinates);
         Set<Cell> busyCell = service.getBusyCell(newShipCoordinates);
         busyCell.forEach(cell -> battleField[cell.getX()][cell.getY()] = CellStatus.BUSY);
-        ships.add(Ship.getInstance(newShipCoordinates));
+        ships.put(Ship.getInstance(newShipCoordinates), "");
     }
 
     public void init() {

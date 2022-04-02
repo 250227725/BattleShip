@@ -22,7 +22,7 @@ public class GameService {
                     busyField.addAll(addBusyCell(s));
                 });
         busyField.forEach(s -> playerGameField[s.getX()][s.getY()] = CellStatus.BUSY);
-        player.getShips().add(newShip);
+        player.getShips().put(newShip, "");
     }
 
     public Set<Cell> addBusyCell(int[] cell) {
@@ -80,14 +80,6 @@ public class GameService {
         return busyField;
     }
 
-    public List<Player> createPlayers() {
-        return null;
-    }
-
-    private int getParametrTest() {
-        return 0;
-    }
-
     public Game initGame() throws GameCancelledException, GameInterruptException{
         int playersQuantity = getPlayersQuantity(); //todo: add check for quantity range
         //int width = getFieldWidth(); //todo: add check for quantity range
@@ -135,26 +127,6 @@ public class GameService {
             return null;
         }
         return new HumanPlayer(name);
-    }
-
-    int getDifficulty() {
-        return getParametrTest();
-    }
-
-    int getFieldHeight() throws GameCancelledException, GameInterruptException {
-        String message = "Введите высоту игрового поля или exit для завершения игры. " +
-                "Высота поля должна быть в диапазоне от " +
-                Project1st.MIN_FIELD_HEIGHT + " до " + Project1st.MAX_FIELD_HEIGHT;
-        manager.showMessage(message);
-        return getIntegerValue(message);
-    }
-
-    int getFieldWidth() throws GameCancelledException, GameInterruptException {
-        String message = "Введите ширину игрового поля или exit для завершения игры. " +
-                "Ширина поля должна быть в диапазоне от " +
-                Project1st.MIN_FIELD_WIDTH + " до " + Project1st.MAX_FIELD_WIDTH;
-        manager.showMessage(message);
-        return getIntegerValue(message);
     }
 
     int getPlayersQuantity() throws GameCancelledException, GameInterruptException{

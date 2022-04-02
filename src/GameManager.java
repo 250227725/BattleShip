@@ -8,7 +8,7 @@ public class GameManager {
      * Create gameManager for game
      * @param gamePlayers - players list
      */
-    public GameManager(List<Player> gamePlayers) {
+    public GameManager(Set<Player> gamePlayers) {
         generatePlayerSequence(gamePlayers);
     }
 
@@ -39,7 +39,7 @@ public class GameManager {
      * Generate sequence of players for serial game turn
      * @param gamePlayers - players list for game
      */
-    private void generatePlayerSequence(List<Player> gamePlayers) {
+    private void generatePlayerSequence(Set<Player> gamePlayers) {
         List<Player> playerList = new ArrayList<>(gamePlayers);
         while(playerList.size() > 0) {
             int index = (int) (Math.random() * playerList.size());

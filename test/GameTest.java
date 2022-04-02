@@ -18,14 +18,14 @@ public class GameTest {
     @Test
     public void createGameOnePlayerTest() {
         Deque<Player> players = new LinkedList<>();
-        players.add(new Player("test"));
+        players.add(new Player("test", false));
         assertThrows(IllegalArgumentException.class, () -> Game.createGame(players, 10, 10));
     }
 
     @Test
     public void createGameTwoSamePlayerTest() {
         Deque<Player> players = new LinkedList<>();
-        Player player = new Player("test");
+        Player player = new Player("test", false);
         players.add(player);
         players.add(player);
         assertThrows(IllegalArgumentException.class, () -> Game.createGame(players, 10, 10));
@@ -34,8 +34,8 @@ public class GameTest {
     @Test
     public void createGameTest() {
         Deque<Player> players = new LinkedList<>();
-        players.add(new Player("Player One"));
-        players.add(new Player("Player Two"));
+        players.add(new Player("Player One", false));
+        players.add(new Player("Player Two", false));
         Game game = Game.createGame(players, 10, 10);
         assertThat(game.playersCount(), equalTo(2));
     }

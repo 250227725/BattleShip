@@ -21,6 +21,9 @@ public class Player {
         this.ships = new HashSet<>();
     }
 
+    public boolean isHuman() {
+        return isHuman;
+    }
     public Set<Ship> getShips() {
         return ships;
     }

@@ -37,6 +37,9 @@ public class Game implements Callable<String> {
 //    }
 
     public static Game createGame(Set<Player> players, int width, int height, int difficulty) {
+        if (players==null ||players.size() < 2) throw new IllegalArgumentException("Некорректное количество игроков");
+        if (width < Project1st.MIN_FIELD_WIDTH || width > Project1st.MAX_FIELD_WIDTH) throw new IllegalArgumentException("Некорректное значение ширины поля");
+        if (height < Project1st.MIN_FIELD_HEIGHT || height > Project1st.MAX_FIELD_HEIGHT) throw new IllegalArgumentException("Некорректное значение высоты поля");
         return new Game(players, width, height, difficulty);
     }
 

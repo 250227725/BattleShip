@@ -10,6 +10,5 @@ public class AIPlayer extends Player{
 
     @Override
     void generateShips(CellStatus[][] emptyPlayerField) {
-
     }
 }

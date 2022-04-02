@@ -1,21 +1,36 @@
 import java.util.Deque;
-import java.util.stream.Collectors;
+import java.util.Set;
+import java.util.concurrent.Callable;
 
-public class Game implements Runnable{
+public class Game implements Callable<String> {
     private final Deque<Player> players;
     private GameStatus status = GameStatus.NEW;
-    private Game(Deque<Player> players) {
+    private Game(Deque<Player> players, int width, int height) {
         this.players = players;
+        this.fieldWidth = width;
+        this.fieldHeight = height;
     }
+    private final int fieldWidth;
+    private final int fieldHeight;
 
-    public static Game createGame(Deque<Player> players) throws IllegalArgumentException {
+    public static Game createGame(Deque<Player> players, int width, int height) throws IllegalArgumentException {
+        if (width < 1 || width > Project1st.MAX_FIELD_WIDTH || height < 1 || height > Project1st.MAX_FIELD_HEIGHT) {
+            throw new IllegalArgumentException();
+        }
         long count = players.stream()
                 .distinct()
                 .count();
         if (count < 2 || count != players.size()) {
             throw new IllegalArgumentException();
         }
-        return new Game(players);
+        return new Game(players, width, height);
+    }
+
+    public static Game createGame(Set<Player> players, int width, int height, int difficulty) {
+        return null;
+    }
+
+    public static void cancelled() {
     }
 
     public boolean isActive() {
@@ -30,8 +45,24 @@ public class Game implements Runnable{
         return players.size();
     }
 
-    public void run() {
+    public String call() {
+        // 1. Get battleShips from Players
+        // 2. Generate battleShips for AI
+        // 3. Create GameManager
         status = GameStatus.ACTIVE;
+        // 4. Run Game Manager
+        status = GameStatus.ENDED;
+        // 5. Show game statistic
+        // 6. Quit
+        return null;
+    }
+
+    public int getFieldWidth() {
+        return fieldWidth;
+    }
+
+    public int getFieldHeight() {
+        return fieldHeight;
     }
 
     enum GameStatus {

@@ -1,5 +1,5 @@
 import java.util.Optional;
 
 public interface InputManager {
-    String read();
+    String read() throws GameCancelledException;
 }

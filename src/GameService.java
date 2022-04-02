@@ -1,13 +1,15 @@
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class GameService {
-    private static GameService instance = new GameService();
-    private GameService() {}
-    public static GameService getInstance() {
-        return instance;
+
+    private final IOManager manager;
+
+    private GameService(IOManager manager) {
+        this.manager = manager;
+    }
+
+    public static GameService getInstance(IOManager manager) {
+        return new GameService(manager);
     }
 
     public void addShip(Player player, int[][] newShipCoordinates) {
@@ -37,17 +39,17 @@ public class GameService {
             if ((section.getY() != 0)) {
                 busyCell.add(new Cell(section.getX() - 1, section.getY() - 1) {});
             }
-            if ((section.getY() != Game.FIELD_HEIGHT - 1)) {
+            if ((section.getY() != Project1st.FIELD_HEIGHT - 1)) {
                 busyCell.add(new Cell(section.getX() - 1, section.getY() + 1) {});
             }
         }
 
-        if (section.getX() != Game.FIELD_WIDTH - 1) {//right of
+        if (section.getX() != Project1st.FIELD_WIDTH - 1) {//right of
             busyCell.add(new Cell(section.getX() + 1, section.getY()) {});
             if ((section.getY() != 0)) {
                 busyCell.add(new Cell(section.getX() + 1, section.getY() - 1) {});
             }
-            if ((section.getY() != Game.FIELD_HEIGHT - 1)) {
+            if ((section.getY() != Project1st.FIELD_HEIGHT - 1)) {
                 busyCell.add(new Cell(section.getX() + 1, section.getY() + 1) {});
             }
         }
@@ -55,7 +57,7 @@ public class GameService {
         if ((section.getY() != 0)) {
             busyCell.add(new Cell(section.getX(), section.getY() - 1) {});
         }
-        if ((section.getY() != Game.FIELD_HEIGHT - 1)) {
+        if ((section.getY() != Project1st.FIELD_HEIGHT - 1)) {
             busyCell.add(new Cell(section.getX(), section.getY() + 1) {});
         }
 
@@ -80,5 +82,57 @@ public class GameService {
 
     public List<Player> createPlayers() {
         return null;
+    }
+
+    private int getParametrTest() {
+        return 0;
+    }
+
+    public Game initGame() throws GameCancelledException{
+        int playersQuantity = getPlayersQuantity();
+        int width = getFieldWidth();
+        int height = getFieldHeight();
+        int difficulty = getDifficulty();
+        Set<Player> players = getHumanPlayers();
+        int aiPlayersQuantity = playersQuantity - (players == null ? 0 : players.size());
+        if (aiPlayersQuantity > 0) {
+            players.addAll(getAIPlayers(aiPlayersQuantity));
+        }
+        return Game.createGame(players, width, height, difficulty);
+    }
+
+    private Set<Player> getAIPlayers(int count) {
+        return null;
+    }
+
+    private Set<Player> getHumanPlayers() {
+
+
+        return null;
+    }
+
+    private int getDifficulty() {
+        return getParametrTest();
+    }
+
+    private int getFieldHeight() {
+        return getParametrTest();
+    }
+
+
+    private int getFieldWidth() {
+        return getParametrTest();
+    }
+
+    int getPlayersQuantity() throws GameCancelledException{
+        manager.showMessage("Введите количество игроков или exit для завершения игры");
+        while (true) {
+            try {
+                return Integer.parseInt(manager.read());
+            }
+            catch (NumberFormatException e) {
+                manager.showMessage("Введено некорректное значение. Введите количество игроков или exit для завершения игры");
+            }
+        }
     }
 }

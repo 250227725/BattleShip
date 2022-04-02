@@ -12,14 +12,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class GameTest {
     @Test
     public void createGameNoPlayerTest() {
-        assertThrows(IllegalArgumentException.class, () -> Game.createGame(new LinkedList<>()));
+        assertThrows(IllegalArgumentException.class, () -> Game.createGame(new LinkedList<>(), 10, 10));
     }
 
     @Test
     public void createGameOnePlayerTest() {
         Deque<Player> players = new LinkedList<>();
         players.add(new Player("test"));
-        assertThrows(IllegalArgumentException.class, () -> Game.createGame(players));
+        assertThrows(IllegalArgumentException.class, () -> Game.createGame(players, 10, 10));
     }
 
     @Test
@@ -28,7 +28,7 @@ public class GameTest {
         Player player = new Player("test");
         players.add(player);
         players.add(player);
-        assertThrows(IllegalArgumentException.class, () -> Game.createGame(players));
+        assertThrows(IllegalArgumentException.class, () -> Game.createGame(players, 10, 10));
     }
 
     @Test
@@ -36,7 +36,7 @@ public class GameTest {
         Deque<Player> players = new LinkedList<>();
         players.add(new Player("Player One"));
         players.add(new Player("Player Two"));
-        Game game = Game.createGame(players);
+        Game game = Game.createGame(players, 10, 10);
         assertThat(game.playersCount(), equalTo(2));
     }
 }

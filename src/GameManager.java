@@ -48,7 +48,7 @@ public class GameManager {
         }
     }
 
-    public Optional<String> getPlayerName() {
+    public Optional<String> getPlayerName() throws GameCancelledException {
         OutputManager out = ConsoleOutputManager.getInstance();
         InputManager in = ConsoleInputManager.getInstance();
         Optional <String> name;
@@ -69,13 +69,13 @@ public class GameManager {
         return name;
     }
 
-    public static Optional<Cell> getPlayerGuess() {  //todo: delete static
+    public static Optional<Cell> getPlayerGuess() throws GameCancelledException {  //todo: delete static
         OutputManager out = ConsoleOutputManager.getInstance();
         InputManager in = ConsoleInputManager.getInstance();
         return getPlayerGuess(out, in);
     }
 
-    public static Optional<Cell> getPlayerGuess(OutputManager out, InputManager in) { //todo: delete static
+    public static Optional<Cell> getPlayerGuess(OutputManager out, InputManager in) throws GameCancelledException { //todo: delete static
         out.showMessage("Введите координаты поля для выстрела:");
         while(true) {
             try {
@@ -89,7 +89,7 @@ public class GameManager {
                     String strY = str.trim().substring(1).trim();
                     int y = Integer.parseInt(strY);
                     Cell.HorizontalCellNames x = Cell.HorizontalCellNames.valueOf(strX);
-                    if (y <= Game.FIELD_HEIGHT && y > 0 && x.ordinal() < Game.FIELD_WIDTH) {
+                    if (y <= Project1st.FIELD_HEIGHT && y > 0 && x.ordinal() < Project1st.FIELD_WIDTH) {
                         Cell guess = new Cell(x, y) {};
                         return Optional.of(guess);
                     }
@@ -102,13 +102,13 @@ public class GameManager {
     }
 
 
-    public static Optional<Integer[][]> getShipCoordinate() {  //todo: delete static
+    public static Optional<Integer[][]> getShipCoordinate() throws GameCancelledException {  //todo: delete static
         OutputManager out = ConsoleOutputManager.getInstance();
         InputManager in = ConsoleInputManager.getInstance();
         return getShipCoordinate(out, in);
     }
 
-    public static Optional<Integer[][]> getShipCoordinate(OutputManager out, InputManager in) {  //todo: delete static
+    public static Optional<Integer[][]> getShipCoordinate(OutputManager out, InputManager in) throws GameCancelledException {  //todo: delete static
 
         out.showMessage("Введите координаты начальной и конечной точки корабля, разделенные знаком минус:");
         while(true) {
@@ -150,10 +150,10 @@ public class GameManager {
 //                                        && positive.and(verticalRange).test(y1)
 
                         if (
-                                x0 < Game.FIELD_WIDTH && x0 >= 0
-                                        && x1 < Game.FIELD_WIDTH && x1 >= 0
-                                        && y0 < Game.FIELD_HEIGHT && y0 >= 0
-                                        && y1 < Game.FIELD_HEIGHT && y1 >= 0
+                                x0 < Project1st.FIELD_WIDTH && x0 >= 0
+                                        && x1 < Project1st.FIELD_WIDTH && x1 >= 0
+                                        && y0 < Project1st.FIELD_HEIGHT && y0 >= 0
+                                        && y1 < Project1st.FIELD_HEIGHT && y1 >= 0
                                         && (dx == 0 || dy == 0)
                         ) {
                             Integer[][] coordinates = new Integer[dx + dy + 1][2];

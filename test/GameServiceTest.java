@@ -16,22 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class GameServiceTest {
 
-    class TestInputManager implements InputManager{
-        private final BufferedReader reader;
-        public TestInputManager(String data) {
-            reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(data.getBytes(StandardCharsets.UTF_8))));
-        }
-
-        @Override
-        public String read() throws GameCancelledException{
-            try {
-                return reader.readLine();
-            }
-            catch (IOException e) {}
-            return "IOException";
-        }
-    }
-
     @Test
     public void getPlayersQuantityNormalTest() throws GameCancelledException{
         GameService service = GameService.getInstance(new IOManager(new TestInputManager("d\r2"), ConsoleOutputManager.getInstance()));

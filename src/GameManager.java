@@ -48,8 +48,8 @@ public class GameManager {
         }
     }
 
-    public void initPlayers() {
-        players.stream().forEach(Player::init);
+    public void initPlayers(Game game) {
+        players.stream().forEach((x) -> x.init(game));
     }
 
 

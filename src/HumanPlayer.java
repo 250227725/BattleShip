@@ -11,10 +11,12 @@ public class HumanPlayer extends Player{
     }
 
     @Override
-    void generateShips() {
+    void generateShips(CellStatus[][] emptyPlayerField) {
         int[] setup = Project1st.shipsSetup;
         for (int i = 1; i < setup.length; i++) {
-            ships.put(null, "");
+            for (int j = setup[i]; j > 0; j--) {
+                ships.put(GameService.getHumanShip(), i + "-палубный корабль, №" + String.valueOf(j-i));
+            }
         }
     }
 }

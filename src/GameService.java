@@ -12,6 +12,22 @@ public class GameService {
         return new GameService(manager);
     }
 
+    public static Ship getHumanShip() {
+        return null;
+    }
+
+    public static CellStatus[][] getEmptyField(int fieldHeight, int fieldWidth) {
+        CellStatus[][] battleField = new CellStatus[fieldHeight][fieldWidth];
+        {
+            for (int y = 0; y < battleField.length; y++ ) {
+                for (int x = 0; x < battleField[0].length; x++) {
+                    battleField[y][x] = CellStatus.UNKNOWN;
+                }
+            }
+        }
+        return battleField;
+    }
+
     public void addShip(Player player, int[][] newShipCoordinates) {
         Ship newShip = Ship.getInstance(newShipCoordinates);
         CellStatus[][] playerGameField = player.getBattleField();

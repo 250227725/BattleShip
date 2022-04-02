@@ -49,7 +49,7 @@ public class Game implements Callable<String> {
     }
 
     public String call() {
-        manager.initPlayers();
+        manager.initPlayers(this);
         manager.startGame();
         while (isActive())
         {

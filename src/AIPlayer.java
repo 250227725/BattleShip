@@ -9,7 +9,7 @@ public class AIPlayer extends Player{
     }
 
     @Override
-    void generateShips() {
+    void generateShips(CellStatus[][] emptyPlayerField) {
 
     }
 }

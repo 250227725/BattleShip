@@ -47,6 +47,14 @@ public abstract class Cell implements Comparable<Cell> {
         return "[x: " + getX() + " | y: " + getY() + "](" + HorizontalCellNames.values()[getX()] + getY() + ")";
     }
 
+    public boolean equalLine(Cell cell) {
+        return (this.x == cell.x || this.y == cell.y);
+    };
+
+    public boolean notEqualLine(Cell cell) {
+        return !equalLine(cell);
+    };
+
     enum HorizontalCellNames {
         A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z
     }

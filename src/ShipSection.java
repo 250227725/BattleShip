@@ -1,12 +1,8 @@
 public class ShipSection extends Cell{
     private boolean isAlive = true;
 
-    public ShipSection(int x, int y) {
+    private ShipSection(int x, int y) {
         super(y, x);
-    }
-
-    public ShipSection(Cell cell) {
-        super(cell.getY(), cell.getX());
     }
 
     public boolean isAlive() {

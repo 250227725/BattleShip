@@ -8,7 +8,7 @@ public class GameManager {
      * Create gameManager for game
      * @param gamePlayers - players list
      */
-    public GameManager(List<Player> gamePlayers) {
+    public GameManager(Set<Player> gamePlayers) {
         generatePlayerSequence(gamePlayers);
     }
 
@@ -39,7 +39,7 @@ public class GameManager {
      * Generate sequence of players for serial game turn
      * @param gamePlayers - players list for game
      */
-    private void generatePlayerSequence(List<Player> gamePlayers) {
+    private void generatePlayerSequence(Set<Player> gamePlayers) {
         List<Player> playerList = new ArrayList<>(gamePlayers);
         while(playerList.size() > 0) {
             int index = (int) (Math.random() * playerList.size());
@@ -48,26 +48,17 @@ public class GameManager {
         }
     }
 
-    public Optional<String> getPlayerName() throws GameCancelledException {
-        OutputManager out = ConsoleOutputManager.getInstance();
-        InputManager in = ConsoleInputManager.getInstance();
-        Optional <String> name;
-        out.showMessage("Введите имя игрока или EXIT для выхода");
-        while(true) {
-                String str = in.read();
-                if (str != null && !str.equals("")) {
-                    name = Optional.of(str);
-                    break;
-                }
-            out.showMessage("Некорректный ввод. Введите имя игрока или EXIT для выхода");
+    public void initPlayers(Game game) throws GameCancelledException, GameInterruptException {
+        for (Player player :players) {
+            player.init(game);
         }
-        out.showMessage(name.get());
-        if (name.get().trim().equalsIgnoreCase("exit")) {
-            name = Optional.empty();
-        }
-
-        return name;
     }
+
+
+
+
+
+
 
     public static Optional<Cell> getPlayerGuess() throws GameCancelledException {  //todo: delete static
         OutputManager out = ConsoleOutputManager.getInstance();
@@ -100,7 +91,6 @@ public class GameManager {
             out.showMessage("Некорректный ввод. Введите координаты поля для выстрела");
         }
     }
-
 
     public static Optional<Integer[][]> getShipCoordinate() throws GameCancelledException {  //todo: delete static
         OutputManager out = ConsoleOutputManager.getInstance();
@@ -180,5 +170,6 @@ public class GameManager {
             out.showMessage("Некорректный ввод. Введите координаты корабля");
         }
     }
+
 
 }

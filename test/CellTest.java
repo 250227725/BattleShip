@@ -1,6 +1,5 @@
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import java.util.*;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -8,7 +7,7 @@ public class CellTest {
 
     class CellClass extends Cell {
         public CellClass(int x, int y) {
-            super(x,y);
+            super(y, x);
         }
     }
 

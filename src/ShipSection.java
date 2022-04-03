@@ -2,11 +2,11 @@ public class ShipSection extends Cell{
     private boolean isAlive = true;
 
     public ShipSection(int x, int y) {
-        super(x, y);
+        super(y, x);
     }
 
     public ShipSection(Cell cell) {
-        super(cell.getX(), cell.getY());
+        super(cell.getY(), cell.getX());
     }
 
     public boolean isAlive() {

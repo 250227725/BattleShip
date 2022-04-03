@@ -76,11 +76,11 @@ public class GameManagerTest {
         return new String(text);
     }
 
-    private List<Player> generateInitPlayerList() {
-        List<Player> initPlayers = new ArrayList<>();
+    private Set<Player> generateInitPlayerList() {
+        Set<Player> initPlayers = new HashSet<>();
         int playerQuantity = (int) (Math.random() * 10 + 3);
         for (int i = 0; i < playerQuantity; i++) {
-            initPlayers.add(new Player(generateString(new Random(), "qwertyuiopasdfghjklzxcvbnm", 6)));
+            initPlayers.add(new HumanPlayer(generateString(new Random(), "qwertyuiopasdfghjklzxcvbnm", 6)));
         }
         return initPlayers;
     }
@@ -88,7 +88,7 @@ public class GameManagerTest {
 
     @Test
     public void ordered_players_list_matched_to_init_list() {
-        List<Player> initPlayers = generateInitPlayerList();
+        Set<Player> initPlayers = generateInitPlayerList();
         GameManager manager = new GameManager(initPlayers);
         assertThat(new HashSet<Player>(initPlayers), equalTo(new HashSet<Player>(manager.getPlayers())));
     }
@@ -97,7 +97,7 @@ public class GameManagerTest {
 
     @Test
     public void one_cycle_of_nextPlayer_is_fully_ordered_players_list() {
-        List<Player> initPlayers = generateInitPlayerList();
+        Set<Player> initPlayers = generateInitPlayerList();
         GameManager manager = new GameManager(initPlayers);
 
         Set<Player> orderedPlayers = new HashSet<>();
@@ -109,7 +109,7 @@ public class GameManagerTest {
 
     @Test
     public void sequenced_nextPlayer_for_whole_game_cycle() {
-        List<Player> initPlayers = generateInitPlayerList();
+        Set<Player> initPlayers = generateInitPlayerList();
         GameManager manager = new GameManager(initPlayers);
 
         List<Player> orderedPlayers = new ArrayList<>();
@@ -130,7 +130,7 @@ public class GameManagerTest {
     doesn't mean what method is incorrect. You can run it several times to check result
      */
     public void player_sequence_is_differed_from_init_player_list() {
-        List<Player> initPlayers = generateInitPlayerList();
+        Set<Player> initPlayers = generateInitPlayerList();
         GameManager manager = new GameManager(initPlayers);
 
         List<Player> orderedPlayers = new ArrayList<>();

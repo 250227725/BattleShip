@@ -1,17 +1,14 @@
 public abstract class Cell implements Comparable<Cell> {
-    // todo:
-    // 1. implements Comparable<Cell>
-    // 2. hashCode()
     private final int x;
     private final int y;
 
-    public Cell(int x, int y) {
+    public Cell(int y, int x) {
         this.x = x;
         this.y = y;
     }
 
     public Cell(HorizontalCellNames x, int y) {
-        this(x.ordinal(), y-1);
+        this(y-1, x.ordinal());
     }
 
     public int getX() {
@@ -33,7 +30,7 @@ public abstract class Cell implements Comparable<Cell> {
 
     @Override
     public int hashCode() {
-        return x * 1024 + y;
+        return y * 1024 + x;
     }
 
     public int compareTo(Cell c) {
@@ -47,9 +44,16 @@ public abstract class Cell implements Comparable<Cell> {
 
     @Override
     public String toString() {
-
-        return "x:" + getX() + "|y:" + getY();
+        return "[x: " + getX() + " | y: " + getY() + "](" + HorizontalCellNames.values()[getX()] + getY() + ")";
     }
+
+    public boolean equalLine(Cell cell) {
+        return (this.x == cell.x || this.y == cell.y);
+    };
+
+    public boolean notEqualLine(Cell cell) {
+        return !equalLine(cell);
+    };
 
     enum HorizontalCellNames {
         A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z

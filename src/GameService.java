@@ -25,7 +25,8 @@ public class GameService {
     }
 
     public void addShip(Player player, int[][] newShipCoordinates) {
-        Ship newShip = Ship.getInstance(newShipCoordinates);
+        Cell[] coords = new Cell[] {new Cell(newShipCoordinates[0][1], newShipCoordinates[0][0]){}, new Cell(newShipCoordinates[newShipCoordinates.length-1][1], newShipCoordinates[newShipCoordinates.length-1][0]){}};
+        Ship newShip = Ship.getInstance(coords);
         CellStatus[][] playerGameField = player.getBattleField();
         Set<Cell> busyField = new HashSet<>();
         Arrays.stream(newShip.sections)
@@ -38,10 +39,10 @@ public class GameService {
     }
 
     public Set<Cell> addBusyCell(int[] cell) {
-        return addBusyCell(new ShipSection(cell[0], cell[1]));
+        return addBusyCell(new Cell(cell[0], cell[1]){});
     }
 
-    public Set<Cell> addBusyCell(ShipSection section) {
+    public Set<Cell> addBusyCell(Cell section) {
         Set<Cell> busyCell = new HashSet<>();
 
         busyCell.add(new Cell(section.getY(), section.getX()) {});
@@ -192,7 +193,7 @@ public class GameService {
     public Ship getHumanShip(CellStatus[][] playerField, int size) throws GameCancelledException, GameInterruptException {
         while (true) {
             Cell[] attempt = getShipCoordinate();
-            ShipSection[] section = getShipSectionSequence(attempt);
+            //ShipSection[] section = getShipSectionSequence(attempt);
 //            if (Project1st.service.checkShipAvailablity(playerField, size, attempt)) {
 //
 //                Project1st.service.fillBusy(playerField);
@@ -200,7 +201,7 @@ public class GameService {
 //            }
             break;
         }
-        return Ship.getInstance(new int[0][0]);
+        return Ship.getInstance(new Cell[0]);
     }
 
     public Cell[] getShipCoordinate() throws GameCancelledException, GameInterruptException {

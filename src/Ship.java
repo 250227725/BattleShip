@@ -1,59 +1,28 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Ship {
-    private final int lenght;
+    private final int length;
     //todo: made sections as private
     public final ShipSection[] sections;
-    private boolean isAlive = true;
+    private boolean isAlive;
     private int aliveSectionCount;
 
-    private Ship(ShipSection[] sections) {
-        this.lenght = sections.length;
-        this.sections = sections;
-        this.aliveSectionCount = this.lenght;
+    private Ship(Cell[] coords) {
+        this.length = coords[0].distance(coords[1]);
+        this.aliveSectionCount = this.length;
+        this.isAlive = true;
+        this.sections = (ShipSection[]) coords;
     }
 
-    public static Ship getInstance(int[][] cells) {
-        if (cells == null) {
+    public static Ship getInstance(Cell[] coords) { //todo: add Cell siquence checks
+        if (coords == null || coords.length != 2) {
             throw new IllegalArgumentException();
         }
-
-        ShipSection[] sections = Arrays.stream(cells)
-                .map(c -> {
-                    if (c.length != 2) {
-                        throw new IllegalArgumentException();
-                    }
-                    return new ShipSection(c[0], c[1]);
-                })
-                .collect(Collectors.toSet())
-                .toArray(new ShipSection[]{});
-
-        if (cells.length != sections.length) {
-            throw new IllegalArgumentException();
-        }
-
-        if (sections.length > 1) {
-            Arrays.sort(sections);
-            boolean isHorizontal = sections[0].getX() != sections[1].getX();
-            for (int i = 1; i < sections.length; i++) {
-                if (isHorizontal) {
-                    if (sections[i].getX() - sections[i-1].getX() != 1 || sections[i].getY() != sections[i-1].getY()) throw new IllegalArgumentException();
-                } else {
-                    if (sections[i].getY() - sections[i-1].getY() != 1 || sections[i].getX() != sections[i-1].getX()) throw new IllegalArgumentException();
-                }
-            }
-        }
-
-        return new Ship(sections);
+        return new Ship(coords);
     }
 
-    public static Ship getInstance(Cell[] coords) {
-        return null;
-    }
-
-    public int getLenght() {
-        return lenght;
+    public int getLength() {
+        return length;
     }
 
     public boolean isAlive() {

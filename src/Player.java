@@ -37,7 +37,8 @@ public abstract class Player {
         service.checkBattleField(battleField, newShipCoordinates);
         Set<Cell> busyCell = service.getBusyCell(newShipCoordinates);
         busyCell.forEach(cell -> battleField[cell.getX()][cell.getY()] = CellStatus.BUSY);
-        ships.put(Ship.getInstance(newShipCoordinates), "");
+        Cell[] coords = new Cell[] {new Cell(newShipCoordinates[0][1], newShipCoordinates[0][0]){}, new Cell(newShipCoordinates[newShipCoordinates.length-1][1], newShipCoordinates[newShipCoordinates.length-1][0]){}};
+        ships.put(Ship.getInstance(coords), "");
     }
 
     public void init(Game game) throws GameCancelledException, GameInterruptException {

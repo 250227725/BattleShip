@@ -40,7 +40,7 @@ public abstract class Player {
         ships.put(Ship.getInstance(newShipCoordinates), "");
     }
 
-    public void init(Game game) {
+    public void init(Game game) throws GameCancelledException, GameInterruptException {
         if (isAlive()) return;
         battleField = GameService.getEmptyField(game.getFieldHeight(), game.getFieldWidth());
         CellStatus[][] playerField = GameService.getEmptyField(game.getFieldHeight(), game.getFieldWidth());
@@ -48,5 +48,5 @@ public abstract class Player {
         isAlive = true;
     }
 
-    abstract void generateShips(CellStatus[][] playerField) throws GameCancelledException;
+    abstract void generateShips(CellStatus[][] playerField) throws GameCancelledException, GameInterruptException;
 }

@@ -48,8 +48,10 @@ public class GameManager {
         }
     }
 
-    public void initPlayers(Game game) {
-        players.stream().forEach((x) -> x.init(game));
+    public void initPlayers(Game game) throws GameCancelledException, GameInterruptException {
+        for (Player player :players) {
+            player.init(game);
+        }
     }
 
 

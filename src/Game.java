@@ -48,7 +48,7 @@ public class Game implements Callable<String> {
         return players.size();
     }
 
-    public String call() {
+    public String call() throws GameCancelledException {
         manager.initPlayers(this);
         manager.startGame();
         while (isActive())

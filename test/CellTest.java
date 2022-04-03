@@ -106,6 +106,29 @@ public class CellTest {
         assertThat(1, equalTo(start.distance(end)));
     }
 
+    @Test
+    public void sequenceOneCellTest() {
+        Cell start = new Cell(Cell.HorizontalCellNames.C, 1) {};
+        Cell end = new Cell(Cell.HorizontalCellNames.C, 1) {};
+        Cell[] cells = new Cell[] {new Cell(Cell.HorizontalCellNames.C, 1) {}};
+        assertThat(start.cellSequnce(end), equalTo(cells));
+    }
+
+    @Test
+    public void sequenceThreeHorizontalCellTest() {
+        Cell start = new Cell(Cell.HorizontalCellNames.A, 1) {};
+        Cell end = new Cell(Cell.HorizontalCellNames.C, 1) {};
+        Cell[] cells = new Cell[] {start, new Cell(Cell.HorizontalCellNames.B, 1) {}, end};
+        assertThat(start.cellSequnce(end), equalTo(cells));
+    }
+
+    @Test
+    public void sequenceThreeVerticalCellTest() {
+        Cell start = new Cell(Cell.HorizontalCellNames.C, 0) {};
+        Cell end = new Cell(Cell.HorizontalCellNames.C, 2) {};
+        Cell[] cells = new Cell[] {start, new Cell(Cell.HorizontalCellNames.C, 1) {}, end};
+        assertThat(start.cellSequnce(end), equalTo(cells));
+    }
 
 }
 

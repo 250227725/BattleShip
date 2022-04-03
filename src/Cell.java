@@ -55,6 +55,11 @@ public abstract class Cell implements Comparable<Cell> {
         return !equalLine(cell);
     };
 
+    public int distance(Cell coord) {
+        if (notEqualLine(coord)) throw new IllegalArgumentException();
+        return Math.abs(x + y - coord.x - coord.y) + 1;
+    };
+
     enum HorizontalCellNames {
         A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z
     }

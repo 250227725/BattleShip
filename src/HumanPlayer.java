@@ -12,13 +12,11 @@ public class HumanPlayer extends Player{
     }
 
     @Override
-    void generateShips(CellStatus[][] emptyPlayerField) throws GameCancelledException, GameInterruptException {
+    void generateShips(CellStatus[][] playerField) throws GameCancelledException, GameInterruptException {
         int[] setup = Project1st.shipsSetup;
-        for (int i = 1; i < setup.length; i++) {
-            for (int j = setup[i]; j > 0; j--) {
-                Cell[] attempt = Project1st.service.getShipCoordinate();
-                //Project1st.service.checkShipAvailablity
-                ships.put(GameService.getHumanShip(), i + "-палубный корабль, №" + String.valueOf(j-i));
+        for (int size = 1; size < setup.length; size++) {
+            for (int index = setup[size]; index > 0; index--) {
+                ships.put(Project1st.service.getHumanShip(playerField, size), size + "-палубный корабль, №" + String.valueOf(size - index));
             }
         }
     }

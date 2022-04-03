@@ -12,10 +12,6 @@ public class GameService {
         return new GameService(manager);
     }
 
-    public static Ship getHumanShip() {
-        return null;
-    }
-
     public static CellStatus[][] getEmptyField(int fieldHeight, int fieldWidth) {
         CellStatus[][] battleField = new CellStatus[fieldHeight][fieldWidth];
         {
@@ -190,6 +186,21 @@ public class GameService {
                 }
             }
         }
+    }
+
+
+    public Ship getHumanShip(CellStatus[][] playerField, int size) throws GameCancelledException, GameInterruptException {
+        while (true) {
+            Cell[] attempt = getShipCoordinate();
+            ShipSection[] section = getShipSectionSequence(attempt);
+//            if (Project1st.service.checkShipAvailablity(playerField, size, attempt)) {
+//
+//                Project1st.service.fillBusy(playerField);
+//                break;
+//            }
+            break;
+        }
+        return Ship.getInstance(new int[0][0]);
     }
 
     public Cell[] getShipCoordinate() throws GameCancelledException, GameInterruptException {

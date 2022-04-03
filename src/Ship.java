@@ -48,6 +48,10 @@ public class Ship {
         return new Ship(sections);
     }
 
+    public static Ship getInstance(Cell[] coords) {
+        return null;
+    }
+
     public int getLenght() {
         return lenght;
     }

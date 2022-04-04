@@ -1,48 +1,74 @@
 import java.util.*;
 
 public class Ship {
-    private final int length;
-    //todo: made sections as private
-    public final ShipSection[] sections;
+    private final ShipSection[] sections;
     private boolean isAlive;
     private int aliveSectionCount;
 
-    private Ship(Cell[] coords) {
-        this.length = coords[0].distance(coords[1]);
-        this.aliveSectionCount = this.length;
+    private Ship(ShipSection[] sections) {
+        this.aliveSectionCount = sections.length;
         this.isAlive = true;
-        this.sections = (ShipSection[]) coords;
+        this.sections = sections;
     }
-
-    public static Ship getInstance(Cell[] coords) { //todo: add Cell siquence checks
-        if (coords == null || coords.length != 2) {
+    public static Ship getInstance(CellSample[] cells) {
+        if (cells == null || cells.length == 0 || cells.length > Project1st.shipsSetup.length - 1) {
             throw new IllegalArgumentException();
         }
-        return new Ship(coords);
+
+        if (cells.length == 1) {
+            return new Ship(new ShipSection[]{new ShipSection(cells[0])});
+        }
+
+        Arrays.sort(cells);
+        if (!CellSample.checkSequence(cells)) {
+            throw new IllegalArgumentException();
+        }
+
+        ShipSection[] sections = new ShipSection[cells.length];
+        for (int i = 0; i < cells.length; i++) {
+            if (cells[i].isOutOfRange()) {
+                throw new IllegalArgumentException(cells[i].toString());
+            }
+            sections[i] = new ShipSection(cells[i]);
+        }
+
+        return new Ship(sections);
+    }
+    private void destroy() {
+        isAlive = false;
     }
 
+    public ShipSection[] getSections() {
+        return sections;
+    }
     public int getLength() {
-        return length;
+        return sections.length;
     }
-
+    public int getAliveSectionCount() {
+        return aliveSectionCount;
+    }
     public boolean isAlive() {
         return isAlive;
     }
 
-    public void destroy() {
-        isAlive = false;
+    public ShipHitStatus hit(CellSample attempt) {
+        if (!isAlive()) return ShipHitStatus.MISSED;
+        for (int i = 0; i < sections.length; i++) {
+            if (sections[i].hit(attempt)) {
+                aliveSectionCount--;
+                if (aliveSectionCount == 0) {
+                    destroy();
+                    return ShipHitStatus.DESTROYED;
+                }
+                return ShipHitStatus.HITED;
+            }
+        }
+        return ShipHitStatus.MISSED;
     }
 
-    public boolean shootCheck(Cell shoot) {
-        Optional<ShipSection> hittedSection = Arrays.stream(sections)
-                .filter((s) -> s.equals(shoot) && s.isAlive())
-                .findFirst();
-        if (hittedSection.isEmpty()) return false;
-
-        hittedSection.get().hit(new Cell(1,1){}); //todo change it
-        if (--aliveSectionCount == 0) {
-            destroy();
-        }
-        return true;
+    public enum ShipHitStatus {
+        MISSED,
+        HITED,
+        DESTROYED
     }
 }

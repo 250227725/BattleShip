@@ -1,5 +1,8 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -45,7 +48,7 @@ public class CellTest {
 
     @Test
     public void createCellFromNaturalCoordinates() {
-        Cell natural = new Cell(Cell.HorizontalCellNames.valueOf("B"),2) {};
+        Cell natural = new Cell(Cell.HorizontalCellNames.valueOf("B"), 2) {};
         Cell test = new Cell(1, 1) {};
         assertThat(natural, equalTo(test));
     }
@@ -111,7 +114,7 @@ public class CellTest {
         Cell start = new Cell(Cell.HorizontalCellNames.C, 1) {};
         Cell end = new Cell(Cell.HorizontalCellNames.C, 1) {};
         Cell[] cells = new Cell[] {new Cell(Cell.HorizontalCellNames.C, 1) {}};
-        assertThat(start.cellSequnce(end), equalTo(cells));
+        assertThat(start.cellSequence(end), equalTo(cells));
     }
 
     @Test
@@ -119,7 +122,7 @@ public class CellTest {
         Cell start = new Cell(Cell.HorizontalCellNames.A, 1) {};
         Cell end = new Cell(Cell.HorizontalCellNames.C, 1) {};
         Cell[] cells = new Cell[] {start, new Cell(Cell.HorizontalCellNames.B, 1) {}, end};
-        assertThat(start.cellSequnce(end), equalTo(cells));
+        assertThat(start.cellSequence(end), equalTo(cells));
     }
 
     @Test
@@ -127,8 +130,31 @@ public class CellTest {
         Cell start = new Cell(Cell.HorizontalCellNames.C, 0) {};
         Cell end = new Cell(Cell.HorizontalCellNames.C, 2) {};
         Cell[] cells = new Cell[] {start, new Cell(Cell.HorizontalCellNames.C, 1) {}, end};
-        assertThat(start.cellSequnce(end), equalTo(cells));
+        assertThat(start.cellSequence(end), equalTo(cells));
     }
+
+    @Test
+    public void cellMatrixBusyTest() {
+        int x = 2; int y = 2;
+        Set<Cell> busyField = new HashSet<>();
+        busyField.add(new Cell(y-1, x-1){}); busyField.add(new Cell(y-1, x){}); busyField.add(new Cell(y-1, x+1){});
+        busyField.add(new Cell(y, x-1){}); busyField.add(new Cell(y, x){}); busyField.add(new Cell(y, x-1){});
+        busyField.add(new Cell(y+1, x-1){}); busyField.add(new Cell(y+1, x){}); busyField.add(new Cell(y+1, x+1){});
+        Cell sample = new Cell(Cell.HorizontalCellNames.values()[x], y+1) {};
+
+
+
+//                {CellStatus.BUSY, CellStatus.BUSY, CellStatus.EMPTY, CellStatus.BUSY, CellStatus.EMPTY},
+//                {CellStatus.BUSY, CellStatus.BUSY, CellStatus.EMPTY, CellStatus.EMPTY, CellStatus.EMPTY},
+//                {CellStatus.EMPTY, CellStatus.EMPTY, CellStatus.BUSY, CellStatus.BUSY, CellStatus.BUSY},
+//                {CellStatus.BUSY, CellStatus.EMPTY, CellStatus.BUSY, CellStatus.EMPTY, CellStatus.BUSY},
+//                {CellStatus.BUSY, CellStatus.BUSY, CellStatus.EMPTY, CellStatus.BUSY, CellStatus.EMPTY}
+//        };
+//        Cell[] shipCell = {new Cell(Cell.HorizontalCellNames.D, 2){}, new Cell(Cell.HorizontalCellNames.D, 3){}, new Cell(Cell.HorizontalCellNames.D, 4){}};
+//        assertThat(Project1st.service.checkFieldAvailablity(playerField, shipCell), equalTo(false));
+
+    }
+
 
 }
 

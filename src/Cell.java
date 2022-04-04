@@ -60,7 +60,7 @@ public abstract class Cell implements Comparable<Cell> {
         return Math.abs(x + y - coord.x - coord.y) + 1;
     };
 
-    public Cell[] cellSequnce(Cell end) {
+    public Cell[] cellSequence(Cell end) {
         int size = distance(end);
         if (size == 1) {
             return new Cell[]{this};

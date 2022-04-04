@@ -1,3 +1,6 @@
+import java.util.HashSet;
+import java.util.Set;
+
 public class CellSample extends Cell{
     public CellSample(HorizontalCellNames x, int y) {
         super(x, y);
@@ -43,6 +46,26 @@ public class CellSample extends Cell{
             else {
                 result[i] = new CellSample(y0, x0 + i);
             }
+        }
+        return result;
+    };
+
+    public Set<CellSample> getNeighbors() {
+        Set<CellSample> result = new HashSet<>();
+        if (x > 0) {
+            if (y > 0) result.add(new CellSample(y-1, x-1));
+            result.add(new CellSample(y, x-1));
+            if (y < Project1st.MAX_FIELD_HEIGHT - 1) result.add(new CellSample(y+1, x-1));
+        }
+
+        if (y > 0) result.add(new CellSample(y-1, x));
+        result.add(new CellSample(y, x));
+        if (y < Project1st.MAX_FIELD_HEIGHT - 1) result.add(new CellSample(y+1, x));
+
+        if (x < Project1st.MAX_FIELD_WIDTH - 1) {
+            if (y > 0) result.add(new CellSample(y-1, x+1));
+            result.add(new CellSample(y, x+1));
+            if (y < Project1st.MAX_FIELD_HEIGHT - 1) result.add(new CellSample(y+1, x+1));
         }
         return result;
     };

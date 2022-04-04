@@ -1,3 +1,5 @@
+import java.util.Set;
+
 public abstract class Cell implements Comparable<Cell> {
     protected final int x;
     protected final int y;

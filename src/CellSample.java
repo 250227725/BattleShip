@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -69,4 +70,21 @@ public class CellSample extends Cell{
         }
         return result;
     };
+
+    public static boolean checkSequence(CellSample[] sequence) {
+        if (sequence.length == 1) return true;
+        int dx = sequence[1].getX() - sequence[0].getX();
+        int dy = sequence[1].getY() - sequence[0].getY();
+
+        if (dx + dy != 1 || (dx != 1 && dy != 1)) {
+            return false;
+        }
+
+        for (int i = 0; i < sequence.length; i++) {
+            if (i > 0 && (dx != sequence[i].getX() - sequence[i-1].getX() ||  dy != sequence[i].getY() - sequence[i-1].getY())) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -40,6 +40,14 @@ public abstract class Cell implements Comparable<Cell> {
         return "[x:" + x + "|y:" + y + "](" + HorizontalCellNames.values()[x] + (y + 1) + ")";
     }
 
+    public boolean isOutOfRange() {
+        return isOutOfRange(Project1st.MAX_FIELD_WIDTH, Project1st.MAX_FIELD_HEIGHT);
+    };
+
+    public boolean isOutOfRange(int MAX_FIELD_WIDTH, int MAX_FIELD_HEIGHT) {
+        return x < 0 || y < 0 || x >= MAX_FIELD_WIDTH || y >= MAX_FIELD_HEIGHT;
+    };
+
     enum HorizontalCellNames {
         A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z
     }

@@ -44,7 +44,7 @@ public abstract class Cell implements Comparable<Cell> {
 
     @Override
     public String toString() {
-        return "[x: " + getX() + " | y: " + getY() + "](" + HorizontalCellNames.values()[getX()] + getY() + ")";
+        return "[x:" + getX() + "|y:" + getY() + "](" + HorizontalCellNames.values()[getX()] + getY() + ")";
     }
 
     public boolean equalLine(Cell cell) {
@@ -53,6 +53,30 @@ public abstract class Cell implements Comparable<Cell> {
 
     public boolean notEqualLine(Cell cell) {
         return !equalLine(cell);
+    };
+
+    public int distance(Cell coord) {
+        if (notEqualLine(coord)) throw new IllegalArgumentException();
+        return Math.abs(x + y - coord.x - coord.y) + 1;
+    };
+
+    public Cell[] cellSequnce(Cell end) {
+        int size = distance(end);
+        if (size == 1) {
+            return new Cell[]{this};
+        }
+        Cell[] result = new Cell[size];
+        int x0 = Math.min(x, end.x);
+        int y0 = Math.min(y, end.y);
+        for (int i = 0; i < size; i++) {
+            if (x == end.x) {
+                result[i] = new Cell(y0 + i, x0) {};
+            }
+            else {
+                result[i] = new Cell(y0, x0 + i) {};
+            }
+        }
+        return result;
     };
 
     enum HorizontalCellNames {

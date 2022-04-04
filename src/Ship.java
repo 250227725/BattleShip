@@ -39,7 +39,7 @@ public class Ship {
                 .findFirst();
         if (hittedSection.isEmpty()) return false;
 
-        hittedSection.get().hit();
+        hittedSection.get().hit(new Cell(1,1){}); //todo change it
         if (--aliveSectionCount == 0) {
             destroy();
         }

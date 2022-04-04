@@ -9,7 +9,11 @@ public class ShipSection extends Cell{
         return isAlive;
     }
 
-    public void hit() {
-        isAlive = false;
+    public boolean hit(Cell cell) {
+        if (isAlive()) {
+            isAlive = false;
+            return true;
+        }
+        return false;
     }
 }

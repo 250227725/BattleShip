@@ -1,13 +1,5 @@
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -56,6 +48,33 @@ public class GameServiceTest {
         int human = (int) players.stream().filter((x) -> x.isHuman()).count();
         int ai = (int) players.stream().filter((x) -> !x.isHuman()).count();
         assertThat(new int[] {human, ai}, equalTo(new int[]{2, 3}));
+    }
+
+
+    @Test
+    public void checkFieldAvailabilityTrueTest() {
+        CellStatus[][] playerField = {
+                {CellStatus.BUSY, CellStatus.BUSY, CellStatus.EMPTY, CellStatus.BUSY, CellStatus.EMPTY},
+                {CellStatus.BUSY, CellStatus.BUSY, CellStatus.EMPTY, CellStatus.EMPTY, CellStatus.EMPTY},
+                {CellStatus.EMPTY, CellStatus.EMPTY, CellStatus.BUSY, CellStatus.EMPTY, CellStatus.BUSY},
+                {CellStatus.BUSY, CellStatus.EMPTY, CellStatus.BUSY, CellStatus.EMPTY, CellStatus.BUSY},
+                {CellStatus.BUSY, CellStatus.BUSY, CellStatus.EMPTY, CellStatus.BUSY, CellStatus.EMPTY}
+        };
+        CellSample[] shipCell = {new CellSample(Cell.HorizontalCellNames.D, 2), new CellSample(Cell.HorizontalCellNames.D, 3), new CellSample(Cell.HorizontalCellNames.D, 4)};
+        assertThat(Project1st.service.checkFieldAvailability(playerField, shipCell), equalTo(true));
+    }
+
+    @Test
+    public void checkFieldAvailabilityFalseTest() {
+        CellStatus[][] playerField = {
+                {CellStatus.BUSY, CellStatus.BUSY, CellStatus.EMPTY, CellStatus.BUSY, CellStatus.EMPTY},
+                {CellStatus.BUSY, CellStatus.BUSY, CellStatus.EMPTY, CellStatus.EMPTY, CellStatus.EMPTY},
+                {CellStatus.EMPTY, CellStatus.EMPTY, CellStatus.BUSY, CellStatus.BUSY, CellStatus.BUSY},
+                {CellStatus.BUSY, CellStatus.EMPTY, CellStatus.BUSY, CellStatus.EMPTY, CellStatus.BUSY},
+                {CellStatus.BUSY, CellStatus.BUSY, CellStatus.EMPTY, CellStatus.BUSY, CellStatus.EMPTY}
+        };
+        CellSample[] shipCell = {new CellSample(Cell.HorizontalCellNames.D, 2), new CellSample(Cell.HorizontalCellNames.D, 3), new CellSample(Cell.HorizontalCellNames.D, 4)};
+        assertThat(Project1st.service.checkFieldAvailability(playerField, shipCell), equalTo(false));
     }
 
 

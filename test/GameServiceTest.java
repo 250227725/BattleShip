@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
 import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -89,6 +90,44 @@ public class GameServiceTest {
         assertThat(GameService.getEmptyField(5,4), equalTo(playerField));
     }
 
+    @Test
+    public void getCellFromStringTest0() {
+        assertThat(GameService.getCellFromString("B3", 5, 5).get(), equalTo(new CellSample(2, 1)));
+    }
 
 
+    @Test
+    public void getCellFromStringTest1() {
+        assertThat(GameService.getCellFromString("BB", 5, 5), equalTo(Optional.empty()));
+    }
+
+    @Test
+    public void getCellFromStringTest2() {
+        assertThat(GameService.getCellFromString("Я5", 5, 5), equalTo(Optional.empty()));
+    }
+
+    @Test
+    public void getCellFromStringTest3() {
+        assertThat(GameService.getCellFromString("B", 5, 5), equalTo(Optional.empty()));
+    }
+
+    @Test
+    public void getCellFromStringTest4() {
+        assertThat(GameService.getCellFromString("", 5, 5), equalTo(Optional.empty()));
+    }
+
+    @Test
+    public void getCellFromStringOutOfRangeTest0() {
+        assertThat(GameService.getCellFromString("E5", 5, 5).get(), equalTo(new CellSample(4, 4)));
+    }
+
+    @Test
+    public void getCellFromStringOutOfRangeTest1() {
+        assertThat(GameService.getCellFromString("E5", 4, 5), equalTo(Optional.empty()));
+    }
+
+    @Test
+    public void getCellFromStringOutOfRangeTest2() {
+        assertThat(GameService.getCellFromString("E5", 5, 4), equalTo(Optional.empty()));
+    }
 }

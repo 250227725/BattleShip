@@ -1,4 +1,8 @@
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -6,76 +10,119 @@ import static org.hamcrest.Matchers.*;
 public class ShipTest {
 
     @Test
-    public void shipFactoryBasicTest() {
-        int[][] sections = new int[][]{{2,3}, {2,4}};
-        assertThat(Ship.getInstance(sections).getLenght(), equalTo(sections.length));
+    public void shipFactoryOneSectionTest() {
+        int x = 3;
+        int y = 2;
+        CellSample[] sections = new CellSample[]{new CellSample(y,x)};
+        Ship ship = Ship.getInstance(sections);
+        assertThat(ship.getLength(), equalTo(1));
     }
 
     @Test
     public void shipFactoryLengthTest() {
-        int lenght = ((int) (Math.random() * 5 + 1));
-        int[][] sections = new int[lenght][2];
-        for (int i = 0; i < lenght; i++) {
-            sections[i] = new int[]{0, i};
+        int size = ((int) (Math.random() * 3)) + 2;
+        int x = 2;
+        int y = 2;
+        CellSample[] sections = new CellSample[size];
+        for (int i = 0; i < size; i++) {
+            sections[i] = new CellSample(y, x + i);
         }
-        assertThat(Ship.getInstance(sections).getLenght(), equalTo(lenght));
+        Ship ship = Ship.getInstance(sections);
+        assertThat(ship.getLength(), equalTo(size));
     }
 
     @Test
-    public void shipFactoryDublicateSectionTest() throws IllegalArgumentException{
-        assertThrows(IllegalArgumentException.class, () -> Ship.getInstance(new int[][]{{2,3}, {2,3}}));
+    public void shipFactoryContentTest() {
+        int size = ((int) (Math.random() * 3)) + 2;
+        int x = 2;
+        int y = 2;
+        CellSample[] sections = new CellSample[size];
+        for (int i = size - 1; i >= 0; i--) {
+            sections[size-1-i] = new CellSample(y, x + i);
+        }
+        Ship ship = Ship.getInstance(sections);
+        Arrays.sort(sections);
+        List<Cell> source = Arrays.asList(sections);
+        List<Cell> result = Arrays.asList(ship.getSections());
+        assertThat(result, equalTo(source));
     }
 
     @Test
-    public void shipFactoryNullSectionTest() throws IllegalArgumentException{
+    public void shipFactoryNullCellTest() throws IllegalArgumentException{
         assertThrows(IllegalArgumentException.class, () -> Ship.getInstance(null));
     }
 
     @Test
-    public void shipFactoryIncorrectSectionTest() throws IllegalArgumentException{
-        assertThrows(IllegalArgumentException.class, () -> Ship.getInstance(new int[][]{{2,3}, {2,4,0}}));
+    public void shipFactoryZeroSizeShipLengthTest() {
+        assertThrows(IllegalArgumentException.class, () -> Ship.getInstance(new CellSample[0]));
     }
 
     @Test
-    public void shipFactoryIncorrectSequenceSection1Test() throws IllegalArgumentException{
-        assertThrows(IllegalArgumentException.class, () -> Ship.getInstance(new int[][]{{2,3}, {2,5}}));
+    public void shipFactoryOverSizeShipLengthTest() {
+        int size = Project1st.shipsSetup.length;
+        CellSample[] sections = new CellSample[size];
+        for (int x = 0; x < size; x++) {
+            sections[x] = new CellSample(0, x);
+        }
+        assertThrows(IllegalArgumentException.class, () -> Ship.getInstance(sections));
     }
 
     @Test
-    public void shipFactoryIncorrectSequenceSection2Test() throws IllegalArgumentException{
-        assertThrows(IllegalArgumentException.class, () -> Ship.getInstance(new int[][]{{2,3}, {4,3}}));
+    public void shipFactoryIncorrectRangeCellTest1() throws IllegalArgumentException{
+        assertThrows(IllegalArgumentException.class, () -> Ship.getInstance(new CellSample[]{new CellSample(-1,3), new CellSample(0,3)}));
     }
 
     @Test
-    public void shipFactoryIncorrectSequenceSection3Test() throws IllegalArgumentException{
-        assertThrows(IllegalArgumentException.class, () -> Ship.getInstance(new int[][]{{2,3}, {3,4}}));
+    public void shipFactoryIncorrectRangeCellTest3() throws IllegalArgumentException{
+        assertThrows(IllegalArgumentException.class, () -> Ship.getInstance(new CellSample[]{new CellSample(Project1st.MAX_FIELD_HEIGHT,3), new CellSample(Project1st.MAX_FIELD_HEIGHT,3)}));
+    }
+
+    // Horizontal out of Range is controlled by Cell.HorizontalCellName
+
+
+    @Test
+    public void shipFactoryIncorrectSequenceCellTest() throws IllegalArgumentException{
+        assertThrows(IllegalArgumentException.class, () -> Ship.getInstance(new CellSample[]{new CellSample(2,3), new CellSample(2,5)}));
+    }
+
+    @Test
+    public void shipFactoryIncorrectDirectionCellTest() throws IllegalArgumentException{
+        assertThrows(IllegalArgumentException.class, () -> Ship.getInstance(new CellSample[]{new CellSample(2,3), new CellSample(3,2)}));
     }
 
     @Test
     public void hitTest() {
-        Ship theFirstOne = Ship.getInstance(new int[][]{{0, 0}, {0, 1}, {0, 2}});
-        assertThat(true, equalTo(theFirstOne.shootCheck(new Cell(1, 0){})));
+        Ship theFirstOne = Ship.getInstance(new CellSample[]{new CellSample(0, 0), new CellSample(0, 1)});
+        assertThat(theFirstOne.hit(new CellSample(0, 1)), equalTo(Ship.ShipHitStatus.HITED));
+    }
+
+    @Test
+    public void destroyTest1() {
+        Ship theFirstOne = Ship.getInstance(new CellSample[]{new CellSample(0, 0), new CellSample(0, 1)});
+        theFirstOne.hit(new CellSample(0, 0));
+        assertThat(theFirstOne.hit(new CellSample(0, 1)), equalTo(Ship.ShipHitStatus.DESTROYED));
+    }
+
+    @Test
+    public void destroyTest2() {
+        Ship theFirstOne = Ship.getInstance(new CellSample[]{new CellSample(0, 0), new CellSample(0, 1)});
+        theFirstOne.hit(new CellSample(0, 0));
+        theFirstOne.hit(new CellSample(0, 1));
+        assertThat(false, equalTo(theFirstOne.isAlive()));
     }
 
     @Test
     public void missTest() {
-        Ship theFirstOne = Ship.getInstance(new int[][]{{0, 0}, {0, 1}, {0, 2}});
-        assertThat(false, equalTo(theFirstOne.shootCheck(new Cell(0, 1){})));
+        Ship theFirstOne = Ship.getInstance(new CellSample[]{new CellSample(0, 0), new CellSample(0, 1)});
+        assertThat(theFirstOne.hit(new CellSample(1, 1)), equalTo(Ship.ShipHitStatus.MISSED));
     }
 
     @Test
     public void aliveAfterHitTest() {
-        Ship theFirstOne = Ship.getInstance(new int[][]{{0, 0}, {0, 1}});
-        theFirstOne.shootCheck(new Cell(0, 0){});
+        Ship theFirstOne = Ship.getInstance(new CellSample[]{new CellSample(0, 0), new CellSample(0, 1)});
+        theFirstOne.hit(new CellSample(0, 0));
         assertThat(true, equalTo(theFirstOne.isAlive()));
     }
 
-    @Test
-    public void destroyTest() {
-        Ship theFirstOne = Ship.getInstance(new int[][]{{0, 0}, {0, 1}});
-        theFirstOne.shootCheck(new Cell(0, 0){});
-        theFirstOne.shootCheck(new Cell(1, 0){});
-        assertThat(false, equalTo(theFirstOne.isAlive()));
-    }
 
 }

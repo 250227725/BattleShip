@@ -1,79 +1,74 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Ship {
-    private final int lenght;
-    //todo: made sections as private
-    public final ShipSection[] sections;
-    private boolean isAlive = true;
+    private final ShipSection[] sections;
+    private boolean isAlive;
     private int aliveSectionCount;
 
     private Ship(ShipSection[] sections) {
-        this.lenght = sections.length;
+        this.aliveSectionCount = sections.length;
+        this.isAlive = true;
         this.sections = sections;
-        this.aliveSectionCount = this.lenght;
     }
-
-    public static Ship getInstance(int[][] cells) {
-        if (cells == null) {
+    public static Ship getInstance(CellSample[] cells) {
+        if (cells == null || cells.length == 0 || cells.length > Project1st.shipsSetup.length - 1) {
             throw new IllegalArgumentException();
         }
 
-        ShipSection[] sections = Arrays.stream(cells)
-                .map(c -> {
-                    if (c.length != 2) {
-                        throw new IllegalArgumentException();
-                    }
-                    return new ShipSection(c[0], c[1]);
-                })
-                .collect(Collectors.toSet())
-                .toArray(new ShipSection[]{});
+        if (cells.length == 1) {
+            return new Ship(new ShipSection[]{new ShipSection(cells[0])});
+        }
 
-        if (cells.length != sections.length) {
+        Arrays.sort(cells);
+        if (!CellSample.checkSequence(cells)) {
             throw new IllegalArgumentException();
         }
 
-        if (sections.length > 1) {
-            Arrays.sort(sections);
-            boolean isHorizontal = sections[0].getX() != sections[1].getX();
-            for (int i = 1; i < sections.length; i++) {
-                if (isHorizontal) {
-                    if (sections[i].getX() - sections[i-1].getX() != 1 || sections[i].getY() != sections[i-1].getY()) throw new IllegalArgumentException();
-                } else {
-                    if (sections[i].getY() - sections[i-1].getY() != 1 || sections[i].getX() != sections[i-1].getX()) throw new IllegalArgumentException();
-                }
+        ShipSection[] sections = new ShipSection[cells.length];
+        for (int i = 0; i < cells.length; i++) {
+            if (cells[i].isOutOfRange()) {
+                throw new IllegalArgumentException(cells[i].toString());
             }
+            sections[i] = new ShipSection(cells[i]);
         }
 
         return new Ship(sections);
     }
-
-    public static Ship getInstance(Cell[] coords) {
-        return null;
+    private void destroy() {
+        isAlive = false;
     }
 
-    public int getLenght() {
-        return lenght;
+    public ShipSection[] getSections() {
+        return sections;
     }
-
+    public int getLength() {
+        return sections.length;
+    }
+    public int getAliveSectionCount() {
+        return aliveSectionCount;
+    }
     public boolean isAlive() {
         return isAlive;
     }
 
-    public void destroy() {
-        isAlive = false;
+    public ShipHitStatus hit(CellSample attempt) {
+        if (!isAlive()) return ShipHitStatus.MISSED;
+        for (int i = 0; i < sections.length; i++) {
+            if (sections[i].hit(attempt)) {
+                aliveSectionCount--;
+                if (aliveSectionCount == 0) {
+                    destroy();
+                    return ShipHitStatus.DESTROYED;
+                }
+                return ShipHitStatus.HITED;
+            }
+        }
+        return ShipHitStatus.MISSED;
     }
 
-    public boolean shootCheck(Cell shoot) {
-        Optional<ShipSection> hittedSection = Arrays.stream(sections)
-                .filter((s) -> s.equals(shoot) && s.isAlive())
-                .findFirst();
-        if (hittedSection.isEmpty()) return false;
-
-        hittedSection.get().hit();
-        if (--aliveSectionCount == 0) {
-            destroy();
-        }
-        return true;
+    public enum ShipHitStatus {
+        MISSED,
+        HITED,
+        DESTROYED
     }
 }

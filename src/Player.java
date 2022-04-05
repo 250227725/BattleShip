@@ -32,13 +32,6 @@ public abstract class Player {
     public String getName() {
         return name;
     }
-    public void addShip(int[][] newShipCoordinates) throws IllegalArgumentException{
-        GameService service = GameService.getInstance(new IOManager(ConsoleInputManager.getInstance(), ConsoleOutputManager.getInstance())); //todo get GameService as argument
-        service.checkBattleField(battleField, newShipCoordinates);
-        Set<Cell> busyCell = service.getBusyCell(newShipCoordinates);
-        busyCell.forEach(cell -> battleField[cell.getX()][cell.getY()] = CellStatus.BUSY);
-        ships.put(Ship.getInstance(newShipCoordinates), "");
-    }
 
     public void init(Game game) throws GameCancelledException, GameInterruptException {
         if (isAlive()) return;

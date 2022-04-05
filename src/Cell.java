@@ -1,22 +1,15 @@
-public abstract class Cell implements Comparable<Cell> {
-    private final int x;
-    private final int y;
+import java.util.Set;
 
-    public Cell(int y, int x) {
+public abstract class Cell implements Comparable<Cell> {
+    protected final int x;
+    protected final int y;
+    protected Cell(int y, int x) {
         this.x = x;
         this.y = y;
     }
 
     public Cell(HorizontalCellNames x, int y) {
         this(y-1, x.ordinal());
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
     }
 
     @Override
@@ -44,39 +37,15 @@ public abstract class Cell implements Comparable<Cell> {
 
     @Override
     public String toString() {
-        return "[x:" + getX() + "|y:" + getY() + "](" + HorizontalCellNames.values()[getX()] + getY() + ")";
+        return "[x:" + x + "|y:" + y + "](" + HorizontalCellNames.values()[x] + (y + 1) + ")";
     }
 
-    public boolean equalLine(Cell cell) {
-        return (this.x == cell.x || this.y == cell.y);
+    public boolean isOutOfRange() {
+        return isOutOfRange(Project1st.MAX_FIELD_WIDTH, Project1st.MAX_FIELD_HEIGHT);
     };
 
-    public boolean notEqualLine(Cell cell) {
-        return !equalLine(cell);
-    };
-
-    public int distance(Cell coord) {
-        if (notEqualLine(coord)) throw new IllegalArgumentException();
-        return Math.abs(x + y - coord.x - coord.y) + 1;
-    };
-
-    public Cell[] cellSequnce(Cell end) {
-        int size = distance(end);
-        if (size == 1) {
-            return new Cell[]{this};
-        }
-        Cell[] result = new Cell[size];
-        int x0 = Math.min(x, end.x);
-        int y0 = Math.min(y, end.y);
-        for (int i = 0; i < size; i++) {
-            if (x == end.x) {
-                result[i] = new Cell(y0 + i, x0) {};
-            }
-            else {
-                result[i] = new Cell(y0, x0 + i) {};
-            }
-        }
-        return result;
+    public boolean isOutOfRange(int MAX_FIELD_WIDTH, int MAX_FIELD_HEIGHT) {
+        return x < 0 || y < 0 || x >= MAX_FIELD_WIDTH || y >= MAX_FIELD_HEIGHT;
     };
 
     enum HorizontalCellNames {

@@ -16,7 +16,7 @@ public class HumanPlayer extends Player{
         int[] setup = Project1st.shipsSetup;
         for (int size = 1; size < setup.length; size++) {
             for (int index = setup[size]; index > 0; index--) {
-                ships.put(Project1st.service.getHumanShip(playerField, size), size + "-палубный корабль, №" + String.valueOf(size - index));
+                Project1st.service.addHumanShip(playerField, size, ships, index);
             }
         }
     }

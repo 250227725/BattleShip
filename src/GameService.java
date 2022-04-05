@@ -16,9 +16,7 @@ public class GameService {
         CellStatus[][] battleField = new CellStatus[fieldHeight][fieldWidth];
         {
             for (int y = 0; y < battleField.length; y++ ) {
-                for (int x = 0; x < battleField[0].length; x++) {
-                    battleField[y][x] = CellStatus.UNKNOWN;
-                }
+                Arrays.fill(battleField[y], CellStatus.UNKNOWN);
             }
         }
         return battleField;

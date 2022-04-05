@@ -125,6 +125,7 @@ public class GameService {
 
             fillBusyCell(playerField, cells);
             ships.put(Ship.getInstance(cells), size + "-палубный корабль, №" + (size - index));
+            manager.printBattlefield(playerField);
             break;
         }
     }
@@ -176,8 +177,15 @@ public class GameService {
     }
 
     public void fillBusyCell(CellStatus[][] playerField, CellSample[] cells) {
-        for (CellSample cell : cells) {
-            playerField[cell.getY()][cell.getX()] = CellStatus.BUSY;
+        for (CellSample baseCell : cells) {
+            for (CellSample cell : baseCell.getNeighbors()) {
+                try {
+                    playerField[cell.getY()][cell.getX()] = CellStatus.BUSY;
+                }
+                catch (ArrayIndexOutOfBoundsException e) {
+
+                }
+            }
         }
     }
 }

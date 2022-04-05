@@ -14,11 +14,8 @@ public class GameService {
 
     public static CellStatus[][] getEmptyField(int fieldHeight, int fieldWidth) {
         CellStatus[][] battleField = new CellStatus[fieldHeight][fieldWidth];
-        {
-            for (int y = 0; y < battleField.length; y++ ) {
-                Arrays.fill(battleField[y], CellStatus.UNKNOWN);
-            }
-        }
+        Arrays.stream(battleField)
+                .forEach(s -> Arrays.fill(s, CellStatus.UNKNOWN));
         return battleField;
     }
 
@@ -137,15 +134,15 @@ public class GameService {
         manager.showMessage(message);
         while (true) {
             String[] data = getStringValue(message).trim().split("-");
-            if (data.length <1 || data.length > 2) {
+            if (data.length < 1 || data.length > 2) {
                 manager.showMessage("Некорректное значение" + message);
                 continue;
             }
 
-            Optional<CellSample> cell1 = getCell(data[1]);
+            Optional<CellSample> cell1 = getCell(data[0]);
             Optional<CellSample> cell2;
             if (data.length == 2) {
-                cell2 = getCell(data[2]);
+                cell2 = getCell(data[1]);
             }
             else {
                 cell2 = cell1;

@@ -169,6 +169,18 @@ public class GameService {
         }
     }
 
+    public Cell getPlayerGuess(int height,int width) throws GameCancelledException, GameInterruptException {
+        String message = "Введите координаты поля для выстрела:";
+        manager.showMessage(message);
+        while(true) {
+            String data = getStringValue(message).trim();
+            Optional<CellSample> cell = getCellFromString(data, height, width);
+            if (!cell.isEmpty()) return cell.get();
+            manager.showMessage("Некорректный ввод. " + message);
+        }
+    }
+
+
     public boolean checkFieldAvailability(CellStatus[][] playerField, CellSample[] shipCell) {
         for (CellSample cell : shipCell) {
             if (playerField[cell.getY()][cell.getX()] == CellStatus.BUSY) return false;

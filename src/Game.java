@@ -53,7 +53,8 @@ public class Game implements Callable<String> {
         manager.startGame();
         while (isActive())
         {
-            //manager.nextTurn();
+            manager.getNextPlayer();
+            
             status = GameStatus.ENDED;
         }
         return null;

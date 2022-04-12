@@ -12,7 +12,6 @@ public class Project1st {
     public static final int FIELD_HEIGHT = 10;
 
     public static void main(String... args) {
-
         try {
             Game game = service.initGame();
             game.call();

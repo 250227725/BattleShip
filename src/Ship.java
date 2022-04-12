@@ -51,7 +51,7 @@ public class Ship {
         return isAlive;
     }
 
-    public ShipHitStatus hit(CellSample attempt) {
+    public ShipHitStatus hit(Cell attempt) {
         if (!isAlive()) return ShipHitStatus.MISSED;
         for (int i = 0; i < sections.length; i++) {
             if (sections[i].hit(attempt)) {

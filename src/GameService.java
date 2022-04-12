@@ -180,7 +180,6 @@ public class GameService {
         }
     }
 
-
     public boolean checkFieldAvailability(CellStatus[][] playerField, CellSample[] shipCell) {
         for (CellSample cell : shipCell) {
             if (playerField[cell.getY()][cell.getX()] == CellStatus.BUSY) return false;
@@ -199,5 +198,13 @@ public class GameService {
                 }
             }
         }
+    }
+
+    public void playerWelcome(Player player) {
+        manager.showMessage("Ход игрока " + player.getName());
+    }
+
+    public void showEnemyBattleField(Player player) {
+        manager.printBattlefield(player.getBattleField());
     }
 }

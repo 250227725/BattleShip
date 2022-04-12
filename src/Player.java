@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 public abstract class Player {
@@ -42,4 +43,13 @@ public abstract class Player {
     }
 
     abstract void generateShips(CellStatus[][] playerField) throws GameCancelledException, GameInterruptException;
+
+    public Ship.ShipHitStatus checkShoot(Cell shoot) {
+        Optional<Ship.ShipHitStatus> result = ships.entrySet().stream()
+                .filter(s -> s.getKey().isAlive())
+                .map(s -> s.getKey().hit(shoot))
+                .filter(s -> s != Ship.ShipHitStatus.MISSED)
+                .findAny();
+        return result.isEmpty() ? Ship.ShipHitStatus.MISSED : result.get();
+    };
 }

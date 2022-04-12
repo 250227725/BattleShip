@@ -28,7 +28,7 @@ public class GameManager {
     /**
      * Return next player
      */
-    public Player getNextPlayer() {
+    public Player getNextPlayer() { //todo : test for alive player
         Player player = players.pop();
         players.add(player);
         return player;

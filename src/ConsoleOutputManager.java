@@ -51,6 +51,7 @@ public class ConsoleOutputManager implements OutputManager {
                         case MISSED -> System.out.print(" M ");
                         case HITTED -> System.out.print(" H ");
                         case DESTROYED -> System.out.print(" D ");
+                        case BUSY ->  System.out.print(" B ");
                         default -> System.out.print(" U ");
                     }
                 }

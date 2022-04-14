@@ -1,5 +1,3 @@
-import java.util.Collections;
-import java.util.Deque;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
@@ -50,13 +48,52 @@ public class Game implements Callable<String> {
 
     public String call() throws GameCancelledException, GameInterruptException {
         manager.initPlayers(this);
-        manager.startGame();
+        status = GameStatus.ACTIVE;
         while (isActive())
         {
-            //manager.nextTurn();
-            status = GameStatus.ENDED;
+            Player player = manager.getNextPlayer();
+            Project1st.service.playerWelcome(player);
+            while (true) {
+                Project1st.service.showEnemyBattleField(player);
+                Cell shoot = Project1st.service.getPlayerGuess(fieldHeight, fieldWidth);
+                Ship.ShipHitStatus result = checkSuggests(shoot, player);
+                if (result == Ship.ShipHitStatus.MISSED) {
+                    System.out.println("Вы промахнулись!");
+                    break;
+                }
+                else if (result == Ship.ShipHitStatus.DESTROYED) {
+                    if (!checkAliveEnemy(player)) {
+                        System.out.println("Вы уничтожили последний корабль и победили! Игра окончена.");
+                        status = GameStatus.ENDED;
+                    }
+                    else {
+                        System.out.println("Вы уничтожили корабль противника.");
+                    }
+                }
+                else if (result == Ship.ShipHitStatus.HITED) {
+                    System.out.println("Вы повредили корабль противника.");
+                }
+                else {
+                    throw new IllegalArgumentException();
+                }
+            }
         }
         return null;
+    }
+
+    private Ship.ShipHitStatus checkSuggests(Cell shoot, Player player) {
+        Ship.ShipHitStatus result = Ship.ShipHitStatus.MISSED;
+        for (Player p : players) {
+            if (p != player && p.isAlive()) {
+                result = p.checkShoot(shoot);
+            }
+        }
+        return result;
+    }
+
+    boolean checkAliveEnemy(Player player) {
+        return players.stream()
+                .anyMatch(p -> p.isAlive() && p != player);
     }
 
     public int getFieldWidth() {

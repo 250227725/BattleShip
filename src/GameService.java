@@ -117,7 +117,7 @@ public class GameService {
 
     public void addHumanShip(CellStatus[][] playerField, int size, Map<Ship, String> ships, int index) throws GameCancelledException, GameInterruptException {
         while (true) {
-            CellSample[] cells = getCellsForShip(size);
+            CellSample[] cells = getCellsForShip(size, playerField.length, playerField[0].length);
             if (!checkFieldAvailability(playerField, cells)) {
                 manager.showMessage("Невозможно разместить корабль на выбранные поля");
                 continue;
@@ -125,11 +125,12 @@ public class GameService {
 
             fillBusyCell(playerField, cells);
             ships.put(Ship.getInstance(cells), size + "-палубный корабль, №" + (size - index));
+            manager.printBattlefield(playerField);
             break;
         }
     }
 
-    public CellSample[] getCellsForShip(int size) throws GameCancelledException, GameInterruptException {
+    public CellSample[] getCellsForShip(int size, int height, int width) throws GameCancelledException, GameInterruptException {
         String message = "Введите координаты начальной и конечной точки корабля, разделенные знаком минус. Размер корабля - " + size + ":";
         manager.showMessage(message);
         while (true) {
@@ -139,10 +140,10 @@ public class GameService {
                 continue;
             }
 
-            Optional<CellSample> cell1 = getCell(data[0]);
+            Optional<CellSample> cell1 = getCellFromString(data[0],height,width);
             Optional<CellSample> cell2;
-            if (data.length == 2) {
-                cell2 = getCell(data[1]);
+            if (data.length == 2 && !data[0].equals(data[1])) {
+                cell2 = getCellFromString(data[1], height, width);
             }
             else {
                 cell2 = cell1;
@@ -156,15 +157,27 @@ public class GameService {
         }
     }
 
-    public Optional<CellSample> getCell(String attempt) {
-        int x = Cell.HorizontalCellNames.valueOf(attempt.trim().substring(0, 1).toUpperCase()).ordinal();
-        int y = Integer.parseInt(attempt.trim().substring(1).trim()) - 1;
-        if (checkCoordinates(y, x)) return Optional.of(new CellSample(y, x)); //todo move check to Cell class
-        return Optional.empty();
+    public static Optional<CellSample> getCellFromString(String attempt, int height, int width) {
+        try {
+            int x = Cell.HorizontalCellNames.valueOf(attempt.trim().substring(0, 1).toUpperCase()).ordinal();
+            int y = Integer.parseInt(attempt.trim().substring(1).trim()) - 1;
+            if (x < 0 || y < 0 || x >= width || y >= height) return Optional.empty();
+            return Optional.of(new CellSample(y, x));
+        }
+        catch (IllegalArgumentException | StringIndexOutOfBoundsException e) {
+            return Optional.empty();
+        }
     }
 
-    public boolean checkCoordinates(int y, int x) { //todo: need to check real gameField dimensions
-        return x >= 0 && y >= 0 && x < Project1st.MAX_FIELD_WIDTH && y < Project1st.MAX_FIELD_HEIGHT;
+    public Cell getPlayerGuess(int height,int width) throws GameCancelledException, GameInterruptException {
+        String message = "Введите координаты поля для выстрела:";
+        manager.showMessage(message);
+        while(true) {
+            String data = getStringValue(message).trim();
+            Optional<CellSample> cell = getCellFromString(data, height, width);
+            if (!cell.isEmpty()) return cell.get();
+            manager.showMessage("Некорректный ввод. " + message);
+        }
     }
 
     public boolean checkFieldAvailability(CellStatus[][] playerField, CellSample[] shipCell) {
@@ -175,8 +188,23 @@ public class GameService {
     }
 
     public void fillBusyCell(CellStatus[][] playerField, CellSample[] cells) {
-        for (CellSample cell : cells) {
-            playerField[cell.getY()][cell.getX()] = CellStatus.BUSY;
+        for (CellSample baseCell : cells) {
+            for (CellSample cell : baseCell.getNeighbors()) {
+                try {
+                    playerField[cell.getY()][cell.getX()] = CellStatus.BUSY;
+                }
+                catch (ArrayIndexOutOfBoundsException e) {
+
+                }
+            }
         }
+    }
+
+    public void playerWelcome(Player player) {
+        manager.showMessage("Ход игрока " + player.getName());
+    }
+
+    public void showEnemyBattleField(Player player) {
+        manager.printBattlefield(player.getBattleField());
     }
 }

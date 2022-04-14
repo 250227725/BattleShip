@@ -10,7 +10,7 @@ public class ShipSection extends Cell{
     public boolean isAlive() {
         return isAlive;
     }
-    public boolean hit(CellSample attempt) {
+    public boolean hit(Cell attempt) {
         if (equals(attempt) && isAlive()) {
             isAlive = false;
             return true;

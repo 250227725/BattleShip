@@ -55,7 +55,7 @@ public class PlayerTest {
         Ship.ShipHitStatus shootResult = Ship.ShipHitStatus.HITED;
         CellStatus cellStatus = CellStatus.HITTED;
         player.initEnemyBattlefield(height, width);
-        player.fillBattlefield(shoot, shootResult);
+        player.fillEnemyBattlefield(shoot, shootResult);
         boolean result = false;
         for (int y = 0; y < player.getEnemyBattlefield().length; y++) {
             for (int x = 0; x < player.getEnemyBattlefield()[0].length; x++) {
@@ -76,7 +76,7 @@ public class PlayerTest {
         Ship.ShipHitStatus shootResult = Ship.ShipHitStatus.HITED;
         CellStatus cellStatus = CellStatus.HITTED;
         player.initEnemyBattlefield(height, width);
-        player.fillBattlefield(shoot, shootResult);
+        player.fillEnemyBattlefield(shoot, shootResult);
         assertThat(cellStatus, equalTo(player.getEnemyBattlefield()[y][x]));
     }
 
@@ -91,7 +91,7 @@ public class PlayerTest {
         Ship.ShipHitStatus shootResult = Ship.ShipHitStatus.DESTROYED;
         CellStatus cellStatus = CellStatus.DESTROYED;
         player.initEnemyBattlefield(height, width);
-        player.fillBattlefield(shoot, shootResult);
+        player.fillEnemyBattlefield(shoot, shootResult);
         assertThat(cellStatus, equalTo(player.getEnemyBattlefield()[y][x]));
     }
 
@@ -106,7 +106,7 @@ public class PlayerTest {
         Ship.ShipHitStatus shootResult = Ship.ShipHitStatus.MISSED;
         CellStatus cellStatus = CellStatus.MISSED;
         player.initEnemyBattlefield(height, width);
-        player.fillBattlefield(shoot, shootResult);
+        player.fillEnemyBattlefield(shoot, shootResult);
         assertThat(cellStatus, equalTo(player.getEnemyBattlefield()[y][x]));
     }
 

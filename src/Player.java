@@ -60,12 +60,15 @@ public abstract class Player {
         return result.isEmpty() ? Ship.ShipHitStatus.MISSED : result.get();
     };
 
-    public void fillBattlefield(CellSample shoot, Ship.ShipHitStatus result) {
+    public void fillEnemyBattlefield(CellSample shoot, Ship.ShipHitStatus result) {
+        fillEnemyBattlefield(shoot, result == Ship.ShipHitStatus.MISSED ? CellStatus.MISSED :
+                        result == Ship.ShipHitStatus.HITED ? CellStatus.HITTED : CellStatus.DESTROYED);
+    }
+
+    public void fillEnemyBattlefield(CellSample shoot, CellStatus result) {
         if (shoot==null || shoot.getY() > enemyBattlefield.length-1 || shoot.getX() > enemyBattlefield[0].length-1) {
             throw new IllegalArgumentException();
         }
-        enemyBattlefield[shoot.getY()][shoot.getX()] =
-                result == Ship.ShipHitStatus.MISSED ? CellStatus.MISSED :
-                        result == Ship.ShipHitStatus.HITED ? CellStatus.HITTED : CellStatus.DESTROYED;
+        enemyBattlefield[shoot.getY()][shoot.getX()] = result;
     }
 }

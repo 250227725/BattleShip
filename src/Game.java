@@ -47,15 +47,20 @@ public class Game implements Callable<String> {
     }
 
     public String call() throws GameCancelledException, GameInterruptException {
-        manager.initPlayers(this);
+        manager.initPlayers(this); // todo: init manager here to hide it from other Threads. It also must create copy of Players.
         status = GameStatus.ACTIVE;
         while (isActive())
         {
-            Player player = manager.getNextPlayer();
+            Player player = manager.getNextPlayer(); // remove
+            manager.nextPlayer();
+            //manager.greetingPlayer();
             Project1st.service.playerWelcome(player);
             while (true) {
+                //manager.showEnemyBattleField();
                 Project1st.service.showEnemyBattleField(player);
+                //manager.getPlayerShootGuess(); //todo: manager should hold info about gamefield size
                 CellSample shoot = Project1st.service.getPlayerGuess(fieldHeight, fieldWidth);
+                //CellStatus result = manager.checkPlayerShootGuess();
                 Ship.ShipHitStatus result = checkSuggests(shoot, player);
                 if (result == Ship.ShipHitStatus.MISSED) {
                     System.out.println("Вы промахнулись!");
@@ -63,7 +68,8 @@ public class Game implements Callable<String> {
                 }
                 else if (result == Ship.ShipHitStatus.DESTROYED) {
                     if (!checkAliveEnemy(player)) {
-                        System.out.println("Вы уничтожили последний корабль и победили! Игра окончена.");
+                    //    if (!manager.checkAliveEnemy(player)) {
+                            System.out.println("Вы уничтожили последний корабль и победили! Игра окончена.");
                         status = GameStatus.ENDED;
                     }
                     else {
@@ -76,6 +82,7 @@ public class Game implements Callable<String> {
                 else {
                     throw new IllegalArgumentException();
                 }
+               // manager.fillPlayerEnemyBattleField(shoot, result);
                 Project1st.service.fillEnemyBattleField(player, shoot, result);
             }
         }

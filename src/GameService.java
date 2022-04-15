@@ -209,6 +209,6 @@ public class GameService {
     }
 
     public void fillEnemyBattleField(Player player, CellSample shoot, Ship.ShipHitStatus result) {
-        player.fillBattlefield(shoot, result);
+        player.fillEnemyBattlefield(shoot, result);
     }
 }

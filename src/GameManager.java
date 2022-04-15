@@ -2,6 +2,7 @@ import java.util.*;
 
 public class GameManager {
     private Deque<Player> players = new LinkedList<>();
+    private Player  currentPlayer;
 
     /**
      * Create gameManager for game
@@ -32,6 +33,10 @@ public class GameManager {
         Player player = players.pop();
         players.add(player);
         return player;
+    } //todo: made private
+
+    public void nextPlayer() {
+        currentPlayer = getNextPlayer();
     }
 
     /**
@@ -52,4 +57,9 @@ public class GameManager {
             player.init(game);
         }
     }
+
+    public void fillPlayerEnemyBattleField(CellSample shoot, CellStatus result) {
+        currentPlayer.fillEnemyBattlefield(shoot, result);
+    }
+
 }

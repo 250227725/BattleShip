@@ -55,7 +55,7 @@ public class Game implements Callable<String> {
             Project1st.service.playerWelcome(player);
             while (true) {
                 Project1st.service.showEnemyBattleField(player);
-                Cell shoot = Project1st.service.getPlayerGuess(fieldHeight, fieldWidth);
+                CellSample shoot = Project1st.service.getPlayerGuess(fieldHeight, fieldWidth);
                 Ship.ShipHitStatus result = checkSuggests(shoot, player);
                 if (result == Ship.ShipHitStatus.MISSED) {
                     System.out.println("Вы промахнулись!");
@@ -76,6 +76,7 @@ public class Game implements Callable<String> {
                 else {
                     throw new IllegalArgumentException();
                 }
+                Project1st.service.fillEnemyBattleField(player, shoot, result);
             }
         }
         return null;

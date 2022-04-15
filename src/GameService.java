@@ -169,7 +169,7 @@ public class GameService {
         }
     }
 
-    public Cell getPlayerGuess(int height,int width) throws GameCancelledException, GameInterruptException {
+    public CellSample getPlayerGuess(int height,int width) throws GameCancelledException, GameInterruptException {
         String message = "Введите координаты поля для выстрела:";
         manager.showMessage(message);
         while(true) {
@@ -205,6 +205,10 @@ public class GameService {
     }
 
     public void showEnemyBattleField(Player player) {
-        manager.printBattlefield(player.getBattleField());
+        manager.printBattlefield(player.getEnemyBattlefield());
+    }
+
+    public void fillEnemyBattleField(Player player, CellSample shoot, Ship.ShipHitStatus result) {
+        player.fillBattlefield(shoot, result);
     }
 }

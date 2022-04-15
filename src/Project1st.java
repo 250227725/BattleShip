@@ -5,7 +5,9 @@ public class Project1st {
     public static final int MIN_FIELD_WIDTH = 5;
     public static final int MIN_FIELD_HEIGHT = 5;
     public static final int[] shipsSetup = new int[]{0, 2};//{0,4,3,2,1}; //todo: It should depend on gamefield size;
-    public static final GameService service = GameService.getInstance(new IOManager(ConsoleInputManager.getInstance(), ConsoleOutputManager.getInstance()));
+
+    public static final IOManager IO_MANAGER = new IOManager(ConsoleInputManager.getInstance(), ConsoleOutputManager.getInstance());
+    public static final GameService service = GameService.getInstance(IO_MANAGER);
 
     //todo: Delete next two poarametrs and modify method for using Game class instance fields
     public static final int FIELD_WIDTH = 10;

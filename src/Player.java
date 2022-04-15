@@ -1,14 +1,13 @@
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 public abstract class Player {
     private final String name;
     private final boolean isHuman;
     private boolean isAlive;
     Map<Ship, String> ships;
-    private CellStatus[][] battleField;
+    private CellStatus[][] enemyBattlefield;
 
     protected Player(String name, boolean isHuman) {
         this.name = name;
@@ -26,8 +25,8 @@ public abstract class Player {
     public void setAlive(boolean alive) {
         isAlive = alive;
     }
-    public CellStatus[][] getBattleField() {
-        return battleField;
+    public CellStatus[][] getEnemyBattlefield() {
+        return enemyBattlefield;
     }
 
     public String getName() {
@@ -36,10 +35,18 @@ public abstract class Player {
 
     public void init(Game game) throws GameCancelledException, GameInterruptException {
         if (isAlive()) return;
-        battleField = GameService.getEmptyField(game.getFieldHeight(), game.getFieldWidth());
+        initEnemyBattlefield(game);
         CellStatus[][] playerField = GameService.getEmptyField(game.getFieldHeight(), game.getFieldWidth());
         generateShips(playerField);
         isAlive = true;
+    }
+
+    private void initEnemyBattlefield(Game game) {
+        initEnemyBattlefield(game.getFieldHeight(), game.getFieldWidth());
+    }
+
+    public void initEnemyBattlefield(int height, int width) {
+        enemyBattlefield = GameService.getEmptyField(height, width);
     }
 
     abstract void generateShips(CellStatus[][] playerField) throws GameCancelledException, GameInterruptException;
@@ -52,4 +59,13 @@ public abstract class Player {
                 .findAny();
         return result.isEmpty() ? Ship.ShipHitStatus.MISSED : result.get();
     };
+
+    public void fillBattlefield(CellSample shoot, Ship.ShipHitStatus result) {
+        if (shoot==null || shoot.getY() > enemyBattlefield.length-1 || shoot.getX() > enemyBattlefield[0].length-1) {
+            throw new IllegalArgumentException();
+        }
+        enemyBattlefield[shoot.getY()][shoot.getX()] =
+                result == Ship.ShipHitStatus.MISSED ? CellStatus.MISSED :
+                        result == Ship.ShipHitStatus.HITED ? CellStatus.HITTED : CellStatus.DESTROYED;
+    }
 }

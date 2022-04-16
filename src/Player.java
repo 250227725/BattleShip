@@ -15,7 +15,11 @@ public abstract class Player {
         this.ships = new HashMap<>();
     }
 
+
+
     public abstract boolean isHuman();
+    public abstract Player clone();
+
     public Map<Ship, String> getShips() {
         return ships;
     }
@@ -28,25 +32,16 @@ public abstract class Player {
     public CellStatus[][] getEnemyBattlefield() {
         return enemyBattlefield;
     }
-
     public String getName() {
         return name;
     }
 
-    public void init(Game game) throws GameCancelledException, GameInterruptException {
+
+    public void init(CellStatus[][] playerField) throws GameCancelledException, GameInterruptException {
         if (isAlive()) return;
-        initEnemyBattlefield(game);
-        CellStatus[][] playerField = GameService.getEmptyField(game.getFieldHeight(), game.getFieldWidth());
-        generateShips(playerField);
+        enemyBattlefield = playerField;
+        generateShips(GameService.copyBattleField(playerField));
         isAlive = true;
-    }
-
-    private void initEnemyBattlefield(Game game) {
-        initEnemyBattlefield(game.getFieldHeight(), game.getFieldWidth());
-    }
-
-    public void initEnemyBattlefield(int height, int width) {
-        enemyBattlefield = GameService.getEmptyField(height, width);
     }
 
     abstract void generateShips(CellStatus[][] playerField) throws GameCancelledException, GameInterruptException;

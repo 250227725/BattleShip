@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameManager {
     private Deque<Player> players = new LinkedList<>();
@@ -6,6 +7,7 @@ public class GameManager {
     private final int fieldWidth;
     private final int fieldHeight;
     private final int difficulty;
+    public final int[] shipsSetup;
     private final IOManager ioManager = Project1st.IO_MANAGER;
 
     /**
@@ -20,14 +22,18 @@ public class GameManager {
         this.fieldHeight = height;
         this.fieldWidth = width;
         this.difficulty = difficulty;
+        this.shipsSetup = Project1st.shipsSetup;
         generatePlayerSequence(gamePlayers);
     }
+
+//    public GameManager(Game game) { //todo: implement
+//    }
 
     /**
      * Starting the game
      */
     public void startGame() {
-
+        showMessage("Игра начинается!");
     }
 
     /**
@@ -36,6 +42,7 @@ public class GameManager {
     public Deque<Player> getPlayers() {
         return players;
     }
+    public int playersCount() {return players.size();}
 
     /**
      * Return next player
@@ -54,8 +61,10 @@ public class GameManager {
      * Generate sequence of players for serial game turn
      * @param gamePlayers - players list for game
      */
-    private void generatePlayerSequence(Set<Player> gamePlayers) { //todo create clone of Players to protect from outer changes by another threads
-        List<Player> playerList = new ArrayList<>(gamePlayers);
+    private void generatePlayerSequence(Set<Player> gamePlayers) {
+        List<Player> playerList = gamePlayers.stream()
+                .map(Player::clone)
+                .collect(Collectors.toList());
         while(playerList.size() > 0) {
             int index = (int) (Math.random() * playerList.size());
             players.add(playerList.get(index));
@@ -63,9 +72,10 @@ public class GameManager {
         }
     }
 
-    public void initPlayers(Game game) throws GameCancelledException, GameInterruptException {
+    public void initPlayers() throws GameCancelledException, GameInterruptException {
+        CellStatus[][] playerField = GameService.getEmptyField(fieldHeight, fieldWidth);
         for (Player player :players) {
-            player.init(game);
+            player.init(GameService.copyBattleField(playerField));
         }
     }
 
@@ -78,7 +88,7 @@ public class GameManager {
     }
 
     public void showEnemyBattleField() {
-        ioManager.printBattlefield(currentPlayer);
+        ioManager.printBattlefield(currentPlayer.getEnemyBattlefield());
     }
 
     public CellSample getPlayerShootGuess() throws GameCancelledException, GameInterruptException {

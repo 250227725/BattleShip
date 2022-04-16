@@ -14,12 +14,18 @@ public class Project1st {
     public static final int FIELD_HEIGHT = 10;
 
     public static void main(String... args) {
+        Game game;
         try {
-            Game game = service.initGame();
-            game.call();
+            game = service.initGame();
         }
         catch (GameCancelledException | GameInterruptException e) {
-            Game.cancelled();
+            IO_MANAGER.showMessage("Инициализация игры прервана");
+            return;
+        }
+        while (true) {
+            game.call();
+            if (!service.repeat())
+                return;
         }
     }
 }

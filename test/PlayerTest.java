@@ -15,37 +15,33 @@ public class PlayerTest {
     }
 
     @Test
-    public void initEnemyBattleFieldHeightTest() {
-        Player player = new HumanPlayer("Test");
-        int height = 6;
-        int width = 4;
-        player.initEnemyBattlefield(height, width);
-        assertThat(player.getEnemyBattlefield().length, equalTo(height));
+    public void humanPlayerCloneTest1() {
+        Player p1 = new HumanPlayer("Test");
+        Player clone = (Player) p1.clone();
+        assertThat(p1, not(equalTo(clone)));
     }
 
     @Test
-    public void initEnemyBattleFieldWidthTest() {
-        Player player = new HumanPlayer("Test");
-        int height = 6;
-        int width = 4;
-        player.initEnemyBattlefield(height, width);
-        assertThat(player.getEnemyBattlefield()[0].length, equalTo(width));
+    public void humanPlayerCloneTest2() {
+        Player p1 = new HumanPlayer("Test");
+        assertThat(p1, equalTo(p1));
     }
 
     @Test
-    public void initEnemyBattleFieldEmptyTest() {
-        Player player = new HumanPlayer("Test");
-        int height = 6;
-        int width = 4;
-        player.initEnemyBattlefield(height, width);
-        boolean result = Arrays.stream(player.getEnemyBattlefield())
-                .flatMap(line -> Arrays.stream(line))
-                .anyMatch(cell -> cell != CellStatus.UNKNOWN);
-        assertThat(false, equalTo(result));
+    public void AIPlayerCloneTest1() {
+        Player p1 = new AIPlayer("Test");
+        Player clone = (Player) p1.clone();
+        assertThat(p1, not(equalTo(clone)));
     }
 
     @Test
-    public void initEnemyBattleFieldFillTest1() {
+    public void AIPlayerCloneTest2() {
+        Player p1 = new AIPlayer("Test");
+        assertThat(p1, equalTo(p1));
+    }
+
+    @Test
+    public void initEnemyBattleFieldFillTest1() throws GameCancelledException, GameInterruptException {
         Player player = new HumanPlayer("Test");
         int height = 6;
         int width = 4;
@@ -54,7 +50,7 @@ public class PlayerTest {
         CellSample shoot = new CellSample(shootY, shootX);
         Ship.ShipHitStatus shootResult = Ship.ShipHitStatus.HITED;
         CellStatus cellStatus = CellStatus.HITTED;
-        player.initEnemyBattlefield(height, width);
+        player.init(GameService.getEmptyField(height, width));
         player.fillEnemyBattlefield(shoot, shootResult);
         boolean result = false;
         for (int y = 0; y < player.getEnemyBattlefield().length; y++) {
@@ -66,7 +62,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void initEnemyBattleFieldFillTest2() {
+    public void initEnemyBattleFieldFillTest2() throws GameCancelledException, GameInterruptException {
         Player player = new HumanPlayer("Test");
         int height = 6;
         int width = 4;
@@ -75,13 +71,13 @@ public class PlayerTest {
         CellSample shoot = new CellSample(y, x);
         Ship.ShipHitStatus shootResult = Ship.ShipHitStatus.HITED;
         CellStatus cellStatus = CellStatus.HITTED;
-        player.initEnemyBattlefield(height, width);
+        player.init(GameService.getEmptyField(height, width));
         player.fillEnemyBattlefield(shoot, shootResult);
         assertThat(cellStatus, equalTo(player.getEnemyBattlefield()[y][x]));
     }
 
     @Test
-    public void initEnemyBattleFieldFillTest3() {
+    public void initEnemyBattleFieldFillTest3() throws GameCancelledException, GameInterruptException {
         Player player = new HumanPlayer("Test");
         int height = 6;
         int width = 4;
@@ -90,13 +86,13 @@ public class PlayerTest {
         CellSample shoot = new CellSample(y, x);
         Ship.ShipHitStatus shootResult = Ship.ShipHitStatus.DESTROYED;
         CellStatus cellStatus = CellStatus.DESTROYED;
-        player.initEnemyBattlefield(height, width);
+        player.init(GameService.getEmptyField(height, width));
         player.fillEnemyBattlefield(shoot, shootResult);
         assertThat(cellStatus, equalTo(player.getEnemyBattlefield()[y][x]));
     }
 
     @Test
-    public void initEnemyBattleFieldFillTest4() {
+    public void initEnemyBattleFieldFillTest4() throws GameCancelledException, GameInterruptException {
         Player player = new HumanPlayer("Test");
         int height = 6;
         int width = 4;
@@ -105,47 +101,8 @@ public class PlayerTest {
         CellSample shoot = new CellSample(y, x);
         Ship.ShipHitStatus shootResult = Ship.ShipHitStatus.MISSED;
         CellStatus cellStatus = CellStatus.MISSED;
-        player.initEnemyBattlefield(height, width);
+        player.init(GameService.getEmptyField(height, width));
         player.fillEnemyBattlefield(shoot, shootResult);
         assertThat(cellStatus, equalTo(player.getEnemyBattlefield()[y][x]));
     }
-
-//    @Test
-//    public void addShipTest() {
-//        Player player = new HumanPlayer("Test");
-//        player.addShip(new int[][]{{0,0}, {0,1}});
-//        assertThat(player.getShips().size(), equalTo(1));
-//    }
-//
-//    @Test
-//    public void multiAddTest() {
-//        Player player = new HumanPlayer("Test");
-//        int lenght = ((int) (Math.random() * 5 + 1));
-//        for (int i = 0; i < lenght; i++) {
-//            player.addShip(new int[][]{{i * 2, i * 2}});
-//        }
-//        assertThat(player.getShips().size(), equalTo(lenght));
-//    }
-//
-//    @Test
-//    public void dublicateAddTest() throws IllegalArgumentException{
-//        Player player = new HumanPlayer("Test");
-//        player.addShip(new int[][]{{0,0}, {0,1}});
-//        assertThrows(IllegalArgumentException.class, () -> player.addShip(new int[][]{{0,0}, {0,1}}));
-//    }
-//
-//    @Test
-//    public void neighbourAddHorizontalTest() throws IllegalArgumentException{
-//        Player player = new HumanPlayer("Test");
-//        player.addShip(new int[][]{{0,0}, {0,1}});
-//        assertThrows(IllegalArgumentException.class, () -> player.addShip(new int[][]{{0,2}, {0,3}}));
-//    }
-//
-//    @Test
-//    public void neighbourAddVerticalTest() throws IllegalArgumentException{
-//        Player player = new HumanPlayer("Test");
-//        player.addShip(new int[][]{{0,0}, {0,1}});
-//        assertThrows(IllegalArgumentException.class, () -> player.addShip(new int[][]{{1,0}, {1,1}}));
-//    }
-
 }

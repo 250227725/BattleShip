@@ -19,6 +19,17 @@ public class GameService {
         return battleField;
     }
 
+    public static CellStatus[][] copyBattleField(CellStatus[][] battleField) {
+        if (battleField==null) {
+            return null;
+        }
+        final CellStatus[][] result = new CellStatus[battleField.length][];
+        for (int i = 0; i < battleField.length; i++) {
+            result[i] = Arrays.copyOf(battleField[i], battleField[i].length);
+        }
+        return result;
+    }
+
     public Game initGame() throws GameCancelledException, GameInterruptException {
         int playersQuantity = getPlayersQuantity(); //todo: add check for quantity range
         //int width = getFieldWidth(); //todo: add check for quantity range
@@ -207,5 +218,10 @@ public class GameService {
     public static CellStatus castShipToCellStatus(Ship.ShipHitStatus status) {
         return status == Ship.ShipHitStatus.MISSED ? CellStatus.MISSED :
                 status == Ship.ShipHitStatus.HITED ? CellStatus.HITTED : CellStatus.DESTROYED;
+    }
+
+    public boolean repeat() { //todo implement
+        manager.showMessage("Хотите сыграть еще раз?");
+        return false;
     }
 }

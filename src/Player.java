@@ -1,14 +1,13 @@
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 public abstract class Player {
     private final String name;
     private final boolean isHuman;
     private boolean isAlive;
     Map<Ship, String> ships;
-    private CellStatus[][] battleField;
+    private CellStatus[][] enemyBattlefield; //todo: multiplayer mode should be MAP (PlayerID, CellStatus[][])
 
     protected Player(String name, boolean isHuman) {
         this.name = name;
@@ -16,7 +15,11 @@ public abstract class Player {
         this.ships = new HashMap<>();
     }
 
+
+
     public abstract boolean isHuman();
+    public abstract Player clone();
+
     public Map<Ship, String> getShips() {
         return ships;
     }
@@ -26,19 +29,18 @@ public abstract class Player {
     public void setAlive(boolean alive) {
         isAlive = alive;
     }
-    public CellStatus[][] getBattleField() {
-        return battleField;
+    public CellStatus[][] getEnemyBattlefield() {
+        return enemyBattlefield;
     }
-
     public String getName() {
         return name;
     }
 
-    public void init(Game game) throws GameCancelledException, GameInterruptException {
+
+    public void init(CellStatus[][] playerField) throws GameCancelledException, GameInterruptException {
         if (isAlive()) return;
-        battleField = GameService.getEmptyField(game.getFieldHeight(), game.getFieldWidth());
-        CellStatus[][] playerField = GameService.getEmptyField(game.getFieldHeight(), game.getFieldWidth());
-        generateShips(playerField);
+        enemyBattlefield = playerField;
+        generateShips(GameService.copyBattleField(playerField));
         isAlive = true;
     }
 
@@ -52,4 +54,16 @@ public abstract class Player {
                 .findAny();
         return result.isEmpty() ? Ship.ShipHitStatus.MISSED : result.get();
     };
+
+    public void fillEnemyBattlefield(CellSample shoot, Ship.ShipHitStatus result) {
+        fillEnemyBattlefield(shoot, result == Ship.ShipHitStatus.MISSED ? CellStatus.MISSED :
+                        result == Ship.ShipHitStatus.HITED ? CellStatus.HITTED : CellStatus.DESTROYED);
+    }
+
+    public void fillEnemyBattlefield(CellSample shoot, CellStatus result) {
+        if (shoot==null || shoot.getY() > enemyBattlefield.length-1 || shoot.getX() > enemyBattlefield[0].length-1) {
+            throw new IllegalArgumentException();
+        }
+        enemyBattlefield[shoot.getY()][shoot.getX()] = result;
+    }
 }

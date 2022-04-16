@@ -19,7 +19,18 @@ public class GameService {
         return battleField;
     }
 
-    public Game initGame() throws GameCancelledException, GameInterruptException{
+    public static CellStatus[][] copyBattleField(CellStatus[][] battleField) {
+        if (battleField==null) {
+            return null;
+        }
+        final CellStatus[][] result = new CellStatus[battleField.length][];
+        for (int i = 0; i < battleField.length; i++) {
+            result[i] = Arrays.copyOf(battleField[i], battleField[i].length);
+        }
+        return result;
+    }
+
+    public Game initGame() throws GameCancelledException, GameInterruptException {
         int playersQuantity = getPlayersQuantity(); //todo: add check for quantity range
         //int width = getFieldWidth(); //todo: add check for quantity range
         //int height = getFieldHeight(); //todo: add check for quantity range
@@ -37,8 +48,7 @@ public class GameService {
             if (player == null) break;
             if (players.contains(player)) {
                 manager.showMessage("Игрок уже был добавлен ранее");
-            }
-            else {
+            } else {
                 players.add(player);
                 playersQuantity--;
                 playersCount++;
@@ -62,13 +72,13 @@ public class GameService {
                 " или оставьте имя пустым для создания AI игроков";
         manager.showMessage(message);
         String name = getStringValue(message);
-        if (name==null || name.equals("")) {
+        if (name == null || name.equals("")) {
             return null;
         }
         return new HumanPlayer(name);
     }
 
-    public int getPlayersQuantity() throws GameCancelledException, GameInterruptException{
+    public int getPlayersQuantity() throws GameCancelledException, GameInterruptException {
         String message = "Введите количество игроков или exit для завершения игры";
         manager.showMessage(message);
         return getIntegerValue(message);
@@ -80,14 +90,12 @@ public class GameService {
         while (true) {
             try {
                 return Integer.parseInt(manager.read());
-            }
-            catch (NumberFormatException | NullPointerException e) {
+            } catch (NumberFormatException | NullPointerException e) {
                 errorCount++;
                 if (maxAttempt <= errorCount) {
                     manager.showMessage("Превышено количество попыток ввода. Игра прервана");
                     throw new GameInterruptException();
-                }
-                else {
+                } else {
                     manager.showMessage("Введено некорректное значение. " + repeatMessage);
                 }
 
@@ -101,14 +109,12 @@ public class GameService {
         while (true) {
             try {
                 return manager.read();
-            }
-            catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 errorCount++;
                 if (maxAttempt <= errorCount) {
                     manager.showMessage("Превышено количество попыток ввода. Игра прервана");
                     throw new GameInterruptException();
-                }
-                else {
+                } else {
                     manager.showMessage("Введено некорректное значение. " + repeatMessage);
                 }
             }
@@ -140,12 +146,11 @@ public class GameService {
                 continue;
             }
 
-            Optional<CellSample> cell1 = getCellFromString(data[0],height,width);
+            Optional<CellSample> cell1 = getCellFromString(data[0], height, width);
             Optional<CellSample> cell2;
             if (data.length == 2 && !data[0].equals(data[1])) {
                 cell2 = getCellFromString(data[1], height, width);
-            }
-            else {
+            } else {
                 cell2 = cell1;
             }
 
@@ -163,16 +168,15 @@ public class GameService {
             int y = Integer.parseInt(attempt.trim().substring(1).trim()) - 1;
             if (x < 0 || y < 0 || x >= width || y >= height) return Optional.empty();
             return Optional.of(new CellSample(y, x));
-        }
-        catch (IllegalArgumentException | StringIndexOutOfBoundsException e) {
+        } catch (IllegalArgumentException | StringIndexOutOfBoundsException e) {
             return Optional.empty();
         }
     }
 
-    public Cell getPlayerGuess(int height,int width) throws GameCancelledException, GameInterruptException {
+    public CellSample getPlayerGuess(int height, int width) throws GameCancelledException, GameInterruptException {
         String message = "Введите координаты поля для выстрела:";
         manager.showMessage(message);
-        while(true) {
+        while (true) {
             String data = getStringValue(message).trim();
             Optional<CellSample> cell = getCellFromString(data, height, width);
             if (!cell.isEmpty()) return cell.get();
@@ -192,8 +196,7 @@ public class GameService {
             for (CellSample cell : baseCell.getNeighbors()) {
                 try {
                     playerField[cell.getY()][cell.getX()] = CellStatus.BUSY;
-                }
-                catch (ArrayIndexOutOfBoundsException e) {
+                } catch (ArrayIndexOutOfBoundsException e) {
 
                 }
             }
@@ -205,6 +208,20 @@ public class GameService {
     }
 
     public void showEnemyBattleField(Player player) {
-        manager.printBattlefield(player.getBattleField());
+        manager.printBattlefield(player.getEnemyBattlefield());
+    }
+
+    public void fillEnemyBattleField(Player player, CellSample shoot, Ship.ShipHitStatus result) {
+        player.fillEnemyBattlefield(shoot, result);
+    }
+
+    public static CellStatus castShipToCellStatus(Ship.ShipHitStatus status) {
+        return status == Ship.ShipHitStatus.MISSED ? CellStatus.MISSED :
+                status == Ship.ShipHitStatus.HITED ? CellStatus.HITTED : CellStatus.DESTROYED;
+    }
+
+    public boolean repeat() { //todo implement
+        manager.showMessage("Хотите сыграть еще раз?");
+        return false;
     }
 }

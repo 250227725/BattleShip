@@ -12,6 +12,11 @@ public class HumanPlayer extends Player{
     }
 
     @Override
+    public Player clone() {
+        return new HumanPlayer(this.getName());
+    }
+
+    @Override
     void generateShips(CellStatus[][] playerField) throws GameCancelledException, GameInterruptException {
         int[] setup = Project1st.shipsSetup;
         for (int size = 1; size < setup.length; size++) {

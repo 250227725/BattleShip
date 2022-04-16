@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
 
@@ -130,4 +131,68 @@ public class GameServiceTest {
     public void getCellFromStringOutOfRangeTest2() {
         assertThat(GameService.getCellFromString("E5", 5, 4), equalTo(Optional.empty()));
     }
+
+    @Test
+    public void getPlayerGuessTest() throws GameCancelledException, GameInterruptException {
+        GameService service = GameService.getInstance(new IOManager(new TestInputManager("b3"), ConsoleOutputManager.getInstance()));
+        assertThat(new CellSample(2, 1), equalTo(service.getPlayerGuess(10,10)));
+    }
+
+    @Test
+    public void checkCopyBattlefieldTest1() {
+        CellStatus[][] playerField = {
+                {CellStatus.BUSY, CellStatus.BUSY},
+                {CellStatus.EMPTY, CellStatus.EMPTY}
+        };
+        CellStatus[][] copy = GameService.copyBattleField(playerField);
+        assertThat(playerField, equalTo(copy));
+    }
+
+    @Test
+    public void checkCopyBattlefieldTest2() {
+        CellStatus[][] playerField = {
+                {CellStatus.BUSY, CellStatus.BUSY},
+                {CellStatus.EMPTY, CellStatus.EMPTY}
+        };
+        CellStatus[][] copy = GameService.copyBattleField(playerField);
+        playerField[0][0] = CellStatus.EMPTY;
+        assertThat(playerField, not(equalTo(copy)));
+    }
+
+    @Test
+    public void checkCopyBattlefieldTest3() {
+        CellStatus[][] playerField = {
+                {CellStatus.BUSY, CellStatus.BUSY},
+                {CellStatus.EMPTY, CellStatus.EMPTY}
+        };
+        CellStatus[][] copy = GameService.copyBattleField(playerField);
+        playerField[0][0] = CellStatus.EMPTY;
+        copy[0][0] = CellStatus.EMPTY;
+        assertThat(playerField, equalTo(copy));
+    }
+
+    @Test
+    public void initEnemyBattleFieldHeightTest() {
+        int height = 6;
+        int width = 4;
+        assertThat(GameService.getEmptyField(height, width).length, equalTo(height));
+    }
+
+    @Test
+    public void initEnemyBattleFieldWidthTest() {
+        int height = 6;
+        int width = 4;
+        assertThat(GameService.getEmptyField(height, width)[0].length, equalTo(width));
+    }
+
+    @Test
+    public void initEnemyBattleFieldEmptyTest() {
+        int height = 6;
+        int width = 4;
+        boolean result = Arrays.stream(GameService.getEmptyField(height, width))
+                .flatMap(line -> Arrays.stream(line))
+                .anyMatch(cell -> cell != CellStatus.UNKNOWN);
+        assertThat(false, equalTo(result));
+    }
+
 }

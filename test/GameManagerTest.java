@@ -1,16 +1,17 @@
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class GameManagerTest {
+
+//    @Test
+//    public void getPlayerShootGuessTest() throws GameCancelledException, GameInterruptException{
+//        GameService service = GameService.getInstance(new IOManager(new TestInputManager("d\ra\rs\ra\ra\ra\ra\ra\ra\ra\ra"), ConsoleOutputManager.getInstance()));
+//        assertThrows(GameInterruptException.class, () -> service.getIntegerValue("Введите число"));
+//    }
 
     // todo: incorrect test beacuse it's depend on test starting sequence.
 
@@ -146,4 +147,46 @@ public class GameManagerTest {
         GameManager manager = new GameManager(generateInitPlayerList());
         manager.startGame();
     }
+
+    @Test
+    public void checkAliveEnemyTrueTest() {
+        Set<Player> players = new HashSet<>();
+        Player p1 = new HumanPlayer("Player One");
+        Player p2 = new HumanPlayer("Player Two");
+        Player p3 = new HumanPlayer("Player Three  ");
+        p1.setAlive(true);
+        p2.setAlive(false);
+        p3.setAlive(true);
+        players.add(p1);
+        players.add(p2);
+        players.add(p3);
+        GameManager manager = new GameManager(players);
+        assertThat(manager.checkAliveEnemy(), equalTo(true));
+    }
+
+    @Test
+    public void checkAliveEnemyFalseTest() {
+        Set<Player> players = new HashSet<>();
+        Player p1 = new HumanPlayer("Player One");
+        Player p2 = new HumanPlayer("Player Two");
+        Player p3 = new HumanPlayer("Player Three  ");
+        p1.setAlive(true);
+        p2.setAlive(false);
+        p3.setAlive(false);
+        players.add(p1);
+        players.add(p2);
+        players.add(p3);
+        GameManager manager = new GameManager(players);
+        assertThat(manager.checkAliveEnemy(), equalTo(false));
+    }
+
+    @Test
+    public void createGameTest() {
+        Set<Player> players = new HashSet<>();
+        players.add(new HumanPlayer("Player One"));
+        players.add(new AIPlayer("Player Two"));
+        GameManager manager = new GameManager(players);
+        assertThat(manager.playersCount(), equalTo(2));
+    }
+
 }

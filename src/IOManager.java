@@ -24,4 +24,9 @@ public class IOManager implements InputManager, OutputManager{
     public void printBattlefield(CellStatus[][] battleField) {
         out.printBattlefield(battleField);
     }
+
+    @Override
+    public void printBattlefield(Player player) {
+        out.printBattlefield(player);
+    }
 }

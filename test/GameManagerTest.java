@@ -9,8 +9,15 @@ import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class GameManagerTest {
+
+//    @Test
+//    public void getPlayerShootGuessTest() throws GameCancelledException, GameInterruptException{
+//        GameService service = GameService.getInstance(new IOManager(new TestInputManager("d\ra\rs\ra\ra\ra\ra\ra\ra\ra\ra"), ConsoleOutputManager.getInstance()));
+//        assertThrows(GameInterruptException.class, () -> service.getIntegerValue("Введите число"));
+//    }
 
     // todo: incorrect test beacuse it's depend on test starting sequence.
 
@@ -146,4 +153,5 @@ public class GameManagerTest {
         GameManager manager = new GameManager(generateInitPlayerList());
         manager.startGame();
     }
+
 }

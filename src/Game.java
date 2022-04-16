@@ -47,47 +47,50 @@ public class Game implements Callable<String> {
     }
 
     public String call() throws GameCancelledException, GameInterruptException {
-        manager.initPlayers(this); // todo: init manager here to hide it from other Threads. It also must create copy of Players.
+        GameManager manager = new GameManager(players, fieldWidth, fieldHeight, difficulty);
+        manager.initPlayers(this);
         status = GameStatus.ACTIVE;
         while (isActive())
         {
-            Player player = manager.getNextPlayer(); // remove
             manager.nextPlayer();
-            //manager.greetingPlayer();
-            Project1st.service.playerWelcome(player);
-            while (true) {
-                //manager.showEnemyBattleField();
-                Project1st.service.showEnemyBattleField(player);
-                //manager.getPlayerShootGuess(); //todo: manager should hold info about gamefield size
-                CellSample shoot = Project1st.service.getPlayerGuess(fieldHeight, fieldWidth);
-                //CellStatus result = manager.checkPlayerShootGuess();
-                Ship.ShipHitStatus result = checkSuggests(shoot, player);
-                if (result == Ship.ShipHitStatus.MISSED) {
-                    System.out.println("Вы промахнулись!");
-                    break;
-                }
-                else if (result == Ship.ShipHitStatus.DESTROYED) {
-                    if (!checkAliveEnemy(player)) {
-                    //    if (!manager.checkAliveEnemy(player)) {
-                            System.out.println("Вы уничтожили последний корабль и победили! Игра окончена.");
-                        status = GameStatus.ENDED;
+            manager.greetingPlayer();
+            boolean nextPlayerTurn = false;
+            while (!nextPlayerTurn) {
+                manager.showEnemyBattleField();
+                CellSample shoot = manager.getPlayerShootGuess();
+                CellStatus result = manager.executePlayerShootGuess(shoot);
+                switch (result) { //todo try extract
+                    case MISSED: {
+                        manager.showMessage("Вы промахнулись!");
+                        nextPlayerTurn = true;
+                        break;
                     }
-                    else {
-                        System.out.println("Вы уничтожили корабль противника.");
+                    case HITTED: {
+                        manager.showMessage("Вы повредили корабль противника.");
+                        break;
                     }
+                    case DESTROYED: {
+                        if (!manager.checkAliveEnemy()) {
+                            status = GameStatus.ENDED;
+                            manager.showMessage("Вы уничтожили последний корабль и победили! Игра окончена.");
+                            return manager.getSummaryGameResult();
+                        }
+                        else {
+                            manager.showMessage("Вы уничтожили корабль противника.");
+                        }
+                        break;
+                    }
+                    default: {
+                        throw new IllegalArgumentException();
+                    }
+
                 }
-                else if (result == Ship.ShipHitStatus.HITED) {
-                    System.out.println("Вы повредили корабль противника.");
-                }
-                else {
-                    throw new IllegalArgumentException();
-                }
-               // manager.fillPlayerEnemyBattleField(shoot, result);
-                Project1st.service.fillEnemyBattleField(player, shoot, result);
+                manager.fillEnemyBattleField(shoot, result);
             }
         }
-        return null;
+        return "Game over";
     }
+
 
     private Ship.ShipHitStatus checkSuggests(Cell shoot, Player player) {
         Ship.ShipHitStatus result = Ship.ShipHitStatus.MISSED;

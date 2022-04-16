@@ -130,4 +130,12 @@ public class GameServiceTest {
     public void getCellFromStringOutOfRangeTest2() {
         assertThat(GameService.getCellFromString("E5", 5, 4), equalTo(Optional.empty()));
     }
+
+    @Test
+    public void getPlayerGuessTest() throws GameCancelledException, GameInterruptException {
+        GameService service = GameService.getInstance(new IOManager(new TestInputManager("b3"), ConsoleOutputManager.getInstance()));
+        assertThat(new CellSample(2, 1), equalTo(service.getPlayerGuess(10,10)));
+    }
+
+
 }

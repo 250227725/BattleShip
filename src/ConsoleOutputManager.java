@@ -36,6 +36,10 @@ public class ConsoleOutputManager implements OutputManager {
 //        }
 //    }
 
+    public void printBattlefield(Player player) {
+        printBattlefield(player.getEnemyBattlefield());
+    }
+
     public void printBattlefield(CellStatus[][] battleField) {
         for (int i = -1; i <= battleField.length; i++) {
             if (i == -1 || i == battleField.length) System.out.print("+");

@@ -7,7 +7,7 @@ public abstract class Player {
     private final boolean isHuman;
     private boolean isAlive;
     Map<Ship, String> ships;
-    private CellStatus[][] enemyBattlefield;
+    private CellStatus[][] enemyBattlefield; //todo: multiplayer mode should be MAP (PlayerID, CellStatus[][])
 
     protected Player(String name, boolean isHuman) {
         this.name = name;

@@ -1,10 +1,7 @@
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PlayerTest {
     @Test
@@ -17,7 +14,7 @@ public class PlayerTest {
     @Test
     public void humanPlayerCloneTest1() {
         Player p1 = new HumanPlayer("Test");
-        Player clone = (Player) p1.clone();
+        Player clone = p1.clone();
         assertThat(p1, not(equalTo(clone)));
     }
 
@@ -30,7 +27,7 @@ public class PlayerTest {
     @Test
     public void AIPlayerCloneTest1() {
         Player p1 = new AIPlayer("Test");
-        Player clone = (Player) p1.clone();
+        Player clone = p1.clone();
         assertThat(p1, not(equalTo(clone)));
     }
 
@@ -49,7 +46,6 @@ public class PlayerTest {
         int shootX= 3;
         CellSample shoot = new CellSample(shootY, shootX);
         Ship.ShipHitStatus shootResult = Ship.ShipHitStatus.HITED;
-        CellStatus cellStatus = CellStatus.HITTED;
         player.init(GameService.getEmptyField(height, width));
         player.fillEnemyBattlefield(shoot, shootResult);
         boolean result = false;

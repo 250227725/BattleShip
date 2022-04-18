@@ -30,6 +30,16 @@ public class GameService {
         return result;
     }
 
+    public GameSettings initSettings() throws GameCancelledException, GameInterruptException {
+        int playersQuantity = getPlayersQuantity(); //todo: add check for quantity range
+        //int width = getFieldWidth(); //todo: add check for quantity range
+        //int height = getFieldHeight(); //todo: add check for quantity range
+        //int difficulty = getDifficulty(); //todo: add realisation
+        Set<Player> players = getPlayers(playersQuantity);
+        //return Game.createGame(players, width, height, difficulty);
+        return GameSettings.createSettings(players);
+    }
+
     public Game initGame() throws GameCancelledException, GameInterruptException {
         int playersQuantity = getPlayersQuantity(); //todo: add check for quantity range
         //int width = getFieldWidth(); //todo: add check for quantity range
@@ -39,6 +49,7 @@ public class GameService {
         //return Game.createGame(players, width, height, difficulty);
         return Game.createGame(players);
     }
+
 
     public Set<Player> getPlayers(int playersQuantity) throws GameCancelledException, GameInterruptException {
         int playersCount = 1;
@@ -220,8 +231,5 @@ public class GameService {
                 status == Ship.ShipHitStatus.HITED ? CellStatus.HITTED : CellStatus.DESTROYED;
     }
 
-    public boolean repeat() { //todo implement
-        manager.showMessage("Хотите сыграть еще раз?");
-        return false;
-    }
+
 }

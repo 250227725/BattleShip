@@ -78,6 +78,16 @@ public class Game implements Callable<String> {
         }
     }
 
+    public void startGame() {
+        if (status!=GameStatus.NEW) throw new IllegalArgumentException();
+        status = GameStatus.ACTIVE;
+    }
+
+    public void endGame() {
+        if (status!=GameStatus.ACTIVE) throw new IllegalArgumentException();
+        status = GameStatus.ENDED;
+    }
+
     private enum GameStatus {
         NEW,
         ACTIVE,

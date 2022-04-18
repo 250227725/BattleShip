@@ -1,7 +1,7 @@
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class GameManager {
+public class GameManager { //todo: use only Game class fields
     private Deque<Player> players = new LinkedList<>();
     private Player currentPlayer;
     private final int fieldWidth;
@@ -9,6 +9,7 @@ public class GameManager {
     private final int difficulty;
     public final int[] shipsSetup;
     private final IOManager ioManager = Project1st.IO_MANAGER;
+    private final Game game;
 
     /**
      * Create gameManager for game
@@ -24,6 +25,17 @@ public class GameManager {
         this.difficulty = difficulty;
         this.shipsSetup = Project1st.shipsSetup;
         generatePlayerSequence(gamePlayers);
+        this.game = Game.createGame(gamePlayers);
+    }
+
+    public static GameManager getInstance(GameSettings settings) {
+        return new GameManager(settings.getPlayers(), settings.getFieldHeight(), settings.getFieldWidth(), settings.getDifficulty());
+    }
+
+    public boolean repeat() {
+        //todo implement logic
+        showMessage("Хотите сыграть еще раз?");
+        return false;
     }
 
     /**
@@ -31,6 +43,7 @@ public class GameManager {
      */
     public void startGame() {
         showMessage("Игра начинается!");
+        game.startGame();
     }
 
     /**
@@ -121,5 +134,54 @@ public class GameManager {
 
     public void fillEnemyBattleField(CellSample shoot, CellStatus result) {
         currentPlayer.fillEnemyBattlefield(shoot, result);
+    }
+
+    public void run() {
+        try {
+            initPlayers();
+            startGame();
+            while (game.isActive()) {
+                nextPlayer();
+                greetingPlayer();
+                boolean nextPlayerTurn = false;
+                while (!nextPlayerTurn) {
+                    showEnemyBattleField();
+                    CellSample shoot = getPlayerShootGuess();
+                    CellStatus result = executePlayerShootGuess(shoot);
+                    switch (result) { //todo try extract
+                        case MISSED: {
+                            showMessage("Вы промахнулись!");
+                            nextPlayerTurn = true;
+                            break;
+                        }
+                        case HITTED: {
+                            showMessage("Вы повредили корабль противника.");
+                            break;
+                        }
+                        case DESTROYED: {
+                            if (!checkAliveEnemy()) {
+                                game.endGame();
+                                showMessage("Вы уничтожили последний корабль и победили! Игра окончена.");
+                                showEnemyBattleField();
+                                showMessage(getSummaryGameResult());
+                                return;
+                            } else {
+                                showMessage("Вы уничтожили корабль противника.");
+                            }
+                            break;
+                        }
+                        default: {
+                            throw new IllegalArgumentException();
+                        }
+
+                    }
+                    fillEnemyBattleField(shoot, result);
+                }
+            }
+        }
+        catch (GameCancelledException | GameInterruptException e) {
+            game.endGame();
+            showMessage("Game canceled");
+        }
     }
 }

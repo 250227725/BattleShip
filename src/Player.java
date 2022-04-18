@@ -52,7 +52,11 @@ public abstract class Player {
                 .map(s -> s.getKey().hit(shoot))
                 .filter(s -> s != Ship.ShipHitStatus.MISSED)
                 .findAny();
-        return result.isEmpty() ? Ship.ShipHitStatus.MISSED : result.get();
+        if (result.isEmpty())  return Ship.ShipHitStatus.MISSED;
+        if (result.get() == Ship.ShipHitStatus.DESTROYED && ships.keySet().stream().noneMatch(s -> s.isAlive())) {
+            isAlive = false;
+        }
+        return result.get();
     };
 
     public void fillEnemyBattlefield(CellSample shoot, Ship.ShipHitStatus result) {

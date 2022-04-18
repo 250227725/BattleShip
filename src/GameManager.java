@@ -26,9 +26,6 @@ public class GameManager {
         generatePlayerSequence(gamePlayers);
     }
 
-//    public GameManager(Game game) { //todo: implement
-//    }
-
     /**
      * Starting the game
      */

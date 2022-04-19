@@ -41,11 +41,11 @@ public abstract class Cell implements Comparable<Cell> {
     }
 
     public boolean isOutOfRange() {
-        return isOutOfRange(Project1st.MAX_FIELD_WIDTH, Project1st.MAX_FIELD_HEIGHT);
+        return isOutOfRange(GameSettings.MAX_FIELD_WIDTH, GameSettings.MAX_FIELD_HEIGHT);
     };
 
-    public boolean isOutOfRange(int MAX_FIELD_WIDTH, int MAX_FIELD_HEIGHT) {
-        return x < 0 || y < 0 || x >= MAX_FIELD_WIDTH || y >= MAX_FIELD_HEIGHT;
+    public boolean isOutOfRange(int FIELD_WIDTH, int FIELD_HEIGHT) {
+        return !(x >= 0 && y >=0 && x < FIELD_WIDTH && y < FIELD_HEIGHT);
     };
 
     enum HorizontalCellNames {

@@ -30,21 +30,21 @@ public class GameService {
         return result;
     }
 
-    public GameSettings initSettings() throws GameCancelledException, GameInterruptException {
-        int playersQuantity = getPlayersQuantity(); //todo: add check for quantity range
+    public static GameSettings initSettings(IOManager manager) throws GameCancelledException, GameInterruptException {
+        int playersQuantity = getPlayersQuantity(manager); //todo: add check for quantity range
         //int width = getFieldWidth(); //todo: add check for quantity range
         //int height = getFieldHeight(); //todo: add check for quantity range
         //int difficulty = getDifficulty(); //todo: add realisation
-        Set<Player> players = getPlayers(playersQuantity);
+        Set<Player> players = getPlayers(playersQuantity, manager);
         //return Game.createGame(players, width, height, difficulty);
         return GameSettings.createSettings(players);
     }
 
-    public Set<Player> getPlayers(int playersQuantity) throws GameCancelledException, GameInterruptException {
+    public static Set<Player> getPlayers(int playersQuantity, IOManager manager) throws GameCancelledException, GameInterruptException {
         int playersCount = 1;
         Set<Player> players = new HashSet<>();
         while (playersQuantity > 0) {
-            Player player = getHumanPlayer(playersCount);
+            Player player = getHumanPlayer(playersCount, manager);
             if (player == null) break;
             if (players.contains(player)) {
                 manager.showMessage("Игрок уже был добавлен ранее");
@@ -58,7 +58,7 @@ public class GameService {
         return players;
     }
 
-    public Set<Player> getAIPlayers(int playersQuantity) {
+    public static Set<Player> getAIPlayers(int playersQuantity) {
         Set<Player> aiPlayers = new HashSet<>();
         while (playersQuantity > 0) {
             aiPlayers.add(new AIPlayer("AI_" + playersQuantity));
@@ -67,24 +67,24 @@ public class GameService {
         return aiPlayers;
     }
 
-    public Player getHumanPlayer(int playersCount) throws GameCancelledException, GameInterruptException {
+    public static Player getHumanPlayer(int playersCount, IOManager manager) throws GameCancelledException, GameInterruptException {
         String message = "Введите имя игрока №" + playersCount + " или exit для завершения игры" +
                 " или оставьте имя пустым для создания AI игроков";
         manager.showMessage(message);
-        String name = getStringValue(message);
+        String name = getStringValue(message, manager);
         if (name == null || name.equals("")) {
             return null;
         }
         return new HumanPlayer(name);
     }
 
-    public int getPlayersQuantity() throws GameCancelledException, GameInterruptException {
+    public static int getPlayersQuantity(IOManager manager) throws GameCancelledException, GameInterruptException {
         String message = "Введите количество игроков или exit для завершения игры";
         manager.showMessage(message);
-        return getIntegerValue(message);
+        return getIntegerValue(message, manager);
     }
 
-    public int getIntegerValue(String repeatMessage) throws GameCancelledException, GameInterruptException {
+    public static int getIntegerValue(String repeatMessage, IOManager manager) throws GameCancelledException, GameInterruptException {
         int errorCount = 0;
         int maxAttempt = 5;
         while (true) {
@@ -103,7 +103,7 @@ public class GameService {
         }
     }
 
-    public String getStringValue(String repeatMessage) throws GameCancelledException, GameInterruptException {
+    public static String getStringValue(String repeatMessage, IOManager manager) throws GameCancelledException, GameInterruptException {
         int errorCount = 0;
         int maxAttempt = 5;
         while (true) {
@@ -121,26 +121,11 @@ public class GameService {
         }
     }
 
-    public void addHumanShip(CellStatus[][] playerField, int size, Map<Ship, String> ships, int index) throws GameCancelledException, GameInterruptException {
-        while (true) {
-            CellSample[] cells = getCellsForShip(size, playerField.length, playerField[0].length);
-            if (!checkFieldAvailability(playerField, cells)) {
-                manager.showMessage("Невозможно разместить корабль на выбранные поля");
-                continue;
-            }
-
-            fillBusyCell(playerField, cells);
-            ships.put(Ship.getInstance(cells), size + "-палубный корабль, №" + (size - index));
-            manager.printBattlefield(playerField);
-            break;
-        }
-    }
-
-    public CellSample[] getCellsForShip(int size, int height, int width) throws GameCancelledException, GameInterruptException {
+    public static CellSample[] getCellsForShip(int size, int height, int width, IOManager manager) throws GameCancelledException, GameInterruptException {
         String message = "Введите координаты начальной и конечной точки корабля, разделенные знаком минус. Размер корабля - " + size + ":";
         manager.showMessage(message);
         while (true) {
-            String[] data = getStringValue(message).trim().split("-");
+            String[] data = getStringValue(message, manager).trim().split("-");
             if (data.length < 1 || data.length > 2) {
                 manager.showMessage("Некорректное значение" + message);
                 continue;
@@ -173,25 +158,25 @@ public class GameService {
         }
     }
 
-    public CellSample getPlayerGuess(int height, int width) throws GameCancelledException, GameInterruptException {
+    public static CellSample getPlayerGuess(int height, int width, IOManager manager) throws GameCancelledException, GameInterruptException {
         String message = "Введите координаты поля для выстрела:";
         manager.showMessage(message);
         while (true) {
-            String data = getStringValue(message).trim();
+            String data = getStringValue(message, manager).trim();
             Optional<CellSample> cell = getCellFromString(data, height, width);
             if (cell.isPresent()) return cell.get();
             manager.showMessage("Некорректный ввод. " + message);
         }
     }
 
-    public boolean checkFieldAvailability(CellStatus[][] playerField, CellSample[] shipCell) {
+    public static boolean checkFieldAvailability(CellStatus[][] playerField, CellSample[] shipCell) {
         for (CellSample cell : shipCell) {
             if (playerField[cell.getY()][cell.getX()] == CellStatus.BUSY) return false;
         }
         return true;
     }
 
-    public void fillBusyCell(CellStatus[][] playerField, CellSample[] cells) {
+    public static void fillBusyCell(CellStatus[][] playerField, CellSample[] cells) {
         for (CellSample baseCell : cells) {
             for (CellSample cell : baseCell.getNeighbors()) {
                 try {
@@ -205,23 +190,4 @@ public class GameService {
             playerField[baseCell.getY()][baseCell.getX()] = CellStatus.SHIP;
         }
     }
-
-    public void playerWelcome(Player player) {
-        manager.showMessage("Ход игрока " + player.getName());
-    }
-
-    public void showEnemyBattleField(Player player) {
-        manager.printBattlefield(player.getEnemyBattlefield());
-    }
-
-    public void fillEnemyBattleField(Player player, CellSample shoot, Ship.ShipHitStatus result) {
-        player.fillEnemyBattlefield(shoot, result);
-    }
-
-    public static CellStatus castShipToCellStatus(Ship.ShipHitStatus status) {
-        return status == Ship.ShipHitStatus.MISSED ? CellStatus.MISSED :
-                status == Ship.ShipHitStatus.HITED ? CellStatus.HITTED : CellStatus.DESTROYED;
-    }
-
-
 }

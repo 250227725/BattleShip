@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class AIPlayer extends Player{
     public AIPlayer(String name) {
         super(name, false);
@@ -14,6 +17,7 @@ public class AIPlayer extends Player{
     }
 
     @Override
-    void generateShips(CellStatus[][] emptyPlayerField) {
+    Map<Ship, String> generateShips(CellStatus[][] emptyPlayerField, IOManager manager) {
+        return new HashMap<>();
     }
 }

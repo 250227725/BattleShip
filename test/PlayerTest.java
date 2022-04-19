@@ -15,7 +15,7 @@ public class PlayerTest {
     public void humanPlayerCloneTest1() {
         Player p1 = new HumanPlayer("Test");
         Player clone = p1.clone();
-        assertThat(p1, not(equalTo(clone)));
+        assertThat(false, equalTo(p1 == clone));
     }
 
     @Test
@@ -28,7 +28,7 @@ public class PlayerTest {
     public void AIPlayerCloneTest1() {
         Player p1 = new AIPlayer("Test");
         Player clone = p1.clone();
-        assertThat(p1, not(equalTo(clone)));
+        assertThat(false, equalTo(p1 == clone));
     }
 
     @Test
@@ -45,8 +45,8 @@ public class PlayerTest {
         int shootY = 2;
         int shootX= 3;
         CellSample shoot = new CellSample(shootY, shootX);
-        Ship.ShipHitStatus shootResult = Ship.ShipHitStatus.HITED;
-        player.init(GameService.getEmptyField(height, width));
+        CellStatus shootResult = CellStatus.HITTED;
+        player.init(GameService.getEmptyField(height, width), Project1st.IO_MANAGER);
         player.fillEnemyBattlefield(shoot, shootResult);
         boolean result = false;
         for (int y = 0; y < player.getEnemyBattlefield().length; y++) {
@@ -65,9 +65,9 @@ public class PlayerTest {
         int y = 2;
         int x = 3;
         CellSample shoot = new CellSample(y, x);
-        Ship.ShipHitStatus shootResult = Ship.ShipHitStatus.HITED;
+        CellStatus shootResult = CellStatus.HITTED;
         CellStatus cellStatus = CellStatus.HITTED;
-        player.init(GameService.getEmptyField(height, width));
+        player.init(GameService.getEmptyField(height, width), Project1st.IO_MANAGER);
         player.fillEnemyBattlefield(shoot, shootResult);
         assertThat(cellStatus, equalTo(player.getEnemyBattlefield()[y][x]));
     }
@@ -80,9 +80,9 @@ public class PlayerTest {
         int y = 2;
         int x = 3;
         CellSample shoot = new CellSample(y, x);
-        Ship.ShipHitStatus shootResult = Ship.ShipHitStatus.DESTROYED;
+        CellStatus shootResult = CellStatus.DESTROYED;
         CellStatus cellStatus = CellStatus.DESTROYED;
-        player.init(GameService.getEmptyField(height, width));
+        player.init(GameService.getEmptyField(height, width), Project1st.IO_MANAGER);
         player.fillEnemyBattlefield(shoot, shootResult);
         assertThat(cellStatus, equalTo(player.getEnemyBattlefield()[y][x]));
     }
@@ -95,9 +95,9 @@ public class PlayerTest {
         int y = 2;
         int x = 3;
         CellSample shoot = new CellSample(y, x);
-        Ship.ShipHitStatus shootResult = Ship.ShipHitStatus.MISSED;
+        CellStatus shootResult = CellStatus.MISSED;
         CellStatus cellStatus = CellStatus.MISSED;
-        player.init(GameService.getEmptyField(height, width));
+        player.init(GameService.getEmptyField(height, width), Project1st.IO_MANAGER);
         player.fillEnemyBattlefield(shoot, shootResult);
         assertThat(cellStatus, equalTo(player.getEnemyBattlefield()[y][x]));
     }

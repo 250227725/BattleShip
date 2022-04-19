@@ -54,9 +54,10 @@ public class ConsoleOutputManager implements OutputManager {
                 result.append(" ");
                 switch (battleField[y][x]) {
                     case MISSED -> result.append("*");
-                    case HITTED -> result.append("Х");
-                    case DESTROYED -> result.append("+");
-                    case BUSY -> result.append("▒");
+                    case HITTED -> result.append("╳");
+                    case DESTROYED -> result.append("╪");
+                    case BUSY -> result.append("░");
+                    case SHIP -> result.append("█");
                     default -> result.append(" ");
                 }
                 result.append(" │");

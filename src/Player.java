@@ -69,5 +69,19 @@ public abstract class Player {
             throw new IllegalArgumentException();
         }
         enemyBattlefield[shoot.getY()][shoot.getX()] = result;
+
+        if (result==CellStatus.DESTROYED) {
+            markHittedAsDestroyed(shoot);
+        }
     }
+
+    protected void markHittedAsDestroyed(CellSample cell) {
+        cell.getNeighbors().stream()
+            .filter(s -> !s.isOutOfRange(enemyBattlefield.length, enemyBattlefield[0].length) && enemyBattlefield[s.getY()][s.getX()] == CellStatus.HITTED)
+            .forEach(s -> {
+                enemyBattlefield[s.getY()][s.getX()] = CellStatus.DESTROYED;
+                markHittedAsDestroyed(s);
+            });
+        ;
+    };
 }

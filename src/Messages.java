@@ -12,4 +12,6 @@ public class Messages {
             "  '.    /   #|  | |  | #|  | |  | #  #|  |.'.|  | #|  | #|  |' '  | #\n" +
             "    |  |    #'  '-'  ' #'  '-'  ' #  #|   ,'.   | #|  | #|  | `   | #\n" +
             "    `--'    # `-----'  # `-----'  #  #'--'   '--' #`--' #`--'  `--' #";
+
+    public static final String CLEAR_SCREEN = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 }

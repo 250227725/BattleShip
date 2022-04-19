@@ -42,6 +42,7 @@ public class GameManager { //todo: use only Game class fields
      * Starting the game
      */
     public void startGame() {
+        showMessage(Messages.CLEAR_SCREEN);
         showMessage(Messages.START);
         game.startGame();
     }
@@ -85,6 +86,8 @@ public class GameManager { //todo: use only Game class fields
     public void initPlayers() throws GameCancelledException, GameInterruptException {
         CellStatus[][] playerField = GameService.getEmptyField(fieldHeight, fieldWidth);
         for (Player player :players) {
+            showMessage(Messages.CLEAR_SCREEN);
+            showMessage("Инициализация кораблей игрока " + player.getName());
             player.init(GameService.copyBattleField(playerField));
         }
     }
@@ -148,6 +151,7 @@ public class GameManager { //todo: use only Game class fields
                     showEnemyBattleField();
                     CellSample shoot = getPlayerShootGuess();
                     CellStatus result = executePlayerShootGuess(shoot);
+                    fillEnemyBattleField(shoot, result);
                     switch (result) { //todo try extract
                         case MISSED: {
                             showMessage("Вы промахнулись!");
@@ -175,7 +179,6 @@ public class GameManager { //todo: use only Game class fields
                         }
 
                     }
-                    fillEnemyBattleField(shoot, result);
                 }
             }
         }

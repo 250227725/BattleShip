@@ -4,5 +4,6 @@ public enum CellStatus {
     BUSY,
     HITTED,
     UNKNOWN,
-    DESTROYED
+    DESTROYED,
+    SHIP;
 }

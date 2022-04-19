@@ -196,4 +196,8 @@ public class GameService {
         ioManager.showMessage("Press any key for continue");
         ioManager.read();
     }
+
+    public static CellSample getAIGuess() {
+        return new CellSample(0,0);
+    }
 }

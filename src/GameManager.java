@@ -79,12 +79,15 @@ public class GameManager {
         ioManager.printBattlefield(currentPlayer.getEnemyBattlefield());
     }
 
-    public CellSample getPlayerShootGuess() throws GameCancelledException, GameInterruptException {
+    private CellSample getPlayerShootGuess() throws GameCancelledException, GameInterruptException {
         //todo:
         //1. inline dimension checks here
         //2. add dublicate fire check for difficulty lvl
         //3. represent IOManager to Service and make it methods static
-        return GameService.getPlayerGuess(fieldHeight, fieldWidth, ioManager);
+        if (currentPlayer.isHuman())
+            return GameService.getPlayerGuess(fieldHeight, fieldWidth, ioManager);
+        else
+            return GameService.getAIGuess();
     }
 
     public CellStatus executePlayerShootGuess(Cell shoot) {

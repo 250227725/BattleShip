@@ -40,17 +40,6 @@ public class GameService {
         return GameSettings.createSettings(players);
     }
 
-    public Game initGame() throws GameCancelledException, GameInterruptException {
-        int playersQuantity = getPlayersQuantity(); //todo: add check for quantity range
-        //int width = getFieldWidth(); //todo: add check for quantity range
-        //int height = getFieldHeight(); //todo: add check for quantity range
-        //int difficulty = getDifficulty(); //todo: add realisation
-        Set<Player> players = getPlayers(playersQuantity);
-        //return Game.createGame(players, width, height, difficulty);
-        return Game.createGame(players);
-    }
-
-
     public Set<Player> getPlayers(int playersQuantity) throws GameCancelledException, GameInterruptException {
         int playersCount = 1;
         Set<Player> players = new HashSet<>();
@@ -177,7 +166,7 @@ public class GameService {
         try {
             int x = Cell.HorizontalCellNames.valueOf(attempt.trim().substring(0, 1).toUpperCase()).ordinal();
             int y = Integer.parseInt(attempt.trim().substring(1).trim()) - 1;
-            if (x < 0 || y < 0 || x >= width || y >= height) return Optional.empty();
+            if (y < 0 || x >= width || y >= height) return Optional.empty();
             return Optional.of(new CellSample(y, x));
         } catch (IllegalArgumentException | StringIndexOutOfBoundsException e) {
             return Optional.empty();
@@ -190,7 +179,7 @@ public class GameService {
         while (true) {
             String data = getStringValue(message).trim();
             Optional<CellSample> cell = getCellFromString(data, height, width);
-            if (!cell.isEmpty()) return cell.get();
+            if (cell.isPresent()) return cell.get();
             manager.showMessage("Некорректный ввод. " + message);
         }
     }
@@ -210,7 +199,7 @@ public class GameService {
                         playerField[cell.getY()][cell.getX()] = CellStatus.BUSY;
                     }
                 } catch (ArrayIndexOutOfBoundsException e) {
-
+                    //NOP
                 }
             }
             playerField[baseCell.getY()][baseCell.getX()] = CellStatus.SHIP;

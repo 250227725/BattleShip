@@ -9,7 +9,8 @@ public class GameManager { //todo: use only Game class fields
     private final int difficulty;
     public final int[] shipsSetup;
     private final IOManager ioManager = Project1st.IO_MANAGER;
-    private final Game game;
+    private boolean isStarted = false;
+    private boolean isEnded = false;
 
     /**
      * Create gameManager for game
@@ -25,7 +26,6 @@ public class GameManager { //todo: use only Game class fields
         this.difficulty = difficulty;
         this.shipsSetup = Project1st.shipsSetup;
         generatePlayerSequence(gamePlayers);
-        this.game = Game.createGame(gamePlayers);
     }
 
     public static GameManager getInstance(GameSettings settings) {
@@ -42,9 +42,10 @@ public class GameManager { //todo: use only Game class fields
      * Starting the game
      */
     public void startGame() {
+        if (isStarted) throw new IllegalArgumentException();
+        isStarted = true;
         showMessage(Messages.CLEAR_SCREEN);
         showMessage(Messages.START);
-        game.startGame();
     }
 
     /**
@@ -144,7 +145,7 @@ public class GameManager { //todo: use only Game class fields
         try {
             initPlayers();
             startGame();
-            while (game.isActive()) {
+            while (isStarted&&!isEnded) {
                 nextPlayer();
                 greetingPlayer();
                 boolean nextPlayerTurn = false;
@@ -165,7 +166,7 @@ public class GameManager { //todo: use only Game class fields
                         }
                         case DESTROYED -> {
                             if (!checkAliveEnemy()) {
-                                game.endGame();
+                                isEnded = true;
                                 showMessage(Messages.WIN);
                                 showEnemyBattleField();
                                 showMessage(getSummaryGameResult());
@@ -182,7 +183,7 @@ public class GameManager { //todo: use only Game class fields
             }
         }
         catch (GameCancelledException | GameInterruptException e) {
-            game.endGame();
+            isEnded = true;
             showMessage(Messages.GAME_OVER);
         }
     }

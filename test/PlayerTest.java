@@ -46,7 +46,8 @@ public class PlayerTest {
         int shootX= 3;
         CellSample shoot = new CellSample(shootY, shootX);
         CellStatus shootResult = CellStatus.HITTED;
-        player.init(GameService.getEmptyField(height, width), Project1st.IO_MANAGER);
+        IOManager manager = new IOManager(new TestInputManager("a1"), ConsoleOutputManager.getInstance());
+        player.init(GameService.getEmptyField(height, width), manager);
         player.fillEnemyBattlefield(shoot, shootResult);
         boolean result = false;
         for (int y = 0; y < player.getEnemyBattlefield().length; y++) {
@@ -66,10 +67,10 @@ public class PlayerTest {
         int x = 3;
         CellSample shoot = new CellSample(y, x);
         CellStatus shootResult = CellStatus.HITTED;
-        CellStatus cellStatus = CellStatus.HITTED;
-        player.init(GameService.getEmptyField(height, width), Project1st.IO_MANAGER);
+        IOManager manager = new IOManager(new TestInputManager("a1"), ConsoleOutputManager.getInstance());
+        player.init(GameService.getEmptyField(height, width), manager);
         player.fillEnemyBattlefield(shoot, shootResult);
-        assertThat(cellStatus, equalTo(player.getEnemyBattlefield()[y][x]));
+        assertThat(shootResult, equalTo(player.getEnemyBattlefield()[y][x]));
     }
 
     @Test
@@ -81,10 +82,10 @@ public class PlayerTest {
         int x = 3;
         CellSample shoot = new CellSample(y, x);
         CellStatus shootResult = CellStatus.DESTROYED;
-        CellStatus cellStatus = CellStatus.DESTROYED;
-        player.init(GameService.getEmptyField(height, width), Project1st.IO_MANAGER);
+        IOManager manager = new IOManager(new TestInputManager("a1"), ConsoleOutputManager.getInstance());
+        player.init(GameService.getEmptyField(height, width), manager);
         player.fillEnemyBattlefield(shoot, shootResult);
-        assertThat(cellStatus, equalTo(player.getEnemyBattlefield()[y][x]));
+        assertThat(shootResult, equalTo(player.getEnemyBattlefield()[y][x]));
     }
 
     @Test
@@ -96,9 +97,9 @@ public class PlayerTest {
         int x = 3;
         CellSample shoot = new CellSample(y, x);
         CellStatus shootResult = CellStatus.MISSED;
-        CellStatus cellStatus = CellStatus.MISSED;
-        player.init(GameService.getEmptyField(height, width), Project1st.IO_MANAGER);
+        IOManager manager = new IOManager(new TestInputManager("a1"), ConsoleOutputManager.getInstance());
+        player.init(GameService.getEmptyField(height, width), manager);
         player.fillEnemyBattlefield(shoot, shootResult);
-        assertThat(cellStatus, equalTo(player.getEnemyBattlefield()[y][x]));
+        assertThat(shootResult, equalTo(player.getEnemyBattlefield()[y][x]));
     }
 }

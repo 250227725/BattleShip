@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class GameManager {
-    private Deque<Player> players = new LinkedList<>();
+    private Deque<Player> players;
     private Player currentPlayer;
     private final int fieldWidth;
     private final int fieldHeight;
@@ -30,7 +30,7 @@ public class GameManager {
     }
 
     public void startGame() {
-        if (isStarted) throw new UnsupportedOperationException();;
+        if (isStarted) throw new UnsupportedOperationException();
         isStarted = true;
         showMessage(Messages.CLEAR_SCREEN);
         showMessage(Messages.START);
@@ -107,6 +107,7 @@ public class GameManager {
     }
 
     public String getSummaryGameResult() { //todo
+        showMessage("Победитель:" + currentPlayer.getName());
         showMessage("Для победы потребовалось выстрелов:" + currentPlayer.getShootCount());
         return "Results was ate by Barbariska";
     }
@@ -118,6 +119,7 @@ public class GameManager {
     public void run() {
         try {
             initPlayers();
+            showMessage(Messages.CLEAR_SCREEN);
             startGame();
             while (isStarted&&!isEnded) {
                 nextPlayer();
@@ -134,6 +136,8 @@ public class GameManager {
                         case MISSED -> {
                             showMessage(Messages.MISSED);
                             nextPlayerTurn = true;
+                            GameService.waitForAnyKey(ioManager);
+                            showMessage(Messages.CLEAR_SCREEN);
                         }
                         case HITTED -> {
                             showMessage(Messages.HITTED);
@@ -158,6 +162,7 @@ public class GameManager {
         }
         catch (GameCancelledException | GameInterruptException e) {
             isEnded = true;
+            showMessage(Messages.CLEAR_SCREEN);
             showMessage(Messages.GAME_OVER);
         }
     }

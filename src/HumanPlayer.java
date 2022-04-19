@@ -42,6 +42,11 @@ public class HumanPlayer extends Player{
                 continue;
             }
 
+            if (cells.length != size) {
+                manager.showMessage("Некорректный размер корабля");
+                continue;
+            }
+
             GameService.fillBusyCell(playerField, cells);
             result = Ship.getInstance(cells);
             manager.printBattlefield(playerField);

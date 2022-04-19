@@ -31,7 +31,8 @@ public class GameService {
     }
 
     public static GameSettings initSettings(IOManager manager) throws GameCancelledException, GameInterruptException {
-        int playersQuantity = getPlayersQuantity(manager); //todo: add check for quantity range
+        //int playersQuantity = getPlayersQuantity(manager); //todo: add check for quantity range
+        int playersQuantity = 2;
         //int width = getFieldWidth(); //todo: add check for quantity range
         //int height = getFieldHeight(); //todo: add check for quantity range
         //int difficulty = getDifficulty(); //todo: add realisation
@@ -189,5 +190,10 @@ public class GameService {
             }
             playerField[baseCell.getY()][baseCell.getX()] = CellStatus.SHIP;
         }
+    }
+
+    public static void waitForAnyKey(IOManager ioManager) throws GameCancelledException {
+        ioManager.showMessage("Press any key for continue");
+        ioManager.read();
     }
 }

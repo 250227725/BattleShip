@@ -42,7 +42,7 @@ public class GameManager { //todo: use only Game class fields
      * Starting the game
      */
     public void startGame() {
-        showMessage("Игра начинается!");
+        showMessage(Messages.START);
         game.startGame();
     }
 
@@ -161,7 +161,7 @@ public class GameManager { //todo: use only Game class fields
                         case DESTROYED: {
                             if (!checkAliveEnemy()) {
                                 game.endGame();
-                                showMessage("Вы уничтожили последний корабль и победили! Игра окончена.");
+                                showMessage(Messages.WIN);
                                 showEnemyBattleField();
                                 showMessage(getSummaryGameResult());
                                 return;

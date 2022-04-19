@@ -132,6 +132,7 @@ public class GameManager { //todo: use only Game class fields
     }
 
     public String getSummaryGameResult() { //todo
+        showMessage("Для победы потребовалось выстрелов:" + currentPlayer.getShootCount());
         return "Results was ate by Barbariska";
     }
 
@@ -150,19 +151,19 @@ public class GameManager { //todo: use only Game class fields
                 while (!nextPlayerTurn) {
                     showEnemyBattleField();
                     CellSample shoot = getPlayerShootGuess();
+                    currentPlayer.increaseShotCount();
                     CellStatus result = executePlayerShootGuess(shoot);
                     fillEnemyBattleField(shoot, result);
-                    switch (result) { //todo try extract
-                        case MISSED: {
-                            showMessage("Вы промахнулись!");
+                    //todo try extract
+                    switch (result) {
+                        case MISSED -> {
+                            showMessage(Messages.MISSED);
                             nextPlayerTurn = true;
-                            break;
                         }
-                        case HITTED: {
-                            showMessage("Вы повредили корабль противника.");
-                            break;
+                        case HITTED -> {
+                            showMessage(Messages.HITTED);
                         }
-                        case DESTROYED: {
+                        case DESTROYED -> {
                             if (!checkAliveEnemy()) {
                                 game.endGame();
                                 showMessage(Messages.WIN);
@@ -170,21 +171,19 @@ public class GameManager { //todo: use only Game class fields
                                 showMessage(getSummaryGameResult());
                                 return;
                             } else {
-                                showMessage("Вы уничтожили корабль противника.");
+                                showMessage(Messages.DESTROYED);
                             }
-                            break;
                         }
-                        default: {
+                        default -> {
                             throw new IllegalArgumentException();
                         }
-
                     }
                 }
             }
         }
         catch (GameCancelledException | GameInterruptException e) {
             game.endGame();
-            showMessage("Game canceled");
+            showMessage(Messages.GAME_OVER);
         }
     }
 }

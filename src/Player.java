@@ -8,6 +8,7 @@ public abstract class Player {
     private boolean isAlive;
     Map<Ship, String> ships;
     private CellStatus[][] enemyBattlefield; //todo: multiplayer mode should be MAP (PlayerID, CellStatus[][])
+    private int shootCount;
 
     protected Player(String name, boolean isHuman) {
         this.name = name;
@@ -15,7 +16,13 @@ public abstract class Player {
         this.ships = new HashMap<>();
     }
 
+    public int increaseShotCount() {
+        return shootCount++;
+    }
 
+    public int getShootCount() {
+        return shootCount;
+    }
 
     public abstract boolean isHuman();
     public abstract Player clone();
@@ -47,17 +54,17 @@ public abstract class Player {
     abstract void generateShips(CellStatus[][] playerField) throws GameCancelledException, GameInterruptException;
 
     public Ship.ShipHitStatus checkShoot(Cell shoot) {
-        Optional<Ship.ShipHitStatus> result = ships.entrySet().stream()
-                .filter(s -> s.getKey().isAlive())
-                .map(s -> s.getKey().hit(shoot))
+        Optional<Ship.ShipHitStatus> result = ships.keySet().stream()
+                .filter(Ship::isAlive)
+                .map(s -> s.hit(shoot))
                 .filter(s -> s != Ship.ShipHitStatus.MISSED)
                 .findAny();
         if (result.isEmpty())  return Ship.ShipHitStatus.MISSED;
-        if (result.get() == Ship.ShipHitStatus.DESTROYED && ships.keySet().stream().noneMatch(s -> s.isAlive())) {
+        if (result.get() == Ship.ShipHitStatus.DESTROYED && ships.keySet().stream().noneMatch(Ship::isAlive)) {
             isAlive = false;
         }
         return result.get();
-    };
+    }
 
     public void fillEnemyBattlefield(CellSample shoot, Ship.ShipHitStatus result) {
         fillEnemyBattlefield(shoot, result == Ship.ShipHitStatus.MISSED ? CellStatus.MISSED :
@@ -82,6 +89,5 @@ public abstract class Player {
                 enemyBattlefield[s.getY()][s.getX()] = CellStatus.DESTROYED;
                 markHittedAsDestroyed(s);
             });
-        ;
-    };
+    }
 }

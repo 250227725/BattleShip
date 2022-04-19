@@ -17,28 +17,82 @@ public class ConsoleOutputManager implements OutputManager {
     }
 
     public void printBattlefield(CellStatus[][] battleField) {
-        for (int i = -1; i <= battleField.length; i++) {
-            if (i == -1 || i == battleField.length) System.out.print("+");
-            if (i > -1 && i < battleField.length) System.out.print("|");
-            for (int j = 0; j < battleField[0].length; j++) {
-                if (i == -1 || i == battleField.length) {
-                    if (j != 0) System.out.print("----");
-                    else System.out.print("---");
+        if (battleField == null || battleField[0] == null) return;
+        int width = battleField.length;
+        int height = battleField[0].length;
+        StringBuilder result = new StringBuilder();
+        for (int y = 0; y < height; y++) {
+            if (y == 0) {
+                result.append("    ");
+                for (int x = 0; x < width; x++) {
+                    result.append(" ").append(Cell.HorizontalCellNames.values()[x]).append("  ");
+                }
+                result.append("\r\n");
+
+                for (int x = 0; x < width; x++) {
+                    if (x==0) {
+                        result.append("   ┌");
+                    }
+                    result.append("───");
+                    if (x+1 == width) {
+                            result.append("┐");
+                    }
+                    else {
+                            result.append("┼");
+                    }
+                }
+                result.append("\r\n");
+            }
+
+            if (y+1 < 10) {
+                result.append(" ");
+            }
+            result.append(y+1).append(" │");
+
+
+            for (int x = 0; x < width; x++) {
+                result.append(" ");
+                switch (battleField[y][x]) {
+                    case MISSED -> result.append("*");
+                    case HITTED -> result.append("╳");
+                    case DESTROYED -> result.append("╪");
+                    case BUSY -> result.append("░");
+                    case SHIP -> result.append("█");
+                    default -> result.append(" ");
+                }
+                result.append(" │");
+            }
+            result.append("\r\n");
+
+            result.append("   ");
+            if (y+1 == height) {
+                result.append("└");
+            }
+            else {
+                result.append("┼");
+            }
+
+            for (int x = 0; x < width; x++) {
+                result.append("───");
+                if (x+1 < width) {
+                    if (y+1 < height) {
+                        result.append("┼");
+                    }
+                    else {
+                        result.append("┴");
+                    }
                 }
                 else {
-                    if (j != 0) System.out.print("|");
-                    switch (battleField[i][j]) {
-                        case MISSED -> System.out.print(" M ");
-                        case HITTED -> System.out.print(" H ");
-                        case DESTROYED -> System.out.print(" D ");
-                        case BUSY ->  System.out.print(" B ");
-                        default -> System.out.print(" U ");
+                    if (y+1 < height) {
+                        result.append("┤");
+                    }
+                    else {
+                        result.append("┘");
                     }
                 }
             }
-            if (i == -1 || i == battleField.length) System.out.print("+");
-            if (i > -1 && i < battleField.length) System.out.print("|");
-            System.out.println();
+            result.append("\r\n");
         }
+        System.out.println(result);
     }
 }

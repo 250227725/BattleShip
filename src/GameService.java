@@ -206,11 +206,14 @@ public class GameService {
         for (CellSample baseCell : cells) {
             for (CellSample cell : baseCell.getNeighbors()) {
                 try {
-                    playerField[cell.getY()][cell.getX()] = CellStatus.BUSY;
+                    if (playerField[cell.getY()][cell.getX()] != CellStatus.SHIP) {
+                        playerField[cell.getY()][cell.getX()] = CellStatus.BUSY;
+                    }
                 } catch (ArrayIndexOutOfBoundsException e) {
 
                 }
             }
+            playerField[baseCell.getY()][baseCell.getX()] = CellStatus.SHIP;
         }
     }
 

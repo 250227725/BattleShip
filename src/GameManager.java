@@ -42,7 +42,8 @@ public class GameManager { //todo: use only Game class fields
      * Starting the game
      */
     public void startGame() {
-        showMessage("Игра начинается!");
+        showMessage(Messages.CLEAR_SCREEN);
+        showMessage(Messages.START);
         game.startGame();
     }
 
@@ -85,6 +86,8 @@ public class GameManager { //todo: use only Game class fields
     public void initPlayers() throws GameCancelledException, GameInterruptException {
         CellStatus[][] playerField = GameService.getEmptyField(fieldHeight, fieldWidth);
         for (Player player :players) {
+            showMessage(Messages.CLEAR_SCREEN);
+            showMessage("Инициализация кораблей игрока " + player.getName());
             player.init(GameService.copyBattleField(playerField));
         }
     }
@@ -129,6 +132,7 @@ public class GameManager { //todo: use only Game class fields
     }
 
     public String getSummaryGameResult() { //todo
+        showMessage("Для победы потребовалось выстрелов:" + currentPlayer.getShootCount());
         return "Results was ate by Barbariska";
     }
 
@@ -147,41 +151,39 @@ public class GameManager { //todo: use only Game class fields
                 while (!nextPlayerTurn) {
                     showEnemyBattleField();
                     CellSample shoot = getPlayerShootGuess();
+                    currentPlayer.increaseShotCount();
                     CellStatus result = executePlayerShootGuess(shoot);
-                    switch (result) { //todo try extract
-                        case MISSED: {
-                            showMessage("Вы промахнулись!");
+                    fillEnemyBattleField(shoot, result);
+                    //todo try extract
+                    switch (result) {
+                        case MISSED -> {
+                            showMessage(Messages.MISSED);
                             nextPlayerTurn = true;
-                            break;
                         }
-                        case HITTED: {
-                            showMessage("Вы повредили корабль противника.");
-                            break;
+                        case HITTED -> {
+                            showMessage(Messages.HITTED);
                         }
-                        case DESTROYED: {
+                        case DESTROYED -> {
                             if (!checkAliveEnemy()) {
                                 game.endGame();
-                                showMessage("Вы уничтожили последний корабль и победили! Игра окончена.");
+                                showMessage(Messages.WIN);
                                 showEnemyBattleField();
                                 showMessage(getSummaryGameResult());
                                 return;
                             } else {
-                                showMessage("Вы уничтожили корабль противника.");
+                                showMessage(Messages.DESTROYED);
                             }
-                            break;
                         }
-                        default: {
+                        default -> {
                             throw new IllegalArgumentException();
                         }
-
                     }
-                    fillEnemyBattleField(shoot, result);
                 }
             }
         }
         catch (GameCancelledException | GameInterruptException e) {
             game.endGame();
-            showMessage("Game canceled");
+            showMessage(Messages.GAME_OVER);
         }
     }
 }

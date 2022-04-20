@@ -13,7 +13,7 @@ public class GameSettings {
     public static final int MIN_DIFFICULTY = 1;
     private static final int DEFAULT_DIFFICULTY = 1;
 
-    private static final int[] DEFAULT_SHIP_SETTINGS = new int[]{0, 2};//{0,4,3,2,1}; //todo: It should depend on gamefield size;
+    public static final int[] DEFAULT_SHIP_SETTINGS = new int[]{0,4,3,2,1}; //todo: It should depend on gamefield size;
 
     public static final int MAX_PLAYERS = 2;
     public static final int MIN_PLAYERS = 2;

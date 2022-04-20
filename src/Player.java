@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public abstract class Player {
@@ -45,31 +46,31 @@ public abstract class Player {
 
 
     public void init(CellStatus[][] playerField) throws GameCancelledException, GameInterruptException {
-        if (isAlive()) return;
+        init(playerField, null);
+    }
+
+    public void init(CellStatus[][] playerField, IOManager manager) throws GameCancelledException, GameInterruptException {
+        if (isAlive()) throw new UnsupportedOperationException();
         enemyBattlefield = playerField;
-        generateShips(GameService.copyBattleField(playerField));
+        ships = generateShips(GameService.copyBattleField(playerField), manager);
         isAlive = true;
     }
 
-    abstract void generateShips(CellStatus[][] playerField) throws GameCancelledException, GameInterruptException;
+    abstract Map<Ship, String> generateShips(CellStatus[][] playerField, IOManager manager) throws GameCancelledException, GameInterruptException;
 
-    public Ship.ShipHitStatus checkShoot(Cell shoot) {
-        Optional<Ship.ShipHitStatus> result = ships.keySet().stream()
+    public CellStatus checkShoot(Cell shoot) {
+        Optional<CellStatus> result = ships.keySet().stream()
                 .filter(Ship::isAlive)
                 .map(s -> s.hit(shoot))
-                .filter(s -> s != Ship.ShipHitStatus.MISSED)
+                .filter(s -> s != CellStatus.MISSED)
                 .findAny();
-        if (result.isEmpty())  return Ship.ShipHitStatus.MISSED;
-        if (result.get() == Ship.ShipHitStatus.DESTROYED && ships.keySet().stream().noneMatch(Ship::isAlive)) {
+        if (result.isEmpty())  return CellStatus.MISSED;
+        if (result.get() == CellStatus.DESTROYED && ships.keySet().stream().noneMatch(Ship::isAlive)) {
             isAlive = false;
         }
         return result.get();
     }
 
-    public void fillEnemyBattlefield(CellSample shoot, Ship.ShipHitStatus result) {
-        fillEnemyBattlefield(shoot, result == Ship.ShipHitStatus.MISSED ? CellStatus.MISSED :
-                        result == Ship.ShipHitStatus.HITED ? CellStatus.HITTED : CellStatus.DESTROYED);
-    }
 
     public void fillEnemyBattlefield(CellSample shoot, CellStatus result) {
         if (shoot==null || shoot.getY() > enemyBattlefield.length-1 || shoot.getX() > enemyBattlefield[0].length-1) {
@@ -89,5 +90,18 @@ public abstract class Player {
                 enemyBattlefield[s.getY()][s.getX()] = CellStatus.DESTROYED;
                 markHittedAsDestroyed(s);
             });
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return isHuman == player.isHuman && name.equals(player.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, isHuman);
     }
 }

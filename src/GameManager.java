@@ -1,31 +1,22 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
-public class GameManager { //todo: use only Game class fields
-    private Deque<Player> players = new LinkedList<>();
+public class GameManager {
+    private Deque<Player> players;
     private Player currentPlayer;
     private final int fieldWidth;
     private final int fieldHeight;
     private final int difficulty;
     public final int[] shipsSetup;
     private final IOManager ioManager = Project1st.IO_MANAGER;
-    private final Game game;
-
-    /**
-     * Create gameManager for game
-     * @param gamePlayers - players list
-     */
-    public GameManager(Set<Player> gamePlayers) {
-        this(gamePlayers, 10, 10, 1);
-    } //todo : remove
+    private boolean isStarted = false;
+    private boolean isEnded = false;
 
     public GameManager(Set<Player> gamePlayers, int height, int width, int difficulty) {
         this.fieldHeight = height;
         this.fieldWidth = width;
         this.difficulty = difficulty;
-        this.shipsSetup = Project1st.shipsSetup;
-        generatePlayerSequence(gamePlayers);
-        this.game = Game.createGame(gamePlayers);
+        this.shipsSetup = GameSettings.DEFAULT_SHIP_SETTINGS;
+        this.players = generatePlayerSequence(gamePlayers);
     }
 
     public static GameManager getInstance(GameSettings settings) {
@@ -38,26 +29,17 @@ public class GameManager { //todo: use only Game class fields
         return false;
     }
 
-    /**
-     * Starting the game
-     */
     public void startGame() {
+        if (isStarted) throw new UnsupportedOperationException();
+        isStarted = true;
         showMessage(Messages.CLEAR_SCREEN);
         showMessage(Messages.START);
-        game.startGame();
     }
 
-    /**
-     * Return players list
-     */
-    public Deque<Player> getPlayers() {
+    public Deque<Player> getPlayers() { //todo: made private
         return players;
     }
     public int playersCount() {return players.size();}
-
-    /**
-     * Return next player
-     */
     public Player getNextPlayer() { //todo : test for alive player
         Player player = players.pop();
         players.add(player);
@@ -68,19 +50,15 @@ public class GameManager { //todo: use only Game class fields
         currentPlayer = getNextPlayer();
     }
 
-    /**
-     * Generate sequence of players for serial game turn
-     * @param gamePlayers - players list for game
-     */
-    private void generatePlayerSequence(Set<Player> gamePlayers) {
-        List<Player> playerList = gamePlayers.stream()
-                .map(Player::clone)
-                .collect(Collectors.toList());
+    private Deque<Player> generatePlayerSequence(Set<Player> gamePlayers) {
+        Deque<Player> result = new LinkedList<>();
+        List<Player> playerList = new ArrayList<>(gamePlayers);
         while(playerList.size() > 0) {
             int index = (int) (Math.random() * playerList.size());
-            players.add(playerList.get(index));
+            result.add(playerList.get(index).clone());
             playerList.remove(index);
         }
+        return result;
     }
 
     public void initPlayers() throws GameCancelledException, GameInterruptException {
@@ -88,13 +66,10 @@ public class GameManager { //todo: use only Game class fields
         for (Player player :players) {
             showMessage(Messages.CLEAR_SCREEN);
             showMessage("Инициализация кораблей игрока " + player.getName());
-            player.init(GameService.copyBattleField(playerField));
+            player.init(GameService.copyBattleField(playerField), ioManager);
         }
     }
 
-    public void fillPlayerEnemyBattleField(CellSample shoot, CellStatus result) {
-        currentPlayer.fillEnemyBattlefield(shoot, result);
-    }
 
     public void greetingPlayer() {
         ioManager.showMessage("Ход игрока " + currentPlayer.getName());
@@ -104,19 +79,22 @@ public class GameManager { //todo: use only Game class fields
         ioManager.printBattlefield(currentPlayer.getEnemyBattlefield());
     }
 
-    public CellSample getPlayerShootGuess() throws GameCancelledException, GameInterruptException {
+    private CellSample getPlayerShootGuess() throws GameCancelledException, GameInterruptException {
         //todo:
         //1. inline dimension checks here
         //2. add dublicate fire check for difficulty lvl
         //3. represent IOManager to Service and make it methods static
-        return Project1st.service.getPlayerGuess(fieldHeight, fieldWidth);
+        if (currentPlayer.isHuman())
+            return GameService.getPlayerGuess(fieldHeight, fieldWidth, ioManager);
+        else
+            return GameService.getAIGuess();
     }
 
     public CellStatus executePlayerShootGuess(Cell shoot) {
         CellStatus result = CellStatus.UNKNOWN;
         for (Player player : players) {
             if (player != currentPlayer && player.isAlive()) { //todo: multiplayer mode should return MAP (PlayerID, CellStatus)
-                result = GameService.castShipToCellStatus(player.checkShoot(shoot));
+                result = player.checkShoot(shoot);
             }
         }
         return result;
@@ -132,6 +110,7 @@ public class GameManager { //todo: use only Game class fields
     }
 
     public String getSummaryGameResult() { //todo
+        showMessage("Победитель:" + currentPlayer.getName());
         showMessage("Для победы потребовалось выстрелов:" + currentPlayer.getShootCount());
         return "Results was ate by Barbariska";
     }
@@ -143,8 +122,9 @@ public class GameManager { //todo: use only Game class fields
     public void run() {
         try {
             initPlayers();
+            showMessage(Messages.CLEAR_SCREEN);
             startGame();
-            while (game.isActive()) {
+            while (isStarted&&!isEnded) {
                 nextPlayer();
                 greetingPlayer();
                 boolean nextPlayerTurn = false;
@@ -159,13 +139,15 @@ public class GameManager { //todo: use only Game class fields
                         case MISSED -> {
                             showMessage(Messages.MISSED);
                             nextPlayerTurn = true;
+                            GameService.waitForAnyKey(ioManager);
+                            showMessage(Messages.CLEAR_SCREEN);
                         }
                         case HITTED -> {
                             showMessage(Messages.HITTED);
                         }
                         case DESTROYED -> {
                             if (!checkAliveEnemy()) {
-                                game.endGame();
+                                isEnded = true;
                                 showMessage(Messages.WIN);
                                 showEnemyBattleField();
                                 showMessage(getSummaryGameResult());
@@ -182,7 +164,8 @@ public class GameManager { //todo: use only Game class fields
             }
         }
         catch (GameCancelledException | GameInterruptException e) {
-            game.endGame();
+            isEnded = true;
+            showMessage(Messages.CLEAR_SCREEN);
             showMessage(Messages.GAME_OVER);
         }
     }

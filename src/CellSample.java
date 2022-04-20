@@ -56,17 +56,17 @@ public class CellSample extends Cell{
         if (x > 0) {
             if (y > 0) result.add(new CellSample(y-1, x-1));
             result.add(new CellSample(y, x-1));
-            if (y < Project1st.MAX_FIELD_HEIGHT - 1) result.add(new CellSample(y+1, x-1));
+            if (y < GameSettings.MAX_FIELD_HEIGHT - 1) result.add(new CellSample(y+1, x-1));
         }
 
         if (y > 0) result.add(new CellSample(y-1, x));
         result.add(new CellSample(y, x));
-        if (y < Project1st.MAX_FIELD_HEIGHT - 1) result.add(new CellSample(y+1, x));
+        if (y < GameSettings.MAX_FIELD_HEIGHT - 1) result.add(new CellSample(y+1, x));
 
-        if (x < Project1st.MAX_FIELD_WIDTH - 1) {
+        if (x < GameSettings.MAX_FIELD_WIDTH - 1) {
             if (y > 0) result.add(new CellSample(y-1, x+1));
             result.add(new CellSample(y, x+1));
-            if (y < Project1st.MAX_FIELD_HEIGHT - 1) result.add(new CellSample(y+1, x+1));
+            if (y < GameSettings.MAX_FIELD_HEIGHT - 1) result.add(new CellSample(y+1, x+1));
         }
         return result;
     };

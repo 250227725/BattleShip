@@ -11,7 +11,7 @@ public class Ship {
         this.sections = sections;
     }
     public static Ship getInstance(CellSample[] cells) {
-        if (cells == null || cells.length == 0 || cells.length > Project1st.shipsSetup.length - 1) {
+        if (cells == null || cells.length == 0 || cells.length > GameSettings.DEFAULT_SHIP_SETTINGS.length - 1) {
             throw new IllegalArgumentException();
         }
 
@@ -44,31 +44,22 @@ public class Ship {
     public int getLength() {
         return sections.length;
     }
-    public int getAliveSectionCount() {
-        return aliveSectionCount;
-    }
     public boolean isAlive() {
         return isAlive;
     }
 
-    public ShipHitStatus hit(Cell attempt) {
-        if (!isAlive()) return ShipHitStatus.MISSED;
+    public CellStatus hit(Cell attempt) {
+        if (!isAlive()) return CellStatus.MISSED;
         for (int i = 0; i < sections.length; i++) {
             if (sections[i].hit(attempt)) {
                 aliveSectionCount--;
                 if (aliveSectionCount == 0) {
                     destroy();
-                    return ShipHitStatus.DESTROYED;
+                    return CellStatus.DESTROYED;
                 }
-                return ShipHitStatus.HITED;
+                return CellStatus.HITTED;
             }
         }
-        return ShipHitStatus.MISSED;
-    }
-
-    public enum ShipHitStatus {
-        MISSED,
-        HITED,
-        DESTROYED
+        return CellStatus.MISSED;
     }
 }

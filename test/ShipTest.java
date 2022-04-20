@@ -59,7 +59,7 @@ public class ShipTest {
 
     @Test
     public void shipFactoryOverSizeShipLengthTest() {
-        int size = Project1st.shipsSetup.length;
+        int size = GameSettings.DEFAULT_SHIP_SETTINGS.length;
         CellSample[] sections = new CellSample[size];
         for (int x = 0; x < size; x++) {
             sections[x] = new CellSample(0, x);
@@ -74,7 +74,7 @@ public class ShipTest {
 
     @Test
     public void shipFactoryIncorrectRangeCellTest3() throws IllegalArgumentException{
-        assertThrows(IllegalArgumentException.class, () -> Ship.getInstance(new CellSample[]{new CellSample(Project1st.MAX_FIELD_HEIGHT,3), new CellSample(Project1st.MAX_FIELD_HEIGHT,3)}));
+        assertThrows(IllegalArgumentException.class, () -> Ship.getInstance(new CellSample[]{new CellSample(GameSettings.MAX_FIELD_HEIGHT,3), new CellSample(GameSettings.MAX_FIELD_HEIGHT,3)}));
     }
 
     // Horizontal out of Range is controlled by Cell.HorizontalCellName
@@ -93,14 +93,14 @@ public class ShipTest {
     @Test
     public void hitTest() {
         Ship theFirstOne = Ship.getInstance(new CellSample[]{new CellSample(0, 0), new CellSample(0, 1)});
-        assertThat(theFirstOne.hit(new CellSample(0, 1)), equalTo(Ship.ShipHitStatus.HITED));
+        assertThat(theFirstOne.hit(new CellSample(0, 1)), equalTo(CellStatus.HITTED));
     }
 
     @Test
     public void destroyTest1() {
         Ship theFirstOne = Ship.getInstance(new CellSample[]{new CellSample(0, 0), new CellSample(0, 1)});
         theFirstOne.hit(new CellSample(0, 0));
-        assertThat(theFirstOne.hit(new CellSample(0, 1)), equalTo(Ship.ShipHitStatus.DESTROYED));
+        assertThat(theFirstOne.hit(new CellSample(0, 1)), equalTo(CellStatus.DESTROYED));
     }
 
     @Test
@@ -114,7 +114,7 @@ public class ShipTest {
     @Test
     public void missTest() {
         Ship theFirstOne = Ship.getInstance(new CellSample[]{new CellSample(0, 0), new CellSample(0, 1)});
-        assertThat(theFirstOne.hit(new CellSample(1, 1)), equalTo(Ship.ShipHitStatus.MISSED));
+        assertThat(theFirstOne.hit(new CellSample(1, 1)), equalTo(CellStatus.MISSED));
     }
 
     @Test

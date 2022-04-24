@@ -20,22 +20,26 @@ public class HumanPlayer extends Player{
 
     @Override
     Map<Ship, String> generateShips(CellStatus[][] playerField, IOManager manager) throws GameCancelledException, GameInterruptException {
-        Map<Ship, String> player_ships = new HashMap<>();
-        if (manager == null) {
-            throw new IllegalArgumentException();
-        }
-        int[] setup = GameSettings.DEFAULT_SHIP_SETTINGS;
-        for (int size = 1; size < setup.length; size++) {
-            for (int index = setup[size]; index > 0; index--) {
-                player_ships.put(getHumanShip(playerField, size, index, manager), "Ship size:"+size+"|index:"+index);
-            }
-        }
-        return player_ships;
+//        Map<Ship, String> player_ships = new HashMap<>();
+//        if (manager == null) {
+//            throw new IllegalArgumentException();
+//        }
+//        int[] setup = GameSettings.DEFAULT_SHIP_SETTINGS;
+//        for (int size = 1; size < setup.length; size++) {
+//            for (int index = setup[size]; index > 0; index--) {
+//                player_ships.put(getHumanShip(playerField, size, index, manager), "Ship size:"+size+"|index:"+index);
+//            }
+//        }
+//        return player_ships;
+        return defaultSetup;
     }
 
     @Override
-    public CellSample guess(int height, int width) {
-        return null;
+    public CellSample guess(IOManager manager) throws GameCancelledException, GameInterruptException {
+        if (manager == null) {
+            throw new IllegalArgumentException();
+        }
+        return GameService.getPlayerGuess(enemyBattlefield.length, enemyBattlefield[0].length, manager);
     }
 
     private Ship getHumanShip(CellStatus[][] playerField, int size, int index, IOManager manager) throws GameCancelledException, GameInterruptException {

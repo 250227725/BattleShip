@@ -1,8 +1,6 @@
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -194,5 +192,459 @@ public class GameServiceTest {
                 .anyMatch(cell -> cell != CellStatus.UNKNOWN);
         assertThat(false, equalTo(result));
     }
+    @Test
+    public void getPossibleShotCells_test_00() {
+        int height = 2;
+        int width = 2;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // H  H
+        // H  H
+        field[0][0] = CellStatus.HITTED;
+        field[0][1] = CellStatus.HITTED;
+        field[1][0] = CellStatus.HITTED;
+        field[1][1] = CellStatus.HITTED;
+        assertThrows(IllegalStateException.class, () -> GameService.getPossibleNeighborsCells(field));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_01() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  U  U  U
+        // U  U  U  U  U
+        // U  U  U  U  U
+        // U  U  U  U  U
+        // U  U  U  U  U
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells.size(), equalTo(height * width));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_06() {
+        int height = 1;
+        int width = 1;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // H
+        int x = 0;
+        int y = 0;
+        field[y][x] = CellStatus.HITTED;
+        assertThrows(IllegalStateException.class, () -> GameService.getPossibleNeighborsCells(field));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_02() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // H  +  U  U  U
+        // +  U  U  U  U
+        // U  U  U  U  U
+        // U  U  U  U  U
+        // U  U  U  U  U
+        int x = 0;
+        int y = 0;
+        field[y][x] = CellStatus.HITTED;
+        Set<CellSample> result = new HashSet<>();
+        result.add(new CellSample(y, x+1));
+        result.add(new CellSample(y+1, x));
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells, equalTo(result));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_03() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  U  +  H
+        // U  U  U  U  +
+        // U  U  U  U  U
+        // U  U  U  U  U
+        // U  U  U  U  U
+        int x = 4;
+        int y = 0;
+        field[y][x] = CellStatus.HITTED;
+        Set<CellSample> result = new HashSet<>();
+        result.add(new CellSample(y, x-1));
+        result.add(new CellSample(y+1, x));
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells, equalTo(result));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_04() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  U  U  U
+        // U  U  U  U  U
+        // U  U  U  U  U
+        // U  U  U  U  +
+        // U  U  U  +  H
+        int x = 4;
+        int y = 4;
+        field[y][x] = CellStatus.HITTED;
+        Set<CellSample> result = new HashSet<>();
+        result.add(new CellSample(y, x-1));
+        result.add(new CellSample(y-1, x));
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells, equalTo(result));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_05() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  U  U  U
+        // U  U  U  U  U
+        // U  U  U  U  U
+        // +  U  U  U  U
+        // H  +  U  U  U
+        int x = 0;
+        int y = 4;
+        field[y][x] = CellStatus.HITTED;
+        Set<CellSample> result = new HashSet<>();
+        result.add(new CellSample(y, x+1));
+        result.add(new CellSample(y-1, x));
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells, equalTo(result));
+    }
+
+
+    @Test
+    public void getPossibleShotCells_test_07() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  U  U  U
+        // U  U  +  U  U
+        // U  +  H  +  U
+        // U  U  +  U  U
+        // U  U  U  U  U
+        int x = 2;
+        int y = 2;
+        field[y][x] = CellStatus.HITTED;
+        Set<CellSample> result = new HashSet<>();
+        result.add(new CellSample(y, x+1));
+        result.add(new CellSample(y, x-1));
+        result.add(new CellSample(y+1, x));
+        result.add(new CellSample(y-1, x));
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells, equalTo(result));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_08() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  U  U  U
+        // +  U  U  U  U
+        // H  +  U  U  U
+        // +  U  U  U  U
+        // U  U  U  U  U
+        int x = 0;
+        int y = 2;
+        field[y][x] = CellStatus.HITTED;
+        Set<CellSample> result = new HashSet<>();
+        result.add(new CellSample(y, x+1));
+        result.add(new CellSample(y+1, x));
+        result.add(new CellSample(y-1, x));
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells, equalTo(result));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_09() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  +  H  +  U
+        // U  U  +  U  U
+        // U  U  U  U  U
+        // U  U  U  U  U
+        // U  U  U  U  U
+        int x = 2;
+        int y = 0;
+        field[y][x] = CellStatus.HITTED;
+        Set<CellSample> result = new HashSet<>();
+        result.add(new CellSample(y, x+1));
+        result.add(new CellSample(y, x-1));
+        result.add(new CellSample(y+1, x));
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells, equalTo(result));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_10() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  U  U  U
+        // U  U  U  U  +
+        // U  U  U  +  H
+        // U  U  U  U  +
+        // U  U  U  U  U
+        int x = 4;
+        int y = 2;
+        field[y][x] = CellStatus.HITTED;
+        Set<CellSample> result = new HashSet<>();
+        result.add(new CellSample(y, x-1));
+        result.add(new CellSample(y+1, x));
+        result.add(new CellSample(y-1, x));
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells, equalTo(result));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_11() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  U  U  U
+        // U  U  U  U  U
+        // U  U  U  U  U
+        // U  U  +  U  U
+        // U  +  H  +  U
+        int x = 2;
+        int y = 4;
+        field[y][x] = CellStatus.HITTED;
+        Set<CellSample> result = new HashSet<>();
+        result.add(new CellSample(y, x-1));
+        result.add(new CellSample(y, x+1));
+        result.add(new CellSample(y-1, x));
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells, equalTo(result));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_12() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  H  U  U
+        // U  U  H  U  U
+        // U  U  H  U  U
+        // U  U  H  U  U
+        // U  U  H  U  U
+        int x0 = 2;
+        int y0 = 0;
+        int xN = 2;
+        int yN = 4;
+        field[y0][x0] = CellStatus.HITTED;
+        field[yN-4][xN] = CellStatus.HITTED;
+        field[yN-2][xN] = CellStatus.HITTED;
+        field[yN-1][xN] = CellStatus.HITTED;
+        field[yN][xN] = CellStatus.HITTED;
+        assertThrows(IllegalStateException.class, () -> GameService.getPossibleNeighborsCells(field));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_13() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  +  U  U
+        // U  U  H  U  U
+        // U  U  H  U  U
+        // U  U  +  U  U
+        // U  U  U  U  U
+        int x0 = 2;
+        int y0 = 1;
+        int xN = 2;
+        int yN = 2;
+        field[y0][x0] = CellStatus.HITTED;
+        field[yN][xN] = CellStatus.HITTED;
+        Set<CellSample> result = new HashSet<>();
+        result.add(new CellSample(y0-1, x0));
+        result.add(new CellSample(yN+1, xN));
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells, equalTo(result));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_14() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  +  U  U
+        // U  U  H  U  U
+        // U  U  H  U  U
+        // U  U  H  U  U
+        // U  U  +  U  U
+        int x0 = 2;
+        int y0 = 1;
+        int xN = 2;
+        int yN = 3;
+        field[y0][x0] = CellStatus.HITTED;
+        field[yN-1][xN] = CellStatus.HITTED;
+        field[yN][xN] = CellStatus.HITTED;
+        Set<CellSample> result = new HashSet<>();
+        result.add(new CellSample(y0-1, x0));
+        result.add(new CellSample(yN+1, xN));
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells, equalTo(result));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_15() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  H  U  U
+        // U  U  H  U  U
+        // U  U  H  U  U
+        // U  U  +  U  U
+        // U  U  U  U  U
+        int x0 = 2;
+        int y0 = 0;
+        int xN = 2;
+        int yN = 2;
+        field[y0][x0] = CellStatus.HITTED;
+        field[yN-1][xN] = CellStatus.HITTED;
+        field[yN][xN] = CellStatus.HITTED;
+        Set<CellSample> result = new HashSet<>();
+        result.add(new CellSample(yN+1, xN));
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells, equalTo(result));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_16() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  U  U  U
+        // U  U  +  U  U
+        // U  U  H  U  U
+        // U  U  H  U  U
+        // U  U  H  U  U
+        int x0 = 2;
+        int y0 = 2;
+        int xN = 2;
+        int yN = 4;
+        field[y0][x0] = CellStatus.HITTED;
+        field[yN-1][xN] = CellStatus.HITTED;
+        field[yN][xN] = CellStatus.HITTED;
+        Set<CellSample> result = new HashSet<>();
+        result.add(new CellSample(y0-1, x0));
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells, equalTo(result));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_22() {
+        int height = 3;
+        int width = 3;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  U
+        // H  H  H
+        // U  U  U
+        int x0 = 0;
+        int y0 = 1;
+        int xN = 2;
+        int yN = 1;
+        field[y0][x0] = CellStatus.HITTED;
+        field[yN][xN-1] = CellStatus.HITTED;
+        field[yN][xN] = CellStatus.HITTED;
+        assertThrows(IllegalStateException.class, () -> GameService.getPossibleNeighborsCells(field));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_23() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  U  U  U
+        // U  U  U  U  U
+        // +  H  H  +  U
+        // U  U  U  U  U
+        // U  U  U  U  U
+        int x0 = 1;
+        int y0 = 2;
+        int xN = 2;
+        int yN = 2;
+        field[y0][x0] = CellStatus.HITTED;
+        field[yN][xN] = CellStatus.HITTED;
+        Set<CellSample> result = new HashSet<>();
+        result.add(new CellSample(y0, x0-1));
+        result.add(new CellSample(yN, xN+1));
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells, equalTo(result));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_24() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  U  U  U
+        // U  U  U  U  U
+        // +  H  H  H  +
+        // U  U  U  U  U
+        // U  U  U  U  U
+        int x0 = 1;
+        int y0 = 2;
+        int xN = 2;
+        int yN = 2;
+        field[y0][x0] = CellStatus.HITTED;
+        field[yN][xN-1] = CellStatus.HITTED;
+        field[yN][xN] = CellStatus.HITTED;
+        Set<CellSample> result = new HashSet<>();
+        result.add(new CellSample(y0, x0-1));
+        result.add(new CellSample(yN, xN+1));
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells, equalTo(result));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_25() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  U  U  U
+        // U  U  U  U  U
+        // H  H  H  +  U
+        // U  U  U  U  U
+        // U  U  U  U  U
+        int x0 = 0;
+        int y0 = 2;
+        int xN = 2;
+        int yN = 2;
+        field[y0][x0] = CellStatus.HITTED;
+        field[yN][xN-1] = CellStatus.HITTED;
+        field[yN][xN] = CellStatus.HITTED;
+        Set<CellSample> result = new HashSet<>();
+        result.add(new CellSample(yN, xN+1));
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells, equalTo(result));
+    }
+
+    @Test
+    public void getPossibleShotCells_test_26() {
+        int height = 5;
+        int width = 5;
+        CellStatus[][] field = GameService.getEmptyField(height, width);
+        // U  U  U  U  U
+        // U  U  U  U  U
+        // U  +  H  H  H
+        // U  U  U  U  U
+        // U  U  U  U  U
+        int x0 = 2;
+        int y0 = 2;
+        int xN = 4;
+        int yN = 2;
+        field[y0][x0] = CellStatus.HITTED;
+        field[yN][xN-1] = CellStatus.HITTED;
+        field[yN][xN] = CellStatus.HITTED;
+        Set<CellSample> result = new HashSet<>();
+        result.add(new CellSample(y0, x0-1));
+        Set<CellSample> cells = new HashSet<>(GameService.getPossibleNeighborsCells(field));
+        assertThat(cells, equalTo(result));
+    }
+
+
 
 }

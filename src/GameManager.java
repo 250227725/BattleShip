@@ -81,13 +81,8 @@ public class GameManager {
 
     private CellSample getPlayerShootGuess() throws GameCancelledException, GameInterruptException {
         //todo:
-        //1. inline dimension checks here
-        //2. add dublicate fire check for difficulty lvl
-        //3. represent IOManager to Service and make it methods static
-        if (currentPlayer.isHuman())
-            return GameService.getPlayerGuess(fieldHeight, fieldWidth, ioManager);
-        else
-            return GameService.getAIGuess();
+        //2. add duplicate fire check for difficulty lvl
+        return currentPlayer.guess(ioManager);
     }
 
     public CellStatus executePlayerShootGuess(Cell shoot) {
@@ -134,16 +129,18 @@ public class GameManager {
                     currentPlayer.increaseShotCount();
                     CellStatus result = executePlayerShootGuess(shoot);
                     fillEnemyBattleField(shoot, result);
+                    fillUnavailableEnemyBattleField(shoot, result);
                     //todo try extract
                     switch (result) {
                         case MISSED -> {
                             showMessage(Messages.MISSED);
                             nextPlayerTurn = true;
-                            GameService.waitForAnyKey(ioManager);
+                            //GameService.waitForAnyKey(ioManager);
                             showMessage(Messages.CLEAR_SCREEN);
                         }
                         case HITTED -> {
                             showMessage(Messages.HITTED);
+
                         }
                         case DESTROYED -> {
                             if (!checkAliveEnemy()) {
@@ -155,6 +152,7 @@ public class GameManager {
                             } else {
                                 showMessage(Messages.DESTROYED);
                             }
+
                         }
                         default -> {
                             throw new IllegalArgumentException();
@@ -168,5 +166,105 @@ public class GameManager {
             showMessage(Messages.CLEAR_SCREEN);
             showMessage(Messages.GAME_OVER);
         }
+    }
+
+    private void fillUnavailableEnemyBattleField(CellSample shoot, CellStatus result) {
+        if (result == CellStatus.MISSED) return;
+
+        if (shoot.getX() > 0) {
+            if (shoot.getY() > 0) {
+                currentPlayer.enemyBattlefield[shoot.getY() - 1][shoot.getX() - 1] = CellStatus.MISSED;
+            }
+            if (shoot.getY() < currentPlayer.enemyBattlefield.length - 1) {
+                currentPlayer.enemyBattlefield[shoot.getY() + 1][shoot.getX() - 1] = CellStatus.MISSED;
+            }
+        }
+
+        if (shoot.getX() < currentPlayer.enemyBattlefield[0].length - 1) {
+            if (shoot.getY() > 0) {
+                currentPlayer.enemyBattlefield[shoot.getY() - 1][shoot.getX() + 1] = CellStatus.MISSED;
+            }
+            if (shoot.getY() < currentPlayer.enemyBattlefield.length - 1) {
+                currentPlayer.enemyBattlefield[shoot.getY() + 1][shoot.getX() + 1] = CellStatus.MISSED;
+            }
+        }
+
+        if (result == CellStatus.DESTROYED) {
+            if (shoot.getY() > 0) {
+                if (currentPlayer.enemyBattlefield[shoot.getY() - 1][shoot.getX()] == CellStatus.DESTROYED) {
+                    Optional<CellSample> cell = getNextNotDestroyed(shoot.getY(), shoot.getX(), 8);
+                    if (cell.isPresent()) {
+                        currentPlayer.enemyBattlefield[cell.get().getY()][cell.get().getX()] = CellStatus.MISSED;
+                    }
+                }
+                else {
+                    currentPlayer.enemyBattlefield[shoot.getY() - 1][shoot.getX()] = CellStatus.MISSED;
+                }
+            }
+
+            if (shoot.getX() > 0) {
+                if (currentPlayer.enemyBattlefield[shoot.getY()][shoot.getX() - 1] == CellStatus.DESTROYED) {
+                    Optional<CellSample> cell = getNextNotDestroyed(shoot.getY(), shoot.getX(), 4);
+                    if (cell.isPresent()) {
+                        currentPlayer.enemyBattlefield[cell.get().getY()][cell.get().getX()] = CellStatus.MISSED;
+                    }
+                }
+                else {
+                    currentPlayer.enemyBattlefield[shoot.getY()][shoot.getX() - 1] = CellStatus.MISSED;
+                }
+            }
+
+            if (shoot.getY() < currentPlayer.enemyBattlefield.length - 1) {
+                if (currentPlayer.enemyBattlefield[shoot.getY() + 1][shoot.getX()] == CellStatus.DESTROYED) {
+                    Optional<CellSample> cell = getNextNotDestroyed(shoot.getY(), shoot.getX(), 2);
+                    if (cell.isPresent()) {
+                        currentPlayer.enemyBattlefield[cell.get().getY()][cell.get().getX()] = CellStatus.MISSED;
+                    }
+                }
+                else {
+                    currentPlayer.enemyBattlefield[shoot.getY() + 1][shoot.getX()] = CellStatus.MISSED;
+                }
+            }
+
+            if (shoot.getX() < currentPlayer.enemyBattlefield[0].length - 1) {
+                if (currentPlayer.enemyBattlefield[shoot.getY()][shoot.getX() + 1] == CellStatus.DESTROYED) {
+                    Optional<CellSample> cell = getNextNotDestroyed(shoot.getY(), shoot.getX(), 4);
+                    if (cell.isPresent()) {
+                        currentPlayer.enemyBattlefield[cell.get().getY()][cell.get().getX()] = CellStatus.MISSED;
+                    }
+                }
+                else {
+                    currentPlayer.enemyBattlefield[shoot.getY()][shoot.getX() + 1] = CellStatus.MISSED;
+                }
+            }
+        }
+    }
+
+    private Optional<CellSample> getNextNotDestroyed(int y, int x, int i) {
+        int dx = 0;
+        int dy = 0;
+        switch (i) {
+            case 8 : {
+                dy = -1;
+            }
+            case 4 : {
+                dx = -1;
+            }
+            case 2: {
+                dy = 1;
+            }
+            case 6: {
+                dx = 1;
+            }
+        }
+
+        if (y + dy < 0 || y + dy > currentPlayer.enemyBattlefield.length - 1|| x + dx < 0 || x + dx > currentPlayer.enemyBattlefield[0].length - 1)
+            return Optional.empty();
+
+        if (currentPlayer.enemyBattlefield[y+dy][x+dx] == CellStatus.DESTROYED)
+            return getNextNotDestroyed(y+dy, x+dx, i);
+
+        return Optional.of(new CellSample(y+dy, x+dx));
+
     }
 }

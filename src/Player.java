@@ -8,7 +8,7 @@ public abstract class Player {
     private final boolean isHuman;
     private boolean isAlive;
     Map<Ship, String> ships;
-    private CellStatus[][] enemyBattlefield; //todo: multiplayer mode should be MAP (PlayerID, CellStatus[][])
+    protected CellStatus[][] enemyBattlefield; //todo: multiplayer mode should be MAP (PlayerID, CellStatus[][])
     private int shootCount;
 
     protected Player(String name, boolean isHuman) {
@@ -91,6 +91,9 @@ public abstract class Player {
                 markHittedAsDestroyed(s);
             });
     }
+
+
+    public abstract CellSample guess(int height, int width);
 
     @Override
     public boolean equals(Object o) {

@@ -33,6 +33,11 @@ public class HumanPlayer extends Player{
         return player_ships;
     }
 
+    @Override
+    public CellSample guess(int height, int width) {
+        return null;
+    }
+
     private Ship getHumanShip(CellStatus[][] playerField, int size, int index, IOManager manager) throws GameCancelledException, GameInterruptException {
         Ship result;
         while (true) {

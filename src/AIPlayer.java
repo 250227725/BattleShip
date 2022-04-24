@@ -1,5 +1,4 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class AIPlayer extends Player{
     public AIPlayer(String name) {
@@ -20,4 +19,12 @@ public class AIPlayer extends Player{
     Map<Ship, String> generateShips(CellStatus[][] emptyPlayerField, IOManager manager) {
         return new HashMap<>();
     }
+
+    @Override
+    public CellSample guess(int height, int width) {
+        List<CellSample> possibleCells = getPossibleCells();
+        return possibleCells.get((int) Math.random() * possibleCells.size());
+    }
+
+
 }

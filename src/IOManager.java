@@ -7,13 +7,14 @@ public class IOManager implements InputManager, OutputManager{
         this.out = out;
     }
 
-    public String read() throws GameCancelledException {
-        String data = in.read();
+    public String readLine() throws GameCancelledException {
+        String data = in.readLine();
         if (data.equalsIgnoreCase("exit")) {
            throw new GameCancelledException();
         }
         return data;
     }
+
 
     @Override
     public void showMessage(String message) {

@@ -17,7 +17,7 @@ public class AIPlayer extends Player{
 
     @Override
     Map<Ship, String> generateShips(CellStatus[][] emptyPlayerField, IOManager manager) {
-        return defaultSetup;
+        return ShipGenerator.getShips(emptyPlayerField.length, emptyPlayerField[0].length, GameSettings.DEFAULT_SHIP_SETTINGS);
     }
 
     @Override

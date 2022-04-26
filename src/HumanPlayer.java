@@ -1,7 +1,5 @@
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class HumanPlayer extends Player{
     public HumanPlayer(String name) {
@@ -20,18 +18,20 @@ public class HumanPlayer extends Player{
 
     @Override
     Map<Ship, String> generateShips(CellStatus[][] playerField, IOManager manager) throws GameCancelledException, GameInterruptException {
-//        Map<Ship, String> player_ships = new HashMap<>();
-//        if (manager == null) {
-//            throw new IllegalArgumentException();
-//        }
-//        int[] setup = GameSettings.DEFAULT_SHIP_SETTINGS;
-//        for (int size = 1; size < setup.length; size++) {
-//            for (int index = setup[size]; index > 0; index--) {
-//                player_ships.put(getHumanShip(playerField, size, index, manager), "Ship size:"+size+"|index:"+index);
-//            }
-//        }
-//        return player_ships;
-        return defaultSetup;
+        manager.showMessage("Расставить корабли автоматически? (y - для авторасстановки или ENTER для ручного ввода");
+        if (manager.readLine().equalsIgnoreCase("y")) return ShipGenerator.getShips(playerField.length, playerField[0].length, GameSettings.DEFAULT_SHIP_SETTINGS);
+
+        Map<Ship, String> player_ships = new HashMap<>();
+        if (manager == null) {
+            throw new IllegalArgumentException();
+        }
+        int[] setup = GameSettings.DEFAULT_SHIP_SETTINGS;
+        for (int size = 1; size < setup.length; size++) {
+            for (int index = setup[size]; index > 0; index--) {
+                player_ships.put(getHumanShip(playerField, size, index, manager), "Ship size:"+size+"|index:"+index);
+            }
+        }
+        return player_ships;
     }
 
     @Override

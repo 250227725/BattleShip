@@ -90,7 +90,7 @@ public class GameService {
         int maxAttempt = 5;
         while (true) {
             try {
-                return Integer.parseInt(manager.read());
+                return Integer.parseInt(manager.readLine());
             } catch (NumberFormatException | NullPointerException e) {
                 errorCount++;
                 if (maxAttempt <= errorCount) {
@@ -109,7 +109,7 @@ public class GameService {
         int maxAttempt = 5;
         while (true) {
             try {
-                return manager.read();
+                return manager.readLine();
             } catch (NullPointerException e) {
                 errorCount++;
                 if (maxAttempt <= errorCount) {
@@ -194,7 +194,7 @@ public class GameService {
 
     public static void waitForAnyKey(IOManager ioManager) throws GameCancelledException {
         ioManager.showMessage("Press any key for continue");
-        ioManager.read();
+        ioManager.readLine();
     }
 
     public static CellSample getAIGuess() {

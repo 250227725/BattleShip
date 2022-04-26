@@ -11,7 +11,7 @@ class TestInputManager implements InputManager{
     }
 
     @Override
-    public String read() throws GameCancelledException{
+    public String readLine() throws GameCancelledException{
         try {
             return reader.readLine();
         }

@@ -11,6 +11,51 @@ public abstract class Player {
     protected CellStatus[][] enemyBattlefield; //todo: multiplayer mode should be MAP (PlayerID, CellStatus[][])
     private int shootCount;
 
+    protected static int[][] TEST_SETUP = {
+            {0, 0 ,0, 0, 0, 0, 0, 1, 1, 0},
+            {1, 0 ,1, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0 ,1, 0, 0, 1, 0, 0, 0, 0},
+            {0, 0 ,1, 0, 0, 0, 1, 1, 1, 0},
+            {0, 0 ,1, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0 ,0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0 ,0, 0, 1, 1, 1, 0, 0, 0},
+            {0, 1 ,0, 0, 0, 0, 0, 0, 0, 1},
+            {0, 1 ,0, 0, 0, 0, 0, 1, 0, 1},
+            {0, 0 ,0, 0, 1, 0, 0, 0, 0, 0}
+    };
+    protected static Map<Ship, String> defaultSetup = new HashMap<>();
+    {
+        CellSample[] ship11 = {new CellSample(1, 0)};
+        defaultSetup.put(Ship.getInstance(ship11), "1/1");
+
+        CellSample[] ship12 = {new CellSample(9, 4)};
+        defaultSetup.put(Ship.getInstance(ship12), "1/2");
+
+        CellSample[] ship13 = {new CellSample(2, 5)};
+        defaultSetup.put(Ship.getInstance(ship13), "1/3");
+
+        CellSample[] ship14 = {new CellSample(8, 7)};
+        defaultSetup.put(Ship.getInstance(ship14), "1/3");
+
+        CellSample[] ship21 = {new CellSample(0, 7), new CellSample(0, 8)};
+        defaultSetup.put(Ship.getInstance(ship21), "2/1");
+
+        CellSample[] ship22 = {new CellSample(7, 1), new CellSample(8, 1)};
+        defaultSetup.put(Ship.getInstance(ship22), "2/2");
+
+        CellSample[] ship23 = {new CellSample(7, 9), new CellSample(8, 9)};
+        defaultSetup.put(Ship.getInstance(ship23), "2/3");
+
+        CellSample[] ship31 = {new CellSample(3, 6), new CellSample(3, 7), new CellSample(3, 8)};
+        defaultSetup.put(Ship.getInstance(ship31), "3/1");
+
+        CellSample[] ship32 = {new CellSample(6, 4), new CellSample(6, 5), new CellSample(6, 6)};
+        defaultSetup.put(Ship.getInstance(ship32), "3/2");
+
+        CellSample[] ship41 = {new CellSample(1, 2), new CellSample(2, 2), new CellSample(3, 2), new CellSample(4, 2)};
+        defaultSetup.put(Ship.getInstance(ship41), "4/1");
+    }
+
     protected Player(String name, boolean isHuman) {
         this.name = name;
         this.isHuman = isHuman;
@@ -93,7 +138,7 @@ public abstract class Player {
     }
 
 
-    public abstract CellSample guess(int height, int width);
+    public abstract CellSample guess(IOManager manager) throws GameCancelledException, GameInterruptException;
 
     @Override
     public boolean equals(Object o) {

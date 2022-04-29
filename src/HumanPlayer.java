@@ -1,7 +1,5 @@
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class HumanPlayer extends Player{
     public HumanPlayer(String name) {
@@ -20,6 +18,9 @@ public class HumanPlayer extends Player{
 
     @Override
     Map<Ship, String> generateShips(CellStatus[][] playerField, IOManager manager) throws GameCancelledException, GameInterruptException {
+        manager.showMessage("Расставить корабли автоматически? (y - для авторасстановки или ENTER для ручного ввода");
+        if (manager.readLine().equalsIgnoreCase("y")) return ShipGenerator.getShips(playerField.length, playerField[0].length, GameSettings.DEFAULT_SHIP_SETTINGS);
+
         Map<Ship, String> player_ships = new HashMap<>();
         if (manager == null) {
             throw new IllegalArgumentException();
@@ -34,8 +35,11 @@ public class HumanPlayer extends Player{
     }
 
     @Override
-    public CellSample guess(int height, int width) {
-        return null;
+    public CellSample guess(IOManager manager) throws GameCancelledException, GameInterruptException {
+        if (manager == null) {
+            throw new IllegalArgumentException();
+        }
+        return GameService.getPlayerGuess(enemyBattlefield.length, enemyBattlefield[0].length, manager);
     }
 
     private Ship getHumanShip(CellStatus[][] playerField, int size, int index, IOManager manager) throws GameCancelledException, GameInterruptException {

@@ -90,7 +90,7 @@ public class GameService {
         int maxAttempt = 5;
         while (true) {
             try {
-                return Integer.parseInt(manager.read());
+                return Integer.parseInt(manager.readLine());
             } catch (NumberFormatException | NullPointerException e) {
                 errorCount++;
                 if (maxAttempt <= errorCount) {
@@ -109,7 +109,7 @@ public class GameService {
         int maxAttempt = 5;
         while (true) {
             try {
-                return manager.read();
+                return manager.readLine();
             } catch (NullPointerException e) {
                 errorCount++;
                 if (maxAttempt <= errorCount) {
@@ -194,10 +194,94 @@ public class GameService {
 
     public static void waitForAnyKey(IOManager ioManager) throws GameCancelledException {
         ioManager.showMessage("Press any key for continue");
-        ioManager.read();
+        ioManager.readLine();
     }
 
     public static CellSample getAIGuess() {
         return new CellSample(0,0);
     }
+
+    public static List<CellSample> getPossibleNeighborsCells(CellStatus[][] enemyBattlefield) {
+        List<CellSample> result = new ArrayList<>();
+        List<CellSample> hitted = new ArrayList<>();
+        for (int y = 0; y < enemyBattlefield.length; y++) {
+            for (int x = 0; x < enemyBattlefield[y].length; x++) {
+                if (enemyBattlefield[y][x] == CellStatus.HITTED) {
+                    hitted.add(new CellSample(y, x));
+                }
+            }
+        }
+
+        if (hitted.size() == 0) {
+            result = GameService.getAllUnknown(enemyBattlefield);
+        }
+        else {
+            int x0 = hitted.get(0).getX();
+            int y0 = hitted.get(0).getY();
+            if (hitted.size() > 1) {
+                int dx = hitted.get(1).getX() - hitted.get(0).getX();
+                int dy = hitted.get(1).getY() - hitted.get(0).getY();
+                int xN, yN;
+                xN = hitted.get(hitted.size() - 1).getX();
+                yN = hitted.get(hitted.size() - 1).getY();
+
+                if (y0 + dy < enemyBattlefield.length && x0 + dx < enemyBattlefield[0].length && enemyBattlefield[y0 + dy][x0 + dx] == CellStatus.UNKNOWN) {
+                    result.add(new CellSample(y0 + dy, x0 + dx));
+                }
+
+                if (y0 - dy >= 0 && x0 - dx >= 0 && enemyBattlefield[y0 - dy][x0 - dx] == CellStatus.UNKNOWN) {
+                    result.add(new CellSample(y0 - dy, x0 - dx));
+                }
+
+                if (yN + dy < enemyBattlefield.length && xN + dx < enemyBattlefield[0].length && enemyBattlefield[yN + dy][xN + dx] == CellStatus.UNKNOWN) {
+                    result.add(new CellSample(yN + dy, xN + dx));
+                }
+
+                if (yN - dy >= 0 && xN - dx >= 0 && enemyBattlefield[yN - dy][xN - dx] == CellStatus.UNKNOWN) {
+                    result.add(new CellSample(yN - dy, xN - dx));
+                }
+
+            } else {
+                int dx = 1;
+                int dy = 0;
+
+                if (y0 + dy < enemyBattlefield.length && x0 + dx < enemyBattlefield[0].length && enemyBattlefield[y0 + dy][x0 + dx] == CellStatus.UNKNOWN) {
+                    result.add(new CellSample(y0 + dy, x0 + dx));
+                }
+
+                if (y0 - dy >= 0 && x0 - dx >= 0 && enemyBattlefield[y0 - dy][x0 - dx] == CellStatus.UNKNOWN) {
+                    result.add(new CellSample(y0 - dy, x0 - dx));
+                }
+
+                dx = 0;
+                dy = 1;
+
+                if (y0 + dy < enemyBattlefield.length && x0 + dx < enemyBattlefield[0].length && enemyBattlefield[y0 + dy][x0 + dx] == CellStatus.UNKNOWN) {
+                    result.add(new CellSample(y0 + dy, x0 + dx));
+                }
+
+                if (y0 - dy >= 0 && x0 - dx >= 0 && enemyBattlefield[y0 - dy][x0 - dx] == CellStatus.UNKNOWN) {
+                    result.add(new CellSample(y0 - dy, x0 - dx));
+                }
+
+            }
+
+        }
+        if (result.size() == 0) throw new IllegalStateException();
+
+        return result;
+    }
+
+    public static List<CellSample> getAllUnknown(CellStatus[][] enemyBattlefield) {
+        List<CellSample> result = new ArrayList<>();
+        for (int y = 0; y < enemyBattlefield.length; y++) {
+            for (int x = 0; x < enemyBattlefield[y].length; x++) {
+                if (enemyBattlefield[y][x] == CellStatus.UNKNOWN) {
+                    result.add(new CellSample(y, x));
+                }
+            }
+        }
+        return result;
+    }
+
 }

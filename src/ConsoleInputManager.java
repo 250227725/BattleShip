@@ -14,7 +14,7 @@ public class ConsoleInputManager implements InputManager{
         return instance;
     }
 
-    public String read() throws GameCancelledException{
+    public String readLine() throws GameCancelledException{
         try {
             return reader.readLine();
         }
@@ -23,4 +23,5 @@ public class ConsoleInputManager implements InputManager{
             throw new RuntimeException(); //todo: Create correct logic
         }
     }
+
 }
